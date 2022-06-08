@@ -1,0 +1,32 @@
+
+<table class="table table-sm ">
+  <thead>
+    <tr>
+      <th scope="col">Po Number</th>
+      <th scope="col">Po Entry</th>
+      <th scope="col">Warehouse</th>
+      <th scope="col">po Date</th>
+      <th scope="col">po Due Date</th>
+      <th scope="col">notes</th>
+      <th scope="col">created By</th>
+      <th scope="col">created Date</th>
+      <th scope="col">modified By</th>
+      <th scope="col">modified Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="card-doc" *ngFor="let docHeaderInput of filteredData" (click)="onItemClick(docHeaderInput)"
+      [ngClass]="{'selected': selectedIdInput==docHeaderInput.poNumber, 'pending': docHeaderInput.docStatus=='Pending', 'completed': docHeaderInput.docStatus=='Completed'}">
+      <td>{{docHeaderInput.poNumber}}</td>
+      <td>{{docHeaderInput.poEntry}}</td>
+      <td>{{docHeaderInput.warehouse}}</td>
+      <td>{{docHeaderInput.poDate | date :'dd-MM-yyyy' }}</td>
+      <td>{{docHeaderInput.poDueDate | date :'dd-MM-yyyy'}}</td>
+      <td>{{docHeaderInput.notes}}</td>
+      <td>{{docHeaderInput.createdBy}}</td>
+      <td>{{docHeaderInput.createdDate | date :'dd-MM-yyyy'}}</td>
+      <td>{{docHeaderInput.modifiedBy}}</td>
+      <td>{{docHeaderInput.modifiedDate | date :'dd-MM-yyyy'}}</td>
+    </tr>
+  </tbody>
+</table>

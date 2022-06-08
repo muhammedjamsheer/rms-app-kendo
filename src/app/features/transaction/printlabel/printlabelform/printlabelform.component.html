@@ -1,0 +1,68 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Print Labels</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form [formGroup]="printLabelForm" class="form-horizontal">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-2 col-form-label">Category Code</label>
+                        <div class="col-sm-3">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetCategorySelCode" [ngClass]="{ 'is-invalid': submitted && printLabelFormControls.assetCategorySelCode.errors }" name="assetCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                                    {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-2 col-form-label">Sub Category Code</label>
+                        <div class="col-sm-3">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetSubCategorySelCode" [ngClass]="{ 'is-invalid': submitted && printLabelFormControls.assetSubCategorySelCode.errors }" name="assetSubCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of subCategoryCodes" value="{{ x.assetSubCategoryId }}">
+                                    {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-2 col-form-label">No Of Labels</label>
+                        <div class="col-sm-3">
+                            <input type="text" formControlName="NoOfLabels" class="form-control" [ngClass]="{ 'is-invalid': submitted && printLabelFormControls.NoOfLabels.errors }" pattern="^[0-9]+(.[0-9]{0,2})?$" />
+                            <div *ngIf="submitted && printLabelFormControls.NoOfLabels.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && printLabelFormControls.NoOfLabels.errors.required">
+                                    Warranty Cost is required</div>
+                                <div *ngIf="submitted && printLabelFormControls.NoOfLabels.errors.pattern && printLabelFormControls.NoOfLabels.dirty && printLabelFormControls.NoOfLabels.invalid">
+                                    Enter numeric value.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-2 col-form-label">Label Design
+                        </label>
+                        <div class="col-sm-3">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="LabelDesignSelCode" [ngClass]="{ 'is-invalid': submitted && printLabelFormControls.LabelDesignSelCode.errors }" name="LabelDesignSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of printLabelDesignCodes" value="{{ x }}">
+                                    {{ x }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="align-content: center;">
+            <button type="button" (click)="GetPrintLabels()" class="btn btn-success">
+                <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+                Print
+            </button>
+            <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+        </div>
+    </form>
+</div>

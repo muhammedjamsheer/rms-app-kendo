@@ -1,0 +1,280 @@
+<div class="card card-info" style="height: calc(100% - 5px);">
+    <div class="card-header">
+        <h3 class="card-title">Asset Transfer</h3>
+    </div>
+    <div>
+        <button type="button" (click)="SaveAssetTransferDirect()" [disabled]="loading || isbtnSaveDisabled"
+            class="btn btn-success btn-sm">
+            <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+            <i class="fa fa-save" aria-hidden="true"></i> Save
+        </button>
+        <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+            <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+        </button>
+        <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled "
+            class="btn btn-primary btn-sm">
+            <i class="fa fa-broom " aria-hidden="true "></i> Clear
+        </button>
+        <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+    </div>
+    <div class="card inner">
+        <div class="card-header inner" data-toggle="collapse" data-target="#AssetReceiptDiv" aria-expanded="true" aria-controls="collapseOne">
+            <h3 class="card-title">Filter Document details</h3>
+            <div>
+                <i class="fa fa-plus"></i>
+            </div>
+        </div>
+        <div id="AssetReceiptDiv" class="collapse show">
+            <form [formGroup]="assetTransferDirectForm" class="form-horizontal">
+                <div class="row" [hidden]="viewMode">
+                    <div class="col">
+                        <div class="row form-group">
+                            <label class="col-sm-4 col-form-label">Category Code</label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                    formControlName="assetCategorySelCode"
+                                    [ngClass]="{ 'is-invalid': submitted && assetTransferDirectFormControls.assetCategorySelCode.errors }"
+                                    name="assetCategorySelCode">
+                                    <option selected="selected"></option>
+                                    <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                                        {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-4 col-form-label">Sub Category Code</label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                    formControlName="assetSubCategorySelCode"
+                                    [ngClass]="{ 'is-invalid': submitted && assetTransferDirectFormControls.assetSubCategorySelCode.errors }"
+                                    name="assetSubCategorySelCode">
+                                    <option selected="selected"></option>
+                                    <option *ngFor="let x of subCategoryCodes" value="{{ x.assetSubCategoryId }}">
+                                        {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-4 col-form-label">Product Code
+                            </label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                    formControlName="AssetSelCode"
+                                    [ngClass]="{ 'is-invalid': submitted && assetTransferDirectFormControls.AssetSelCode.errors }"
+                                    name="AssetSelCode">
+                                    <option selected="selected"></option>
+                                    <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                        {{ x.productCode }} - {{ x.productName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row form-group">
+                            <label class="col-sm-4 col-form-label">Department Code
+                            </label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                    formControlName="departmentSelCode" name="departmentSelCode">
+                                    <option selected="selected"></option>
+                                    <option *ngFor="let x of departmentCodes" value="{{ x.departmentID }}">
+                                        {{ x.departmentCode }} - {{ x.departmentName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-4 col-form-label">Employee</label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                    formControlName="EmployeeSelCode"
+                                    [ngClass]="{ 'is-invalid': submitted && assetTransferDirectFormControls.EmployeeSelCode.errors }"
+                                    name="EmployeeSelCode">
+                                    <option selected="selected"></option>
+                                    <option *ngFor="let x of employeeCodes" value="{{ x.employeeId }}">
+                                        {{ x.employeeCode }} - {{ x.firstName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-4 col-form-label">From Location</label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                    formControlName="LocationSelCode"
+                                    [ngClass]="{ 'is-invalid': submitted && assetTransferDirectFormControls.LocationSelCode.errors }"
+                                    name="LocationSelCode">
+                                    <option selected="selected"></option>
+                                    <option *ngFor="let x of locationCodes" value="{{ x.locationID }}">
+                                        {{ x.locationCode }} - {{ x.locationName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" [hidden]="viewMode">
+                    <br>
+                    <ag-grid-angular #agGridFilter style="width: 100%; height: 15vw;"
+                        class="ag-theme-alpine" [rowData]="rowFilterData" [columnDefs]="columnFilterDefs"
+                        rowSelection="multiple" cellSelection="none" animateRows="true" defaultColDef="defaultColDef"
+                        (selectionChanged)="onFilterGridSelectionChanged($event)" suppressCellSelection="true">
+                    </ag-grid-angular>
+                    <!-- <select class="duallistbox" multiple="multiple" style="display: none;" formControlName="SerialNumberSelCode" id="SerialNumberSelCode" [ngClass]="{ 'is-invalid': submitted && !isSelectedtransferNo && assetTransferDirectFormControls.SerialNumberSelCode.errors }"
+                        name="SerialNumberSelCode">
+                        </select>
+                    <div *ngIf="submitted && !isSelectedtransferNo && assetTransferDirectFormControls.SerialNumberSelCode.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && !isSelectedtransferNo && assetTransferDirectFormControls.SerialNumberSelCode.errors.required">
+                            Serial Number is required</div>
+                    </div> -->
+                </div>
+                <div class="row" [hidden]="viewMode" >
+                    <button type="button" [disabled]="!isFilterGridRowSelected" class="btn btn-info mr-1"
+                        (click)="AddTag()">
+                        Add</button>
+                        <div *ngIf="errorserialadd" style="color: red;font-weight: bold;">{{errorserialadd}}</div>
+                </div>
+                <div [hidden]="viewMode">
+                    <hr>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card inner">
+        <div class="card-header inner" data-toggle="collapse" data-target="#AssetTransferDiv" aria-expanded="true" aria-controls="collapseOne">
+            <h3 class="card-title">Document details</h3>
+            <div>
+                <i class="fa fa-plus"></i>
+            </div>
+        </div>
+        <div id="AssetTransferDiv" class="collapse show">
+        <form [formGroup]="assetTransferDirectForm" class="form-horizontal">
+            <div class="row" [hidden]="viewMode">
+                <br>
+                <ag-grid-angular #agGridData style="width: 100%; height: 15vw;"
+                    class="ag-theme-alpine" [rowData]="rowAddedData" [columnDefs]="columnDataDefs"
+                    rowSelection="multiple" cellSelection="none" animateRows="true" defaultColDef="defaultColDef"
+                    (selectionChanged)="onDataGridSelectionChanged($event)" suppressCellSelection="true">
+                </ag-grid-angular>
+            </div>
+            <div class="row" [hidden]="viewMode" >
+                <button type="button" [disabled]="!isAddedGridRowSelected" class="btn btn-info mr-1"
+                    (click)="DeleteTag()">
+                    Delete</button>
+                    <div *ngIf="errorserialdelete" style="color: red;font-weight: bold;">{{errorserialdelete}}</div>
+            </div>
+            <div [hidden]="viewMode">
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Department Code
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                formControlName="departmentToSelCode" name="departmentToSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of departmentCodes" value="{{ x.departmentID }}">
+                                    {{ x.departmentCode }} - {{ x.departmentName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Employee</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                formControlName="EmployeeToSelCode" name="EmployeeToSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of employeeToCodes" value="{{ x.employeeId }}">
+                                    {{ x.employeeCode }} - {{ x.firstName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Remarks
+                            *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="Remarks" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && assetTransferDirectFormControls.Remarks.errors }" />
+                            <div *ngIf="submitted && assetTransferDirectFormControls.Remarks.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="submitted && assetTransferDirectFormControls.Remarks.errors.required">
+                                    Remarks is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group" [hidden]="viewMode">
+                        <label class="col-sm-4 col-form-label">Attach Document</label>
+                        <div class="col-sm-6">
+                            <input formControlName="fileInputDoc" type="file" ng2FileSelect
+                                accept=".doc,.docx,.xls,.xlsx,.pdf" [uploader]="uploader" multiple /><br />
+                            <br>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th width="90%">
+                                            File Name
+                                        </th>
+                                        <th width="10%">
+                                            Remove
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of uploader.queue">
+                                        <th width="90%">
+                                            {{ item?.file?.name }} ( {{item?.file?.size/1024/1024 | number:'.2' }}
+                                            MB)
+                                        </th>
+                                        <th class="text-center" width="10%">
+                                            <i class="fas fa-delete"></i>
+                                            <button class="btn btn-navbar" (click)="item.remove()" type="submit">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">To Location</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                formControlName="LocationToSelCode" name="LocationToSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of locationCodes" value="{{ x.locationID }}">
+                                    {{ x.locationCode }} - {{ x.locationName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    <ag-grid-angular #agGrid style="width: 100%; height: calc(100% - 10px);" class="ag-theme-alpine"
+        [rowData]="rowAssetTransferData" [columnDefs]="columnAssetTransferDefs" rowSelection="single"
+        cellSelection="none" animateRows="true" suppressCellSelection="true" [hidden]="!viewMode"
+        [defaultColDef]="{resizable: true}">
+    </ag-grid-angular>
+</div>

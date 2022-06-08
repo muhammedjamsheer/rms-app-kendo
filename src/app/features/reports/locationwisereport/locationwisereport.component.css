@@ -1,0 +1,11 @@
+.tableFixHead          { overflow: auto; height: 500px; }
+.tableFixHead th { position: sticky; top: 0; z-index: 1; }
+th     { background:#eee; }
+
+.tableFixHeadDetail          { overflow: auto; height: 420px; }
+.tableFixHeadDetail th { position: sticky; top: 0; z-index: 1; }
+
+.nav-link.active
+{
+    background-color: #9C7C38 !important;
+}

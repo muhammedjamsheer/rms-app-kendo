@@ -1,0 +1,185 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Warranty Details</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form [formGroup]="warrantyDetailsForm" class="form-horizontal">
+
+        <div class="card-body">
+            <div class="row" [hidden]="editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Category Code</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetCategorySelCode" [ngClass]="{ 'is-invalid': submitted && warrantyDetailsFormControls.assetCategorySelCode.errors }" name="assetCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                                    {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Asset Code
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="AssetSelCode" [ngClass]="{ 'is-invalid': submitted && warrantyDetailsFormControls.AssetSelCode.errors }" name="AssetSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                    {{ x.productCode }} - {{ x.productName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Sub Category Code</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetSubCategorySelCode" [ngClass]="{ 'is-invalid': submitted && warrantyDetailsFormControls.assetSubCategorySelCode.errors }" name="assetSubCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of subCategoryCodes" value="{{ x.assetSubCategoryId }}">
+                                    {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group" style="width: 50%; margin-left: 25%; margin-right: 25%;" [hidden]="editMode">
+                <label>Serial Number</label>
+                <select class="duallistbox" multiple="multiple" style="display: none;" formControlName="SerialNumberSelCode" id="SerialNumberSelCode" [ngClass]="{ 'is-invalid': submitted && !isSelectedSerialNumber && warrantyDetailsFormControls.SerialNumberSelCode.errors }"
+                    name="SerialNumberSelCode" required>
+                </select>
+                <div *ngIf="submitted && !isSelectedSerialNumber && warrantyDetailsFormControls.SerialNumberSelCode.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && !isSelectedSerialNumber && warrantyDetailsFormControls.SerialNumberSelCode.errors.required">
+                        Serial Number is required</div>
+                </div>
+
+            </div>
+            <div [hidden]="editMode">
+                <hr>
+            </div>
+            <div class="row" [hidden]="!editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Seraial Number</label>
+                        <div class="col-sm-6">
+                            <label>{{ SerialNumber }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Warranty Start Date *</label>
+                        <div class="col-sm-6">
+                            <div class="input-group date" id="WarrantyStartDate" data-target-input="nearest">
+                                <input type="text" #WarrantyStartDate class="form-control datetimepicker-input" [ngClass]="{ 'is-invalid': submitted && !WarrantyStartDate.value }" data-target="#WarrantyStartDate" />
+                                <div class="input-group-append" data-target="#WarrantyStartDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted && !WarrantyStartDate.value" class="invalid-feedback">
+                                    Warranty Start Date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Warranty Cost *
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="WarrantyValue" class="form-control" [ngClass]="{ 'is-invalid': submitted && warrantyDetailsFormControls.WarrantyValue.errors }" pattern="^[0-9]+(.[0-9]{0,2})?$" />
+                            <div *ngIf="submitted && warrantyDetailsFormControls.WarrantyValue.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && warrantyDetailsFormControls.WarrantyValue.errors.required">
+                                    Warranty Cost is required</div>
+                                <div *ngIf="submitted && warrantyDetailsFormControls.WarrantyValue.errors.pattern && warrantyDetailsFormControls.WarrantyValue.dirty && warrantyDetailsFormControls.WarrantyValue.invalid">
+                                    Enter numeric value.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Warranty End Date *</label>
+                        <div class="col-sm-6">
+                            <div class="input-group date form-group" id="WarrantyEndDate" data-target-input="nearest">
+                                <input type="text" #WarrantyEndDate class="form-control datetimepicker-input" formControlName="WarrantyEndDate" [ngClass]="{ 'is-invalid': submitted && !WarrantyEndDate.value }" data-target="WarrantyEndDate" name="WarrantyEndDate" />
+                                <div class="input-group-append" data-target="#WarrantyEndDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted && !WarrantyEndDate.value" class="invalid-feedback">
+                                    Warranty End Date is required
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Attach Document</label>
+                        <div class="col-sm-6">
+                            <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.xls,.xlsx" #fileInput>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+            <div class="row col-md-12" [hidden]="!editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-form-label">Download Document</label>
+
+                    </div>
+                    <div class="row">
+                        <label style="color: purple;">{{ warrantyFileName }}</label>
+                        <!-- <button type="button" class="btn btn-secondary" (click)=WarrantyFileDownLoad() style="margin-left: 5px;">Download</button> -->
+                        <div class="input-group-append" *ngIf="warrantyFileName">
+                            <button class="btn btn-navbar" (click)="WarrantyFileDownLoad()" type="submit">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+
+        <!-- /.row -->
+        <div class="card-footer" style="align-content: center;">
+            <button type="button" (click)="SaveWarrantyDetails()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success btn-sm">
+                <i class="fa fa-save" aria-hidden="true"></i>Save
+            </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+            </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled " class="btn btn-primary btn-sm">
+                <i class="fa fa-broom " aria-hidden="true "></i> Clear
+            </button>
+            <div *ngIf="error " style="color: red;font-weight: bold; ">{{error}}</div>
+        </div>
+    </form>
+</div>

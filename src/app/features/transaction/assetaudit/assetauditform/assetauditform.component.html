@@ -1,0 +1,71 @@
+<div class="card card-info" style="height: calc(100% - 5px);">
+    <div class="card-header">
+        <h3 class="card-title">Material Audit</h3>
+    </div>
+    <form [formGroup]="assetAuditForm" class="form-horizontal">
+        <div>
+            <button type="button" (click)="SaveAssetAudit()" [disabled]="loading || isbtnSaveDisabled"
+                class="btn btn-success btn-sm">
+                <i class="fa fa-save" aria-hidden="true"></i> Save
+            </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+            </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled "
+                class="btn btn-primary btn-sm">
+                <i class="fa fa-broom " aria-hidden="true "></i> Clear
+            </button>
+            <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <label class="col-sm-2 required">Audit On</label>
+                <div class="col-sm-4">
+                    <div class="input-group date" id="AuditOn" data-target-input="nearest">
+                        <input type="text" #AuditOn class="form-control datetimepicker-input"
+                            [ngClass]="{ 'is-invalid': submitted && !AuditOn.value }" data-target="#AuditOn" />
+                        <div class="input-group-append" data-target="#AuditOn" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                        <div *ngIf="submitted && !AuditOn.value" class="invalid-feedback">
+                            Audit On is required
+                        </div>
+                    </div>
+                </div>
+                <label class="col-sm-2 required">Remarks</label>
+                <div class="col-sm-4">
+                    <textarea class="form-control" rows="1" formControlName="remarks"
+                        [ngClass]="{ 'is-invalid': submitted && assetAuditFormControls.remarks.errors }"></textarea>
+                    <div *ngIf="submitted && assetAuditFormControls.remarks.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && assetAuditFormControls.remarks.errors.required">
+                            Remarks is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" [hidden]="!editMode">
+                <label class="col-sm-2">Audit No</label>
+                <div class="col-sm-4">
+                    <label>: &nbsp;{{ auditId }}</label>
+                </div>
+            </div>
+            <div class="row" style="height:100%">
+                <!-- <div class="col-md-6">
+                    <label class="col-sm-8 col-form-label">Select Sub Category Name</label>
+                    <ngx-treeview [config]="treeviewConfig" [items]="itemsList" (selectedChange)="onSubCategorySelectionChange($event)" style="height: 100%;" *ngIf="!render">
+                    </ngx-treeview>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-sm-4 col-form-label">Select Location Name</label>
+                    <ngx-treeview [config]="treeviewConfig" [items]="itemsLocationList" (selectedChange)="onLocationSelectionChange($event)" style="height: 100%;" *ngIf="!render">
+                    </ngx-treeview>
+                </div> -->
+                <label class="col-sm-2">Select Warehouse</label>
+                <div class="col-sm-4">
+                    <ngx-treeview [items]="Warehouses" [config]="treeviewConfig"
+                        (selectedChange)="onWarehouseSelectionChange($event)" *ngIf="!render"></ngx-treeview>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

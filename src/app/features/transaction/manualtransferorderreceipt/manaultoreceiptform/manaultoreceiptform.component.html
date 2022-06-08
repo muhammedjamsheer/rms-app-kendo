@@ -1,0 +1,70 @@
+<div class="card-header">
+    <h3 class="card-title">Manual Transfer Order Receipt</h3>
+</div>
+
+<div class="card-body">
+    <form [formGroup]="detailsForm" class="form-horizontal" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-3 col-lg-2 required">Shipment </label>
+                    <div class="col-sm-3 col-lg-4">
+                        <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                            formControlName="shipmentId"
+                            [ngClass]="{ 'is-invalid': submitted && formcontrols.shipmentId.errors}" name="Shipment">
+                            <option selected="selected"></option>
+                            <option *ngFor="let x of shipmentList" value="{{ x.refShipmentId }}">
+                                {{ x.refShipmentId }}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && formcontrols.shipmentId.errors" class="invalid-feedback">
+                            <div *ngIf="submitted && formcontrols.shipmentId.errors.required">
+                                Shipment field is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-sm-3 col-lg-2 required">Warehouse </label>
+                    <div class="col-sm-3 col-lg-4">
+                        <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                            formControlName="warehouse"
+                            [ngClass]="{ 'is-invalid': submitted && formcontrols.warehouse.errors}" name="Warehouse">
+                            <option selected="selected"></option>
+                            <option *ngFor="let x of warehouses" value="{{ x.warehouseID }}">
+                                {{ x.warehouseCode }} - {{ x.warehouseName }}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && formcontrols.warehouse.errors" class="invalid-feedback">
+                            <div *ngIf="submitted && formcontrols.warehouse.errors.required">
+                                Warehouse field is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  my-2">
+                    <label class="col-sm-3 col-lg-2">Remarks</label>
+                    <div class="col-sm-3 col-lg-4">
+                        <textarea class="form-control" rows="3" formControlName="remarks"></textarea>
+                    </div>
+                </div>
+                <ng-container *ngIf="shipmentdetails.length>0">
+                    <ag-grid-angular #agGrid domLayout='autoHeight' class="ag-theme-alpine" [columnDefs]="columnDefs"
+                        rowSelection="multiple" rowHeight="50" [rowData]="shipmentdetails" cellSelection="none"
+                        animateRows="true" defaultColDef="defaultColDef" suppressRowClickSelection="true"
+                        stopEditingWhenCellsLoseFocus=true (onGridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </ng-container>
+                <div class="row form-group">
+                    <!-- <label class="col-sm-3 col-lg-2"></label> -->
+                    <div class="col-sm-3 col-lg-4">
+                        <button type="submit" class="btn btn-success btn-sm" [disabled]="loading">
+                            <i [ngClass]="loading  ? 'fa fa-spinner fa-spin ' : 'fa fa-check'" aria-hidden="true"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

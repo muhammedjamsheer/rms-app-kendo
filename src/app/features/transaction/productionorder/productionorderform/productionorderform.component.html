@@ -1,0 +1,56 @@
+<div class="card-header">
+    <h3 class="card-title">Production Order Details</h3>
+</div>
+<div class="card-body">
+    <button routerLink="/productionorder" class="btn btn-danger btn-sm">Back</button>
+    <button (click)="OnPicklist();" class="btn btn-info btn-sm">Create Pick List</button>
+    <button routerLink="/picklist" class="btn btn-info btn-sm">View Pick List</button>
+    <div class="text-danger" *ngIf="showzerocountvalidation">
+        {{errorMessage}} </div>
+    <div>
+        <ag-grid-angular #agGrid style="width: 100%; height: 80vh;" class="ag-theme-alpine" [columnDefs]="columnDefs"
+            rowSelection="multiple" rowHeight="50" [rowData]="productionorderdetails" cellSelection="none"
+            (selectionChanged)="onSelectionChanged($event)" animateRows="true" defaultColDef="defaultColDef"
+            suppressRowClickSelection="true" stopEditingWhenCellsLoseFocus=true (onGridReady)="onGridReady($event)">
+        </ag-grid-angular>
+
+
+        <button style="display: none;" #ViewButton type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalLong">
+            View
+        </button>
+        <div class="modal fade  right" id="exampleModalLong" role="dialog" aria-labelledby="exampleModalLongTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form [formGroup]="picklistForm" class="form-horizontal">
+                        <div class="modal-body">
+                            <div class="row  my-2">
+                                <label class="col-sm-3 col-lg-3">Remarks</label>
+                                <div class="col-sm-3 col-lg-4">
+                                    <input type="text" formControlName="Remarks" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                                <i class="fa fa-close" aria-hidden="true"></i> Close</button>
+                            <button type="button" (click)="createPicklist()" class="btn btn-success  btn-sm"
+                                [disabled]="loading">
+                                <i [ngClass]="loading  ? 'fa fa-spinner fa-spin ' : 'fa fa-check'"
+                                    aria-hidden="true"></i> Create Pick List
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>

@@ -1,0 +1,14 @@
+
+<div class="card-header">
+    <h3 class="card-title">Transfer Request List</h3>
+</div>
+<button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button (click)="btnNewClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': !isCreateAllowed}">New</button>
+<button (click)="OnViewClick()"[ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
+<button (click)="OnEditClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isEditAllowed}" [disabled]="isEditDisabled">Edit</button>
+<button (click)="OnApproveClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}" [disabled]="!isApproveEnabled || isEditDisabled">Verify</button>
+<!-- <button (click)="OnCloseClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}" [disabled]="!isCloseEnabled">Close</button>
+<button (click)="OnViewRequestClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}" [disabled]="isApproveEnabled || !isEditDisabled">View Transfer</button> -->
+
+<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+<org-fat-grid [entity]="name" (totalGriditems)="totalGridItems($event)"></org-fat-grid>

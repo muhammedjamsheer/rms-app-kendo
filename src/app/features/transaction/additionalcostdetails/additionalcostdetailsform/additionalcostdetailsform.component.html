@@ -1,0 +1,151 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Additional Cost Details</h3>
+    </div>
+    <form [formGroup]="additionalCostDetailsForm" class="form-horizontal">
+        <div class="card-body">
+            <div class="row" [hidden]="editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Category Code</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetCategorySelCode" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.assetCategorySelCode.errors }" name="assetCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                                    {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Asset Code
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="AssetSelCode" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.AssetSelCode.errors }" name="AssetSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                    {{ x.productCode }} - {{ x.productName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Sub Category Code</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetSubCategorySelCode" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.assetSubCategorySelCode.errors }" name="assetSubCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of subCategoryCodes" value="{{ x.assetSubCategoryId }}">
+                                    {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Serial Number</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="serialNumberSelCode" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.serialNumberSelCode.errors }" name="serialNumberSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of serialNumberCodes" value="{{ x.serialNo }}">
+                                    {{ x.serialNo }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && additionalCostDetailsFormControls.serialNumberSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && additionalCostDetailsFormControls.serialNumberSelCode.errors.required">
+                                    Serial No is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="editMode">
+                <hr>
+            </div>
+            <div class="row" [hidden]="!editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Seraial Number</label>
+                        <div class="col-sm-6">
+                            <label>{{ SerialNumber }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Item Description
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ItemDescription" class="form-control" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.ItemDescription.errors }" />
+
+                            <div *ngIf="submitted && additionalCostDetailsFormControls.ItemDescription.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && additionalCostDetailsFormControls.ItemDescription.errors.required">
+                                    Item Description is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Quantity
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="Quantity" class="form-control" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.Quantity.errors }" />
+                            <div *ngIf="submitted && additionalCostDetailsFormControls.Quantity.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && additionalCostDetailsFormControls.Quantity.errors.required">
+                                    Quantity is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Date Bought</label>
+                        <div class="col-sm-6">
+                            <div class="input-group date" id="DateBought" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#DateBought" />
+                                <div class="input-group-append" data-target="#DateBought" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Amount
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="Price" class="form-control" [ngClass]="{ 'is-invalid': submitted && additionalCostDetailsFormControls.Price.errors }" pattern="^[0-9]+(.[0-9]{0,2})?$" />
+                            <div *ngIf="submitted && additionalCostDetailsFormControls.Price.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && additionalCostDetailsFormControls.Price.errors.required">
+                                    Amount is required</div>
+                                <div *ngIf="submitted && additionalCostDetailsFormControls.Price.errors.pattern && additionalCostDetailsFormControls.Price.dirty && additionalCostDetailsFormControls.Price.invalid">
+                                    Enter numeric value.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="align-content: center;">
+            <button type="button" (click)="SaveAdditionalCostDetails()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success btn-sm">
+                <i class="fa fa-save" aria-hidden="true"></i> Save
+            </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+            </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled " class="btn btn-primary btn-sm">
+                <i class="fa fa-broom " aria-hidden="true "></i> Clear
+            </button>
+            <div *ngIf="error " style="color: red;font-weight: bold; ">{{error}}</div>
+        </div>
+    </form>
+</div>

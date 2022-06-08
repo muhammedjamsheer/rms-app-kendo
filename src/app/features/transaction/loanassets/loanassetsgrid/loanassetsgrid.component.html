@@ -1,0 +1,11 @@
+<div class="card-header">
+    <h3 class="card-title">Asset Loan</h3>
+</div>
+<button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button (click)="btnNewClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': !isCreateAllowed}">New</button>
+<button (click)="OnEditClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isEditAllowed}" [disabled]="!    isApproveEnabled">Edit</button>
+<button (click)="OnViewClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
+<button (click)="OnApproveClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}" [disabled]="!isApproveEnabled">Approve</button>
+<button (click)="OnProcessInMobileClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}" [disabled]="!isApproveEnabled">Process In Mobile</button>
+<div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+<org-fat-grid [entity]="name"></org-fat-grid>

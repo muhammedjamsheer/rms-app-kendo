@@ -1,0 +1,43 @@
+/*Doc Details*/
+
+.detail-container {
+    display: grid;
+    grid-template-rows: min-content min-content auto;
+    margin: 8px;
+    height: max-content;
+    border: red solid 1px;
+    box-sizing: border-box;
+    /*Reduce the height from 100% with 8px(Top Margin)+8px(Bottom Margin)*/
+    height: calc(100% - 16px);
+    border: solid 1px var(--border-color);
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: lightgray;
+    padding: 10px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px var(--border-color);
+    margin: 4px;
+}
+
+.col {
+    width: 33%;
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    color: rgba(0, 0, 0, 0.8);
+    min-width: 40%;
+}
+
+.data {
+    font-size: 0.900rem;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 1);
+}

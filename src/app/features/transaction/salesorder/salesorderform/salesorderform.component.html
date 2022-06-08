@@ -1,0 +1,96 @@
+<div class="card-header">
+    <h3 class="card-title">Sales Order Details</h3>
+</div>
+<div class="card-body">
+    <button (click)="OnPicklist();" class="btn btn-info btn-sm">Create Pick List</button>
+    <button routerLink="/salesorder" class="btn btn-info btn-sm">Back</button>
+    <button routerLink="/picklist" class="btn btn-info btn-sm">View Pick List</button>
+    <button type="button" (click)="getPDF()" class="btn btn-danger btn-sm">
+        <i class="fa fa-file-pdf-o " aria-hidden="true"></i> Pdf
+    </button>
+    <div class="text-danger" *ngIf="showzerocountvalidation">
+        {{errorMessage}} </div>
+    <div>
+        <div class="canvas_div_pdf">
+            <ag-grid-angular #agGrid style="width: 100%; height: 80vh;" class="ag-theme-alpine"
+                [columnDefs]="columnDefs" rowSelection="multiple" rowHeight="50" [rowData]="salesorderdata"
+                (selectionChanged)="onSelectionChanged($event)" cellSelection="none" animateRows="true"
+                defaultColDef="defaultColDef" suppressRowClickSelection="true" stopEditingWhenCellsLoseFocus=true
+                (onGridReady)="onGridReady($event)">
+            </ag-grid-angular>
+        </div>
+
+    </div>
+</div>
+
+<button style="display: none;" #ViewButton type="button" class="btn btn-primary" data-toggle="modal"
+    data-target="#exampleModalLong">
+    View
+</button>
+<div class="modal fade  right" id="exampleModalLong" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="picklistForm" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3 required">Customer </label>
+                        <div class="col-sm-3 col-lg-4">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                formControlName="Customer"
+                                [ngClass]="{ 'is-invalid': submitted && formcontrols.Customer.errors}" name="Customer">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of customerlist" value="{{ x.customerId }}">
+                                    {{ x.customerCode }} - {{ x.customerName }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && formcontrols.Customer.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && formcontrols.Customer.errors.required">
+                                    Customer field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3 required">Address </label>
+                        <div class="col-sm-3 col-lg-4">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                                formControlName="Address"
+                                [ngClass]="{ 'is-invalid': submitted && formcontrols.Address.errors}" name="Address">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of addresslist" value="{{ x.addressLine1 }}">
+                                    {{ x.addressLine1 }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && formcontrols.Address.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && formcontrols.Address.errors.required">
+                                    Address field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  my-2">
+                        <label class="col-sm-3 col-lg-3">Remarks</label>
+                        <div class="col-sm-3 col-lg-4">
+                            <input type="text" formControlName="Remarks" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-close" aria-hidden="true"></i> Close</button>
+                    <button type="button" (click)="createPicklist()" class="btn btn-success" [disabled]="startprinting">
+                        <i [ngClass]="startprinting  ? 'fa fa-spinner fa-spin ' : 'fa fa-check'" aria-hidden="true"></i>
+                        Create
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

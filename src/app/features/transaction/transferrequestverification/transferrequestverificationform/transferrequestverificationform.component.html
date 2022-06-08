@@ -1,0 +1,102 @@
+<div class="card card-info" style="height: calc(100% - 5px);">
+    <div class="card-header">
+        <h3 class="card-title">Transfer Request Verification</h3>
+    </div>
+    <div>
+        <button type="button" (click)="ApproveTransferRequest(50)" [disabled]="loading || isbtnSaveDisabled"
+            class="btn btn-success btn-sm">
+            Approve
+        </button>
+        <button type="button" (click)="ApproveTransferRequest(40)" [disabled]="loading || isbtnSaveDisabled"
+            class="btn btn-danger btn-sm">
+            Reject
+        </button>
+        <button type="button" (click)="ShowGrid(0)" class="btn btn-info btn-sm">
+            Back
+        </button>
+        <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+    </div>
+    <form [formGroup]="transferRequestVerificationForm" class="form-horizontal">
+        <div class="card-header inner">
+            <h3 class="card-title">Document Info</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row form-group">
+                    <label class="col-sm-4 col-form-label">Request No</label>
+                    <input type="text" class="col-sm-8 form-control" value="{{requestNo}}" readonly />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row form-group">
+                    <label class="col-sm-3 col-form-label">Verifier Remarks*</label>
+                    <div class="col-sm-9">
+                        <input type="text" formControlName="VerifierRemarks" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && transferRequestVerificationFormControls.VerifierRemarks.errors }" />
+                        <div *ngIf="submitted && transferRequestVerificationFormControls.VerifierRemarks.errors"
+                            class="invalid-feedback">
+                            <div
+                                *ngIf="submitted && transferRequestVerificationFormControls.VerifierRemarks.errors.required">
+                                Verifier Remarks is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="requestData !=undefined">
+            <div class="card-header inner">
+                <h3 class="card-title">Request Details</h3>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Request Date</label>
+                        <input type="text" class="col-sm-8 form-control"
+                            value="{{requestData.requestDate | date: 'dd-MMM-yyyy'}}" readonly />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Remarks</label>
+                        <input type="text" class="col-sm-8 form-control" value="{{requestData.remarks}}" readonly />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Request By</label>
+                        <input type="text" class="col-sm-8 form-control"
+                            value="{{requestData.requestedByEmpCode}}-{{requestData.requestedByEmpFirstName}} {{requestData.requestedByEmpLastName}}"
+                            readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-4 col-form-label">To Employee</label>
+                    <input type="text" class="col-sm-8 form-control" value="{{requestData.toEmpCode}}-{{requestData.toEmpFirstName}} {{requestData.toEmpLastName}}" readonly/>
+                </div>
+            </div> -->
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">To Warehouse</label>
+                        <input type="text" class="col-sm-8 form-control"
+                            value="{{requestData.toWarehouseCode}}-{{requestData.toWarehouseName}}" readonly />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">From Warehouse</label>
+                        <input type="text" class="col-sm-8 form-control"
+                            value="{{requestData.fromWarehouseCode}}-{{requestData.fromWarehouseName}}" readonly />
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </form>
+    <ag-grid-angular #agGrid style="width:100%;height:calc(100% - 20px);" class="ag-theme-alpine"
+        [rowData]="rowRequestData" [columnDefs]="columnRequestDefs" rowSelection="single" cellSelection="none"
+        animateRows="true" defaultColDef="defaultColDef" (gridReady)="onGridReady($event)" suppressCellSelection="true"
+        [defaultColDef]="{resizable: true}">
+    </ag-grid-angular>
+</div>

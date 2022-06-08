@@ -1,0 +1,96 @@
+<div class="card-header">
+    <h3 class="card-title">Print Existing Stock</h3>
+</div>
+<div style="text-align:right;margin: 8px 10px;font-weight:bold"><span>Total Items : {{totalGridCount}}</span></div>
+<org-fat-grid [entity]="name" (totalGriditems)="totalGridItems($event)"></org-fat-grid>
+<button style="display: none;" #ViewButton type="button" (click)="triggerClick()" class="btn btn-primary"
+    data-toggle="modal" data-target="#exampleModalLong">
+    View
+</button>
+<div class="modal fade  right" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="rowcountform" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3">Product Code</label>
+                        <div class="col-sm-3 col-lg-9">
+                            : &nbsp; {{formcontrols.ProductCode.value}}
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3">Product Description</label>
+                        <div class="col-sm-3 col-lg-9">
+                            : &nbsp;{{formcontrols.ProductDescription.value}}
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3">Category</label>
+                        <div class="col-sm-3 col-lg-9">
+                            : &nbsp;{{formcontrols.Category.value}}
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3 required">Label Design</label>
+                        <div class="col-sm-3 col-lg-4">
+                            <select formControlName="PrintTemplateSelCode" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && formcontrols.PrintTemplateSelCode.errors }">
+                                <option [ngValue]="null">Select...</option>
+                                <option *ngFor="let x of printLabelDesignCodes" value="{{ x }}">
+                                    {{ x }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && formcontrols.PrintTemplateSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && formcontrols.PrintTemplateSelCode.errors.required">
+                                    Label design is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <label class="col-sm-3 col-lg-3 required">Enter the no. of quantity to print</label>
+                        <div class="col-sm-3 col-lg-4">
+                            <input type="number" formControlName="NoofQuantity" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && formcontrols.NoofQuantity.errors }" />
+                            <div *ngIf="submitted && formcontrols.NoofQuantity.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && formcontrols.NoofQuantity.errors.required">
+                                    No. of quantity is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  my-2">
+                        <label class="col-sm-3 col-lg-3 required">Enter the UOM quantity</label>
+                        <div class="col-sm-3 col-lg-4">
+                            <input type="number" formControlName="UOMQuantity" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && formcontrols.UOMQuantity.errors }" />
+                            <div *ngIf="submitted && formcontrols.UOMQuantity.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && formcontrols.UOMQuantity.errors.required">
+                                    UOM quantity is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  my-2">
+                        <label class="col-sm-3 col-lg-3">UOM Code</label>
+                        <div class="col-sm-3 col-lg-4">
+                            <input type="text" formControlName="UOMCode" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-close" aria-hidden="true"></i> Close</button>
+                    <button type="button" (click)="PrintLabel()" class="btn btn-success" [disabled]="startprinting">
+                        <i [ngClass]="startprinting  ? 'fa fa-spinner fa-spin ' : 'fa fa-print'" aria-hidden="true"></i>
+                        Print
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

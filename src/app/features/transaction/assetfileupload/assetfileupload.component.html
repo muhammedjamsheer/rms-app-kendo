@@ -1,0 +1,50 @@
+
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Asset File Upload</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form [formGroup]="AssetUploadForm" class="form-horizontal">
+              
+                <div class="card-body col-sm-8">
+                    <!-- <div class="row form-group">
+                        <button class="btn btn-danger btn-sm " (click)="ShowGrid()">
+                           Back
+                        </button>
+                        <button class="btn btn-info btn-sm " (click)="DownloadFile()">
+                            <i class="fas fa-file-download"></i>Download Template
+                        </button>
+                    </div> -->
+                      <div class="row form-group" [hidden]="isbtnSaveDisabled">
+                        <label class="col-sm-4 col-form-label" for="inputEmail3">Template File(Excel)</label>
+                        <div class="col-sm-6">
+                          <input formControlName="fileTemplate" title=" " type="file" ng2FileSelect
+                          accept=".xls,.xlsx" (change)="fileChangeEvent($event)" multiple />
+                        </div>
+                      </div>
+                  
+                </div>
+  
+                <!-- /.card-body -->
+          
+              <!-- /.row -->
+  
+              <div class="card-footer" style="align-content: center;">
+                <button type="button" (click)="SaveFile()" [disabled]="loading"
+                  class="btn btn-success btn-sm mr-1 ml-1 mt-2 mb-2">
+                  <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+                  Save
+                </button>
+                <button type="button" (click)=ClearContents() [disabled]="isbtnClearDisabled" class="btn btn-info btn-sm mr-1 ml-1 mt-2 mb-2">
+                 Clear
+                </button>
+                <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+                <div *ngIf="info" style="color: green;font-weight: bold;">{{info}}</div>
+              </div>
+            </form>
+  
+  
+          </div>
+  
+        

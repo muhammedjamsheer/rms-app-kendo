@@ -1,0 +1,70 @@
+/*Doc-Header*/
+
+.card-doc {
+    /*display: grid;
+    grid-template-rows: min-content min-content;
+    grid-template-columns: min-content auto;
+    border-bottom: solid var(--border-color) 1px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 5px;
+    transition-duration: 0.3s;
+    margin: 1px;*/
+    cursor: pointer;
+    
+    margin: 1px;
+    width: 100% !important;
+    
+    
+}
+
+.card-doc.selected {
+    background-color: rgba(235, 235, 235, 1) !important;
+}
+
+.card-doc:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 2px 2px 2px #aaaaaa;
+}
+
+.card-icon {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    align-self: center;
+    font-size: 1rem;
+    padding: 0px 15px;
+}
+
+
+/*Orange > Yellow > Green*/
+
+.card-icon.pending {
+    color: orange;
+}
+
+.card-icon.inprogress {
+    color: yellow;
+}
+
+.card-icon.completed {
+    color: green;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    align-content: center;
+}
+
+.card-data {
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: 700;
+}

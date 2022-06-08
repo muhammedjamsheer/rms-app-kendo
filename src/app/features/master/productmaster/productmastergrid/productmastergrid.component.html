@@ -1,0 +1,10 @@
+<div class="card-header">
+    <h3 class="card-title">Product Master</h3>
+</div>
+<button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button class="btn btn-info btn-sm" (click)="DownloadExcel()">Download as Excel</button>
+<button (click)="btnNewClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': !isCreateAllowed}">New</button>
+<button (click)="OnEditClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isEditAllowed}">Edit</button>
+<button (click)="OnViewClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
+<button (click)="OnDeleteClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isDeleteAllowed}">Inactivate</button>
+<org-fat-grid [entity]="name" (gridData)="allGriddataevent($event)"></org-fat-grid>

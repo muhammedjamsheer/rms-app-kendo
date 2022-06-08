@@ -1,0 +1,113 @@
+<div class="card card-info" style="height: calc(100% - 5px);width: 100%; min-width: max-content;" [hidden]="showReport">
+  <div class="card-header">
+    <h3 class="card-title">Asset Listing - Department Wise Report</h3>
+
+  </div>
+<div class="card-body col-md-12" >
+  <org-fat-reportsfilterform></org-fat-reportsfilterform>
+</div>
+</div>
+
+<div class="card card-info" style="height: calc(100% - 5px);" [hidden]="!showReport">
+    <div class="card-header">
+      <h3 class="card-title">Asset Listing - Department Wise Report</h3>
+  
+    </div>
+
+    <div class="card-body col-md-12" >
+      <div class="tab-content" id="custom-tabs-two-tabContent">
+  
+        <div id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+          <form [formGroup]="DepartmentWiseReportForm" class="form-horizontal">
+  
+            <div class="row form-group">
+              <button type="button" [disabled]="!departmentWiseReportSummary.length" (click)="exportexcelsummary()"
+                class="btn btn-success btn-sm">
+                <i class="fa fa-download" aria-hidden="true"></i> Download as Excel
+              </button>
+              <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+              </button>
+              <button type="button" (click)="ClearSummary()" class="btn btn-primary btn-sm">
+                <i class="fa fa-broom " aria-hidden="true "></i> Clear
+              </button>
+  
+  
+            </div>
+            <div class="row form-group tableFixHead" id="excelsummarydiv">
+              <table class="table table-bordered canvas_summary_pdf" id="excelsummary" #excelsummary>
+                <tbody>
+                  <tr>
+                    <th>
+                      Product Code
+                    </th>
+                    <th>
+                      Product Name
+                    </th>
+                    <th>
+                      Product Description
+                    </th>
+                    <th>
+                      Serial No
+                    </th>
+                    <th>
+                      Department Name
+                    </th>
+                    <th>
+                      AssetCategory Name
+                    </th>
+                    <th>
+                      Asset Sub Category Name
+                    </th>
+                    <th>
+                      Location Name
+                    </th>
+                    <th>
+                      Brand Name
+                    </th>
+                    <th>
+                      Model Name
+                    </th>
+                </tr>
+                  <tr *ngFor="let x1 of departmentWiseReportSummary;let indexofsummary=index">
+                    <td>
+                      {{x1.productCode}}
+                    </td>
+                    <td>
+                      {{x1.productName}}
+                    </td>
+                    <td>
+                      {{x1.productDescription}}
+                    </td>
+                    <td>
+                      {{x1.serialNo}}
+                    </td>
+                    <td>
+                      {{x1.departmentName}}
+                    </td>
+                    <td>
+                      {{x1.assetCategoryName}}
+                    </td>
+                    <td>
+                      {{x1.assetSubCategoryName}}
+                    </td>
+                    <td>
+                      {{x1.locationName}}
+                    </td>
+                    <td>
+                      {{x1.brandName}}
+                    </td>
+                    <td>
+                      {{x1.modelName}}
+                    </td>
+                  </tr>
+  
+  
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

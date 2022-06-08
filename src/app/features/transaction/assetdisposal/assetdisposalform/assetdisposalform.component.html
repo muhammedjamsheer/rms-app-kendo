@@ -1,0 +1,265 @@
+<div style="height: auto;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <div class="content-wrapper">
+            <section class="content" style="padding: 1%;">
+                <!-- left column -->
+                <!-- general form elements -->
+                <div class="col-md-12">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Asset Disposal</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form [formGroup]="assetDisposalForm" class="form-horizontal">
+
+                            <div class="card-body col-md-12">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Category
+                                                Code</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="CategorySelCode" [ngClass]="{ 'is-invalid': submitted && assetDisposalFormControls.CategorySelCode.errors }" name="CategorySelCode">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of categoryCodes"
+                                                        value="{{ x.assetCategoryId }}">
+                                                        {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Sub
+                                                Cat Code </label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="SubCategorySelCode" [ngClass]="{ 'is-invalid': submitted && assetDisposalFormControls.SubCategorySelCode.errors }" name="SubCategorySelCode">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of subCategoryCodes"
+                                                        value="{{ x.assetSubCategoryId }}">
+                                                        {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Location</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="LocationSelCode" [ngClass]="{ 'is-invalid': submitted && assetDisposalFormControls.LocationSelCode.errors }" name="LocationSelCode">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of locationCodes" value="{{ x.locationID }}">
+                                                        {{ x.locationCode }} - {{ x.locationName }}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Employee</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="EmployeeSelCode" [ngClass]="{ 'is-invalid': submitted && assetDisposalFormControls.EmployeeSelCode.errors }" name="EmployeeSelCode">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of employeeCodes" value="{{ x.employeeId }}">
+                                                        {{ x.employeeCode }} - {{ x.firstName }}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Asset Code
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="ProductSelDesc" [ngClass]="{ 'is-invalid': submitted && assetDisposalFormControls.ProductSelDesc.errors }" name="ProductSelDesc">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                                        {{ x.productDescription }}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Serial Number
+                                                *</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="SerialSelNumber" [ngClass]="{ 'is-invalid': submitted && assetDisposalFormControls.SerialSelNumber.errors }" name="SerialSelNumber">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                                        {{ x.productDescription }}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="disposalSubmitted && assetDisposalFormControls.SerialSelNumber.errors" class="invalid-feedback">
+                                                    <div *ngIf="disposalSubmitted && assetDisposalFormControls.SerialSelNumber.errors.required">
+                                                        Serial Number is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Serial Number
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <label class="col-sm-4 col-form-label">{{ disposalSerialNumber }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Current Book Value</label>
+                                            <div class="col-sm-6">
+                                                <label class="col-sm-4 col-form-label">{{ disposalCurrentBookValue
+                                                    }}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Disposal Method *</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetDisposalSelCode" [ngClass]="{ 'is-invalid': disposalSubmitted && assetDisposalFormControls.assetDisposalSelCode.errors }" name="assetDisposalSelCode">
+                                                    <option selected="selected"></option>
+                                                    <option *ngFor="let x of disposalMethodCodes" value="{{ x.value }}">
+                                                        {{ x.value }} - {{ x.displayText }}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="disposalSubmitted && assetDisposalFormControls.assetDisposalSelCode.errors" class="invalid-feedback">
+                                                    <div *ngIf="disposalSubmitted && assetDisposalFormControls.assetDisposalSelCode.errors.required">
+                                                        Disposal Method is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Remarks *</label>
+                                            <div class="col-sm-6">
+                                                <textarea class="form-control" rows="3" formControlName="remarks"></textarea>
+                                                <div *ngIf="disposalSubmitted && assetDisposalFormControls.remarks.errors" class="invalid-feedback">
+                                                    <div *ngIf="disposalSubmitted && assetDisposalFormControls.remarks.errors.required">
+                                                        Remarks is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row col form-group">
+                                            <label class="col-sm-4 col-form-label">Attach Document</label>
+                                            <!-- {{imageError}} -->
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="exampleInputFile">
+                                                <label class="custom-file-label" for="exampleInputFile">Choose
+                                                    file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Asset Code
+                                                *</label>
+                                            <div class="col-sm-6">
+                                                <label class="form-label">{{ disposalAssetName }}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Disposal Date
+                                                *</label>
+                                            <div class="col-sm-6">
+                                                <div class="input-group date" id="DisposalDate" data-target-input="nearest">
+                                                    <input type="text" class="form-control datetimepicker-input" data-target="#DisposalDate" />
+                                                    <div class="input-group-append" data-target="#DisposalDate" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 col-form-label">Disposal Amount
+                                                *</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" formControlName="DisposalAmount" class="form-control" [ngClass]="{ 'is-invalid': disposalSubmitted && assetDisposalFormControls.DisposalAmount.errors }" pattern="^[0-9]+(.[0-9]{0,2})?$" />
+                                                <div *ngIf="disposalSubmitted && assetDisposalFormControls.DisposalAmount.errors" class="invalid-feedback">
+                                                    <div *ngIf="disposalSubmitted && assetDisposalFormControls.DisposalAmount.errors.required">
+                                                        Disposal Amount is required</div>
+                                                    <div *ngIf="disposalSubmitted && assetDisposalFormControls.DisposalAmount.errors.pattern && assetDisposalFormControls.DisposalAmount.dirty && assetDisposalFormControls.DisposalAmount.invalid">
+                                                        Enter numeric value.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                            <!-- /.card-body -->
+
+                            <!-- /.row -->
+                            <div style="text-align: left;padding-left: 15px;">
+                                <button type="button" [hidden]="isDisposalAddHidden" (click)="AddToDisposalGrid()" class="btn btn-primary">
+                                    <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+                                    Add
+                                </button>
+                                <button type="button" [hidden]="isDisposalEditHidden" (click)="EditAssetDisposal()" class="btn btn-primary">
+                                    Edit
+                                </button>
+                                <button type="button" [hidden]="isDisposalDeleteHidden" (click)="DeleteAssetDisposal()" class="btn btn-primary">
+                                    Delete
+                                </button>
+                                <button type="button" [hidden]="isDisposalUpdateHidden" (click)="UpdateAssetDisposal()" class="btn btn-primary">
+                                    Update
+                                </button>
+                                <button type="button" [hidden]="isDisposalCancelHidden" (click)="CancelAssetReceipt()" class="btn btn-primary">
+                                    Cancel
+                                </button>
+                                <div *ngIf="errorDisposal" class="alert alert-danger mt-3 mb-0">{{errorDisposal}}</div>
+                            </div>
+
+                            <ag-grid-angular #agGrid style="width: 76vw; height: 10vw;padding-left: 15px;" class="ag-theme-alpine" [rowData]="rowDisposalData" [columnDefs]="columnDisposalDefs" rowSelection="single" cellSelection="none" animateRows="true" defaultColDef="defaultColDef"
+                                (rowClicked)="onDisposalRowClick($event)" suppressCellSelection="true">
+                            </ag-grid-angular>
+
+                            <div class="card-footer" style="align-content: center;">
+                                <button type="button" (click)="SaveDisposalMaster()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success">
+                                    <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+                                    Save
+                                </button>
+                                <button type="button" (click)="ShowGrid()" class="btn btn-info">
+                                    Back
+                                </button>
+                                <button type="button" (click)=ClearContents() [disabled]="isbtnClearDisabled" class="btn btn-info">
+                                    Clear
+                                </button>
+                                <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+                            </div>
+                        </form>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+</div>

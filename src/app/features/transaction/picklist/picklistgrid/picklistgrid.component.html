@@ -1,0 +1,16 @@
+<div class="card-header">
+    <h3 class="card-title">Pick List</h3>
+</div>
+<button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button (click)="OnSummaryClick()"
+    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isSummaryAllowed}"> Summary</button>
+<button (click)="OnDetailClick()"
+    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isDetailsAllowed}"> Details</button>
+
+<button (click)="OnCancelClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected}"> Cancel </button>
+
+<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+<div *ngIf="error " style="color: red;font-weight: bold; ">{{error}}</div>
+
+<org-fat-grid [entity]="name" (totalGriditems)="totalGridItems($event)"></org-fat-grid>
+

@@ -1,0 +1,56 @@
+<div class="card-header">
+    <h3 class="card-title">{{screenname}}</h3>
+</div>
+<button type="button" routerLink="/receipt" class="btn btn-danger btn-sm">
+    <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+</button>
+<button type="button" (click)="getPDF()" class="btn btn-danger btn-sm">
+    <i class="fa fa-file-pdf-o " aria-hidden="true"></i> Pdf
+</button>
+<button type="button" (click)="getExcel()" class="btn btn-success btn-sm">
+    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel
+</button>
+<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+<div class="card-body">
+    <form [formGroup]="detailsForm" class="form-horizontal">
+        <div class="row">
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-3 col-form-label">Document Type</label>
+                    <div class="col-sm-8">
+                        <input width="80%" type="text" formControlName="DocumentType" class="form-control" />
+                    </div>
+                    <label class="col-sm-3 col-form-label">Document No</label>
+                    <div class="col-sm-8">
+                        <input width="80%" type="text" formControlName="DocumentNo" class="form-control" />
+                    </div>
+                    <label class="col-sm-3 col-form-label">Receipt Status</label>
+                    <div class="col-sm-8">
+                        <input width="80%" type="text" formControlName="receiptStatus" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-3 col-form-label">Document Date</label>
+                    <div class="col-sm-8">
+                        <input width="80%" type="text" formControlName="DocumentDate" class="form-control" />
+                    </div>
+                    <label class="col-sm-3 col-form-label">GRN</label>
+                    <div class="col-sm-8">
+                        <input width="80%" type="text" formControlName="Grn" class="form-control" />
+                    </div>
+                    <label class="col-sm-3 col-form-label">Receipt Date</label>
+                    <div class="col-sm-8">
+                        <input width="80%" type="text" formControlName="receiptDate" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ag-grid-angular #agGrid style="width: 100%; height: 60vh;" class="ag-theme-alpine" [columnDefs]="columnDefs"
+        rowSelection="multiple" rowHeight="50" [rowData]="itemLines" cellSelection="none" animateRows="true"
+        defaultColDef="defaultColDef" suppressRowClickSelection="true" stopEditingWhenCellsLoseFocus=true
+        (onGridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>

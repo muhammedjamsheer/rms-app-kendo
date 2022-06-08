@@ -1,0 +1,274 @@
+
+  <!-- Content Wrapper. Contains page content -->
+ 
+    <!-- Content Header (Page header) -->
+
+    <!-- Main content -->
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="d-card bg-info" id="d-card-total-assets">
+              <div class="d-cardheader">Inventory Count</div>
+              <div class="d-cardbody">
+                <span class="d-cardtitle">{{assetCount}}</span>
+            </div>
+              <div>
+                <img src="assets/appimages/ASSET COUNT.png" width="75">
+                <!-- <i class="ion ion-bag"></i> -->
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="d-card bg-success" id="d-card-assigned-assets">
+              <div class="d-cardheader">Inventory Assets</div>
+              <div class="d-cardbody">
+                <span class="d-cardtitle">{{assignedAssets}}</span>
+            </div>
+              <div>
+                <img src="assets/appimages/ASSIGNED ASSETS.png" width="75">
+                <!-- <i class="ion ion-bag"></i> -->
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <div class="d-card bg-danger" id="d-card-unassigned-assets">
+              <div class="d-cardheader">Unassigned Inventory</div>
+              <div class="d-cardbody">
+                <span class="d-cardtitle">{{unAssignedAssets}}</span>
+            </div>
+              <div>
+                <img src="assets/appimages/unassigned assset count.png" width="75">
+                <!-- <i class="ion ion-bag"></i> -->
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <div class="d-card bg-warning" id="d-card-unassigned-assets">
+              <div class="d-cardheader">Total Inventory Cost</div>
+              <div class="d-cardbody">
+                <span class="d-cardtitle">{{totalAssetsValue}}</span>
+            </div>
+              <div>
+                <img src="assets/appimages/TOTAL ASSET VALUE.png" width="75">
+                <!-- <i class="ion ion-bag"></i> -->
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <!-- <div class="row"> -->
+          <!-- Left col -->
+          <section class="col-lg-12 connectedSortable ui-sortable">
+            <!-- Custom tabs (Charts with tabs)-->
+          
+              
+                <h6 class="mb-2 mt-2">Inventory by Building</h6>
+
+                <div class="card">
+                  <div class="card-header ui-sortable-handle">
+                    <h3 class="card-title">
+                      <i class="fas fa-chart-pie mr-1"></i>
+                      Building Name & Inventory Count
+                    </h3>
+                    <!-- <ul class="nav nav-pills ml-auto">
+                          <li class="nav-item">
+                            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                          </li>
+                        </ul> -->
+                    <div class="col-sm-3" style="margin-left: auto;margin-right: 0;">
+                      <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                        formControlName="BuildingSelCode" name="BuildingSelCode">
+                        <option selected="selected" >All</option>
+                        <option *ngFor="let x of buildingCodes" value="{{ x.buildingID }}">
+                          {{ x.buildingCode }} - {{ x.buildingName }}
+                        </option>
+                      </select>
+                    </div>
+    
+                  </div><!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content p-0">
+                      <!-- Morris chart - Sales -->
+                      <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+                        [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel" [legendTitle]="'Buildings'" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                        (select)="onSelect($event)">
+                      </ngx-charts-bar-vertical>
+                    </div>
+                  </div><!-- /.card-body -->
+                </div>
+
+             
+                <h6 class="mb-2 mt-2">Inventory by Department</h6>
+
+                <div class="card">
+                  <div class="card-header ui-sortable-handle">
+                    <h3 class="card-title">
+                      <i class="fas fa-chart-pie mr-1"></i>
+                      Department Name & Asset Count
+                    </h3>
+                    <!-- <ul class="nav nav-pills ml-auto">
+                          <li class="nav-item">
+                            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                          </li>
+                        </ul> -->
+                    <div class="col-sm-3" style="margin-left: auto;margin-right: 0;">
+                      <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                        formControlName="DepartmentSelCode" name="DepartmentSelCode">
+                        <option selected="selected">All</option>
+                        <option *ngFor="let x of departmentCodes" value="{{ x.departmentID }}">
+                          {{ x.departmentCode }} - {{ x.departmentName }}
+                        </option>
+                      </select>
+                    </div>
+    
+                  </div><!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content p-0">
+                      <!-- Morris chart - Sales -->
+                      <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="singledepartment" [gradient]="gradient"
+                        [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"  [legendTitle]="'Department'" [xAxisLabel]="'Department'" [yAxisLabel]="'Asset Count'"
+                        (select)="onSelect($event)">
+                      </ngx-charts-bar-vertical>
+                    </div>
+                  </div><!-- /.card-body -->
+                </div>
+              
+                <h6 class="mb-2 mt-2">Inventory by Category</h6>
+
+                <div class="card">
+                  <div class="card-header ui-sortable-handle">
+                    <h3 class="card-title">
+                      <i class="fas fa-chart-pie mr-1"></i>
+                      Category Name & Inventory Count
+                    </h3>
+                    <!-- <ul class="nav nav-pills ml-auto">
+                          <li class="nav-item">
+                            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                          </li>
+                        </ul> -->
+                    <div class="col-sm-3" style="margin-left: auto;margin-right: 0;">
+                      <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                        formControlName="CategorySelCode" name="CategorySelCode">
+                        <option selected="selected">All</option>
+                        <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                          {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                        </option>
+                      </select>
+                    </div>
+    
+                  </div><!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content p-0">
+                      <!-- Morris chart - Sales -->
+                      <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="singlecategory" [gradient]="gradient"
+                        [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"  [legendTitle]="'Category'" [xAxisLabel]="'Category'" [yAxisLabel]="'Asset Count'"
+                        (select)="onSelect($event)">
+                      </ngx-charts-bar-vertical>
+                    </div>
+                  </div><!-- /.card-body -->
+                </div>
+
+                <h6 class="mb-2 mt-2">Inventory Cost by Category</h6>
+
+                <div class="card">
+                  <div class="card-header ui-sortable-handle">
+                    <h3 class="card-title">
+                      <i class="fas fa-chart-pie mr-1"></i>
+                      Category Name & Inventory Cost
+                    </h3>
+                    <!-- <ul class="nav nav-pills ml-auto">
+                          <li class="nav-item">
+                            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                          </li>
+                        </ul> -->
+                    <div class="col-sm-3" style="margin-left: auto;margin-right: 0;">
+                      <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;"
+                        formControlName="CategoryCostSelCode" name="CategoryCostSelCode">
+                        <option selected="selected">All</option>
+                        <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                          {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                        </option>
+                      </select>
+                    </div>
+    
+                  </div><!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content p-0">
+                      <!-- Morris chart - Sales -->
+                      <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="singlecategorycost" [gradient]="gradient"
+                        [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"  [legendTitle]="'Category'" [xAxisLabel]="'Category'" [yAxisLabel]="'Asset Cost'"
+                        (select)="onSelect($event)">
+                      </ngx-charts-bar-vertical>
+                    </div>
+                  </div><!-- /.card-body -->
+                </div>
+          
+            <!-- /.card -->
+   
+            <h6 class="mb-2 mt-2">Inventory Status </h6>
+
+            <div class="card">
+              <div class="card-header ui-sortable-handle">
+                <h3 class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Inventory Status
+                </h3>
+                <!-- <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                      </li>
+                    </ul> -->
+
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+                  <!-- Morris chart - Sales -->
+                  <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="pieStatus" [gradient]="gradient"
+                    [legend]="showLegend" [labels]="showLabels" [legendTitle]="'Inventory Status'" [doughnut]="isDoughnut" (select)="onSelect($event)"
+                    (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+                  </ngx-charts-pie-chart>
+                </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </section>
+
+
+        <!-- </div> -->
+        <!-- /.row (main row) -->
+    
+    <!-- /.content -->
+
+
+  <!-- /.content-wrapper -->

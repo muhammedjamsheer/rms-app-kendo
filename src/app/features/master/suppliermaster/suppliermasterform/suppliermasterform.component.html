@@ -1,0 +1,123 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Supplier Master</h3>
+    </div>
+    <form [formGroup]="supplierMasterForm" class="form-horizontal">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Supplier Code *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="SupplierCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.SupplierCode.errors }" />
+                            <div *ngIf="supplierMasterFormControls.SupplierCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && supplierMasterFormControls.SupplierCode.errors.required">
+                                    Supplier Code is required</div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Supplier Name *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="SupplierName" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.SupplierName.errors }"  />
+                            <div *ngIf="supplierMasterFormControls.SupplierName.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && supplierMasterFormControls.SupplierName.errors.required">
+                                    Supplier Name is required</div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Address Line 1 *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="AddressLine1" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.AddressLine1.errors }" />
+                            <div *ngIf="supplierMasterFormControls.AddressLine1.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && supplierMasterFormControls.AddressLine1.errors.required">
+                                    Address Line 1 is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Address Line 2</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="AddressLine2" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Website</label>
+                        <div class="col-sm-6">
+                            <input type="URL" formControlName="SupplierWebsite" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Contact Person</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ContactPerson" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.ContactPerson.errors }" pattern="^[a-zA-Z0-9\s]+$" />
+                            <div *ngIf="supplierMasterFormControls.ContactPerson.errors" class="invalid-feedback">
+                                <div *ngIf="supplierMasterFormControls.ContactPerson.errors.pattern && supplierMasterFormControls.ContactPerson.dirty && supplierMasterFormControls.ContactPerson.invalid">
+                                    Special Characters are not allowed.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Designation</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ContactPersonDesignation" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.ContactPersonDesignation.errors }" pattern="^[a-zA-Z0-9\s]+$" />
+                            <div *ngIf="supplierMasterFormControls.ContactPersonDesignation.errors" class="invalid-feedback">
+                                <div *ngIf="supplierMasterFormControls.ContactPersonDesignation.errors.pattern && supplierMasterFormControls.ContactPersonDesignation.dirty && supplierMasterFormControls.ContactPersonDesignation.invalid">
+                                    Special Characters are not allowed.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Contact Number</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ContactNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.ContactNumber.errors }" pattern="[- +()0-9]+" />
+                            <div *ngIf="supplierMasterFormControls.ContactNumber.errors" class="invalid-feedback">
+                                <div *ngIf="supplierMasterFormControls.ContactNumber.errors.pattern && supplierMasterFormControls.ContactNumber.dirty && supplierMasterFormControls.ContactNumber.invalid">
+                                    Invalid Contact Number.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Contact Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" formControlName="Contactemail" class="form-control" [ngClass]="{ 'is-invalid': submitted && supplierMasterFormControls.Contactemail.errors }" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                            <div *ngIf="supplierMasterFormControls.Contactemail.errors" class="invalid-feedback">
+                                <div *ngIf="supplierMasterFormControls.Contactemail.errors.pattern && supplierMasterFormControls.Contactemail.dirty && supplierMasterFormControls.Contactemail.invalid">
+                                    Invalid Email.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Location Latitude</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="SupplierLocationLatitude" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Location Longitude</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="SupplierLocationLongitude" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="align-content: center;">
+            <button type="button" (click)="SaveSupplierMaster()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success btn-sm">
+                                    <i class="fa fa-save" aria-hidden="true"></i> Save
+                                </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+                                </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled " class="btn btn-primary btn-sm">
+                                    <i class="fa fa-broom " aria-hidden="true "></i> Clear
+                                </button>
+            <div *ngIf="error " style="color: red;font-weight: bold; ">{{error}}</div>
+        </div>
+    </form>
+</div>

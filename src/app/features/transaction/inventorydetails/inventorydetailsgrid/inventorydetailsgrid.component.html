@@ -1,0 +1,7 @@
+<div class="card-header">
+    <h3 class="card-title">Inventory Details List</h3>
+</div>
+<button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button class="btn btn-info btn-sm" (click)="DownloadExcel()">Download as Excel</button>
+<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+<org-fat-grid [entity]="name"  (gridData)="allGriddataevent($event)" (totalGriditems)="totalGridItems($event)"></org-fat-grid>

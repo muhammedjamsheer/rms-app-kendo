@@ -1,0 +1,83 @@
+<div style="height: auto;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <div class="content-wrapper">
+            <section class="content" style="padding: 1%;">
+                <!-- left column -->
+                <!-- general form elements -->
+                <div class="col-md-12">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Asset Depreciation</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form [formGroup]="assetDepreciationForm" class="form-horizontal">
+
+                            <div class="card-body col-md-6">
+
+                                <div class="row form-group">
+                                    <label class="col-sm-4 col-form-label">Category Code</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetCategorySelCode" [ngClass]="{ 'is-invalid': submitted && assetDepreciationFormControls.assetCategorySelCode.errors }" name="assetCategorySelCode">
+                      <option selected="selected"></option>
+                      <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                        {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                      </option>
+                    </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <label class="col-sm-4 col-form-label">Sub Category Code</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetSubCategorySelCode" [ngClass]="{ 'is-invalid': submitted && assetDepreciationFormControls.assetSubCategorySelCode.errors }" name="assetSubCategorySelCode">
+                      <option selected="selected"></option>
+                      <option *ngFor="let x of subCategoryCodes" value="{{ x.assetSubCategoryId }}">
+                        {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                      </option>
+                    </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <label class="col-sm-4 col-form-label">Asset Code
+                  </label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="AssetSelCode" [ngClass]="{ 'is-invalid': submitted && assetDepreciationFormControls.AssetSelCode.errors }" name="AssetSelCode">
+                      <option selected="selected"></option>
+                      <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                        {{ x.productCode }} - {{ x.productName }}
+                      </option>
+                    </select>
+
+                                    </div>
+                                </div>
+
+                                <div style="text-align: left;">
+                                    <button type="button" (click)="SearchDepreciation()" class="btn btn-primary">
+                    <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+                    Run Depreciation
+                  </button>
+                                </div>
+                            </div>
+
+                            <!-- /.card-body -->
+
+                            <!-- /.row -->
+
+
+                            <ag-grid-angular #agGrid style="width: 76vw; height: 30vw;padding-left: 15px;" class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs" rowSelection="single" cellSelection="none" animateRows="true" defaultColDef="defaultColDef" suppressCellSelection="true">
+                            </ag-grid-angular>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+</div>

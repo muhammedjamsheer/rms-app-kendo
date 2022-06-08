@@ -1,0 +1,195 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Insurance Details</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form [formGroup]="insuranceDetailsForm" class="form-horizontal">
+
+        <div class="card-body">
+            <div class="row" [hidden]="editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Category Code</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetCategorySelCode" [ngClass]="{ 'is-invalid': submitted && insuranceDetailsFormControls.assetCategorySelCode.errors }" name="assetCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of categoryCodes" value="{{ x.assetCategoryId }}">
+                                    {{ x.assetCategoryCode }} - {{ x.assetCategoryName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Asset Code
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="AssetSelCode" [ngClass]="{ 'is-invalid': submitted && insuranceDetailsFormControls.AssetSelCode.errors }" name="AssetSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                    {{ x.productCode }} - {{ x.productName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="row form-group">
+                        <label class="col-sm-4 col-form-label">Sub Category Code</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetSubCategorySelCode" [ngClass]="{ 'is-invalid': submitted && insuranceDetailsFormControls.assetSubCategorySelCode.errors }" name="assetSubCategorySelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of subCategoryCodes" value="{{ x.assetSubCategoryId }}">
+                                    {{ x.assetSubCategoryCode }} - {{ x.assetSubCategoryName }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group" style="width: 50%; margin-left: 25%; margin-right: 25%;" [hidden]="editMode">
+                <label>Serial Number</label>
+                <select class="duallistbox" multiple="multiple" style="display: none;" formControlName="SerialNumberSelCode" id="SerialNumberSelCode" [ngClass]="{ 'is-invalid': submitted && !isSelectedSerialNumber && insuranceDetailsFormControls.SerialNumberSelCode.errors }"
+                    name="SerialNumberSelCode" required>
+                </select>
+                <div *ngIf="submitted && !isSelectedSerialNumber && insuranceDetailsFormControls.SerialNumberSelCode.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && !isSelectedSerialNumber && insuranceDetailsFormControls.SerialNumberSelCode.errors.required">
+                        Serial Number is required</div>
+                </div>
+
+            </div>
+            <div [hidden]="editMode">
+                <hr>
+            </div>
+            <div class="row" [hidden]="!editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Seraial Number</label>
+                        <div class="col-sm-6">
+                            <label>{{ SerialNumber }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Insurance Start Date *</label>
+                        <div class="col-sm-6">
+                            <div class="input-group date" id="InsuranceStartDate" data-target-input="nearest">
+                                <input type="text" #InsuranceStartDate class="form-control datetimepicker-input" [ngClass]="{ 'is-invalid': submitted && !InsuranceStartDate.value }" data-target="#InsuranceStartDate" />
+                                <div class="input-group-append" data-target="#InsuranceStartDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted && !InsuranceStartDate.value" class="invalid-feedback">
+                                    Insurance Start Date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Insurance Name *
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="InsuranceName" class="form-control" [ngClass]="{ 'is-invalid': submitted && insuranceDetailsFormControls.InsuranceName.errors }" />
+                            <div *ngIf="submitted && insuranceDetailsFormControls.InsuranceName.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && insuranceDetailsFormControls.InsuranceName.errors.required">
+                                    Insurance Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Attach Document</label>
+                        <div class="col-sm-6">
+                            <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.xls,.xlsx" #fileInput>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Insurance End Date *</label>
+                        <div class="col-sm-6">
+                            <div class="input-group date" id="InsuranceEndDate" data-target-input="nearest">
+                                <input type="text" #InsuranceEndDate [ngClass]="{ 'is-invalid': submitted && !InsuranceEndDate.value }" class="form-control datetimepicker-input" data-target="#InsuranceEndDate" />
+                                <div class="input-group-append" data-target="#InsuranceEndDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted && !InsuranceEndDate.value" class="invalid-feedback">
+                                    Insurance End Date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Insurance Cost *
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="InsuranceValue" class="form-control" [ngClass]="{ 'is-invalid': submitted && insuranceDetailsFormControls.InsuranceValue.errors }" pattern="^[0-9]+(.[0-9]{0,2})?$" />
+                            <div *ngIf="submitted && insuranceDetailsFormControls.InsuranceValue.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && insuranceDetailsFormControls.InsuranceValue.errors.required">
+                                    Insurance Cost is required</div>
+                                <div *ngIf="submitted && insuranceDetailsFormControls.InsuranceValue.errors.pattern && insuranceDetailsFormControls.InsuranceValue.dirty && insuranceDetailsFormControls.InsuranceValue.invalid">
+                                    Enter numeric value.</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+            </div>
+            <div class="row col-md-12" [hidden]="!editMode">
+                <div class="col">
+                    <div class="row form-group">
+                        <label class="col-form-label">Download Document</label>
+
+                    </div>
+                    <div class="row">
+                        <label style="color: purple;">{{ insuranceFileName }}</label>
+                        <!-- <button type="button" class="btn btn-secondary" (click)=InsuranceFileDownLoad() style="margin-left: 5px;">Download</button> -->
+                        <div class="input-group-append" *ngIf="insuranceFileName">
+                            <button class="btn btn-navbar" (click)="InsuranceFileDownLoad()" type="submit">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="align-content: center;">
+            <button type="button" (click)="SaveInsuranceDetails()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success btn-sm">
+                <i class="fa fa-save" aria-hidden="true"></i> Save
+            </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+            </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled " class="btn btn-primary btn-sm">
+                <i class="fa fa-broom " aria-hidden="true "></i> Clear
+            </button>
+            <div *ngIf="error " style="color: red;font-weight: bold; ">{{error}}</div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,394 @@
+<div class="card card-info" style="height: calc(100% - 5px);">
+    <div class="card-header">
+        <h3 class="card-title">Receipt</h3>
+    </div>
+    <form [formGroup]="receiptMasterForm" class="form-horizontal">
+        <div>
+            <button type="button" (click)="SaveReceiptMaster()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success btn-sm">
+                <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mb-1"></span> -->
+                <i class="fa fa-save" aria-hidden="true"></i> Save
+            </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+            </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled " class="btn btn-primary btn-sm">
+                <i class="fa fa-broom " aria-hidden="true "></i> Clear
+            </button>
+            <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+        </div>
+        <div class="card-header inner" data-toggle="collapse" data-target="#ReceiptDocDetailsDiv" aria-expanded="true" aria-controls="collapseOne">
+            <h5 class="card-title">Document Details</h5>
+        </div>
+        <div class="card-body" id="ReceiptDocDetailsDiv" name="ReceiptDocDetailsDiv">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Receipt Against *</label>
+                        <div class="col-sm-8">
+                            <select type="text" formControlName="ReceiptAgainst" class="form-control" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.ReceiptAgainst.errors }">
+                                <option value="DeliveryNote">Delivery Note</option>
+                                <option value="PurchaseOrder">Purchase Order</option>
+                                <option value="Invoice">Invoice</option>
+                            </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.ReceiptAgainst.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.ReceiptAgainst.errors.required">
+                                    Receipt Against is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Document No *</label>
+                        <div class="col-sm-8">
+                            <input type="text" formControlName="DocumentNo" class="form-control" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.DocumentNo.errors }" />
+                            <div *ngIf="submitted && receiptMasterFormControls.DocumentNo.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.DocumentNo.errors.required">
+                                    Document No is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Supplier Code *</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="supplierSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.supplierSelCode.errors }" name="supplierSelCode">
+                                <option selected="selected"></option>
+                                <option *ngFor="let x of suppCodes" value="{{ x.supplierId }}">
+                                    {{ x.supplierCode }} - {{ x.supplierName }}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.supplierSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.supplierSelCode.errors.required">
+                                    Supplier Code is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Receipt Date *</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date" id="ReceiptDate" data-target-input="nearest">
+                                <input type="text" #ReceiptDate class="form-control datetimepicker-input" [ngClass]="{ 'is-invalid': submitted && !ReceiptDate.value }" name="RecpDate" data-target="#ReceiptDate" />
+                                <div class="input-group-append" data-target="#ReceiptDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                                <div *ngIf="submitted && !ReceiptDate.value" class="invalid-feedback">
+                                    Receipt Date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Document Date *</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date" id="DocumentDate" data-target-input="nearest">
+                                <input type="text" #DocumentDate class="form-control datetimepicker-input" name="DocDate" [ngClass]="{ 'is-invalid': submitted && !DocumentDate.value }" data-target="#DocumentDate" />
+                                <div class="input-group-append" data-target="#DocumentDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                                <div *ngIf="submitted && !DocumentDate.value" class="invalid-feedback">
+                                    Document Date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-header inner" data-toggle="collapse" data-target="#ReceiptproductDetailsDiv" aria-expanded="true" aria-controls="collapseOne">
+            <h3 class="card-title">Product Info</h3>
+        </div>
+        <div class="card-body" id="ReceiptproductDetailsDiv" name="ReceiptproductDetailsDiv">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Serial No</label>
+                        <div class="col-sm-8">
+                            <label class="col-form-label">{{SerialNo}}</label>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3  col-form-label">Product Code *</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="AssetSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.AssetSelCode.errors }" name="AssetSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of productCodes" value="{{ x.productId }}">
+                                            {{ x.productCode }} - {{ x.productName }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.AssetSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.AssetSelCode.errors.required">
+                                    Product Code is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Product Desc</label>
+                        <div class="col-sm-8">
+                            <label class="col-form-label">{{ productDescription }}</label>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Enter Qty *</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control"  formControlName="EnterQty" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.EnterQty.errors }" pattern="^\d+$" />
+
+                            <div *ngIf="submitted && receiptMasterFormControls.EnterQty.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.EnterQty.errors.required">
+                                    Qauntity is required</div>
+                                <div *ngIf="submitted && receiptMasterFormControls.EnterQty.errors.pattern && receiptMasterFormControls.EnterQty.dirty && receiptMasterFormControls.EnterQty.invalid">
+                                    Enter numeric value.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Purchase Price *</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" formControlName="PurchasePrice" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.PurchasePrice.errors }" pattern="^\d+$" />
+
+                            <div *ngIf="submitted && receiptMasterFormControls.PurchasePrice.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.PurchasePrice.errors.required">
+                                    Purchase Price is required</div>
+                                <div *ngIf="submitted && receiptMasterFormControls.PurchasePrice.errors.pattern && receiptMasterFormControls.PurchasePrice.dirty && receiptMasterFormControls.PurchasePrice.invalid">
+                                    Enter numeric value.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Sup Part Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" formControlName="SupPartNumber" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.SupPartNumber.errors }" />
+                            <div *ngIf="submitted && receiptMasterFormControls.SupPartNumber.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.SupPartNumber.errors.required">
+                                    Supplier Part Number is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Brand Code</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="BrandSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.BrandSelCode.errors }" name="BrandSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of brandCodes" value="{{ x.brandID }}">
+                                            {{ x.brandCode }} - {{ x.brandName }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.BrandSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.BrandSelCode.errors.required">
+                                    Brand Code is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Model Code</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="ModelSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.ModelSelCode.errors }" name="ModelSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of modelCodes" value="{{ x.modelID }}">
+                                            {{ x.modelCode }} - {{ x.modelName }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.ModelSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.ModelSelCode.errors.required">
+                                    Model Code is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Asset Status</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetStatusSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.assetStatusSelCode.errors }" name="assetStatusSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of assetStatusCodes" value="{{ x.value }}">
+                                            {{ x.value }} - {{ x.displayText }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.assetStatusSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.assetStatusSelCode.errors.required">
+                                    Asset Status Code is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Asset Condition</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="assetConditionSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.assetConditionSelCode.errors }" name="assetConditionSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of assetConditionCodes" value="{{ x.value }}">
+                                            {{ x.value }} - {{ x.displayText }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.assetConditionSelCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && receiptMasterFormControls.assetConditionSelCode.errors.required">
+                                    Asset Condition is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Owner Name</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="DepartmentSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.DepartmentSelCode.errors }" name="DepartmentSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of departmentCodes" value="{{ x.departmentID }}">
+                                            {{ x.departmentCode }} - {{ x.departmentName }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.DepartmentSelCode.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="submitted && receiptMasterFormControls.assetConditionSelCode.errors.required">
+                                    Asset Condition is required</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Employee Name</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="EmployeeSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.EmployeeSelCode.errors }" name="EmployeeSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of employeeCodes" value="{{ x.employeeId }}">
+                                            {{ x.employeeCode }} - {{ x.firstName }} {{ x.lastName }} 
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.EmployeeSelCode.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="submitted && receiptMasterFormControls.assetConditionSelCode.errors.required">
+                                    Asset Condition is required</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Location Name</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="LocationSelCode" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.LocationSelCode.errors }" name="LocationSelCode">
+                                        <option selected="selected"></option>
+                                        <option *ngFor="let x of locationCodes" value="{{ x.locationID }}">
+                                            {{ x.locationCode }} - {{ x.locationName }}
+                                        </option>
+                                    </select>
+                            <div *ngIf="submitted && receiptMasterFormControls.LocationSelCode.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="submitted && receiptMasterFormControls.assetConditionSelCode.errors.required">
+                                    Asset Condition is required</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Extrl Tag Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" formControlName="ExtrlTagNumber" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.ExtrlTagNumber.errors }" />
+                            <div *ngIf="submitted && receiptMasterFormControls.ExtrlTagNumber.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="submitted && receiptMasterFormControls.SupPartNumber.errors.required">
+                                    Supplier Part Number is required</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Manufacture SerialNo</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" formControlName="ManufactureSerialNo" [ngClass]="{ 'is-invalid': submitted && receiptMasterFormControls.ManufactureSerialNo.errors }" />
+                            <div *ngIf="submitted && receiptMasterFormControls.ManufactureSerialNo.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="submitted && receiptMasterFormControls.SupPartNumber.errors.required">
+                                    Supplier Part Number is required</div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <jw-modal id="custom-modal-2" >
+                    <!-- <button type="button" (click)="closeModal('custom-modal-2');" style="padding-left: 30px;" class="close"  data-toggle="tooltip" data-placement="top" title="Close">&times;</button> -->
+                    <img src="{{imageUrlAct}}" height="500px" width="fit-content" >                
+            </jw-modal>
+                <button type="button" [hidden]="isReceiptAddHidden" (click)="AddToReceiptGrid()" class="btn btn-primary btn-sm">                        
+                            Add
+                        </button>
+                <button type="button" [hidden]="isReceiptEditHidden" (click)="EditAssetReceipt()" class="btn btn-primary btn-sm">
+                            Edit
+                        </button>
+                <button type="button" [hidden]="isReceiptDeleteHidden" (click)="DeleteAssetReceipt()" class="btn btn-primary btn-sm">
+                            Delete
+                        </button>
+                <button type="button" [hidden]="isReceiptUpdateHidden" (click)="UpdateAssetReceipt()" class="btn btn-primary btn-sm">
+                            Update
+                        </button>
+                <button type="button" [hidden]="isReceiptCancelHidden" (click)="CancelAssetReceipt()" class="btn btn-primary btn-sm">
+                            Cancel
+                        </button>
+                        <button type="button" [hidden]="isRowDetailClickedHidden" (click)="ShowImage('custom-modal-2')" class="btn btn-primary btn-sm">
+                            Show Image
+                        </button>
+                <div *ngIf="errorReceipt" style="color: red;font-weight: bold;">{{errorReceipt}}</div>
+                <ag-grid-angular #agGrid style="width: 100%; height: 15vw;" class="ag-theme-alpine" [rowData]="rowReceiptData" [columnDefs]="columnReceiptDefs" rowSelection="single" cellSelection="none" animateRows="true" defaultColDef="defaultColDef" (rowClicked)="onReceiptRowClick($event)"
+                suppressCellSelection="true">
+            </ag-grid-angular>
+            </div>
+
+        </div>
+        <!-- /.row -->
+       
+        <div class="card inner">
+            <div class="card-header inner" data-toggle="collapse" data-target="#Attachments" aria-expanded="true" aria-controls="collapseOne">
+                <h3 class="card-title">Documents</h3>
+            </div>
+            <div class="collapse" id="Attachments" name="Attachments">
+                <div class="row">
+                    <div class="col">
+                        <div class="row form-group">
+                            <label class="col-sm-5 col-form-label">Attach Document</label>
+                            <div class="col-sm-6">
+                                <input formControlName="fileInputDoc" type="file" ng2FileSelect accept=".doc,.docx,.xls,.xlsx,.pdf" [uploader]="uploader" multiple [disabled]="viewMode" /><br />
+                                <br>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th width="90%">
+                                                File Name
+                                            </th>
+                                            <th width="10%">
+                                                Remove
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of uploader.queue">
+                                            <th width="90%">
+                                                {{ item?.file?.name }} ( {{item?.file?.size/1024/1024 | number:'.2' }} MB)
+                                            </th>
+                                            <th class="text-center" width="10%">
+                                                <i class="fa fa-delete"></i>
+                                                <button class="btn btn-navbar" (click)="item.remove()" type="submit">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" [hidden]="!editMode">
+                            <div class="col">
+                                <div class="row form-group">
+                                    <label class="col-form-label">Download Document</label>
+                                </div>
+                                <div class="input-group input-group-sm" *ngFor="let item of downloadDocumentsList">
+                                    <label style="color: purple;">{{ item }}</label>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-navbar" (click)="RegisterFileDownLoad(item)" type="submit">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+    </form>
+  
+</div>

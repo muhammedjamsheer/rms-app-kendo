@@ -1,0 +1,54 @@
+<div class="card card-info" style="height: calc(100% - 5px);">
+    <div class="card-header">
+        <h3 class="card-title">Transfer Verification</h3>
+    </div>
+    <div>
+        <button type="button" (click)="ApproveTransferRequest(50)" [disabled]="loading || !isAddedGridRowSelected" class="btn btn-success btn-sm">
+            Approve
+        </button>
+        <!-- <button type="button" (click)="ApproveTransferRequest(40)" [disabled]="loading || isbtnSaveDisabled" class="btn btn-danger btn-sm">
+            Hold
+        </button> -->
+        <button type="button" (click)="ShowGrid()" class="btn btn-info btn-sm">
+            Back
+        </button>
+        <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
+    </div>
+    <form [formGroup]="transferRequestVerificationForm" class="form-horizontal">
+
+        <div class="card-header inner">
+            <h3 class="card-title">Transfer Details</h3>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-4 col-form-label">Transfer Date</label>
+                    <input type="text" class="col-sm-8 form-control" value="{{requestData.transferDate | date: 'dd-MMM-yyyy'}}" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-4 col-form-label">Remarks</label>
+                    <input type="text" class="col-sm-8 form-control" value="{{requestData.remarks}}" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-4 col-form-label">To Employee</label>
+                    <input type="text" class="col-sm-8 form-control" value="{{requestData.toEmpCode}}-{{requestData.toEmpFirstName}} {{requestData.toEmpLastName}}" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row form-group">
+                    <label class="col-sm-4 col-form-label">To Location</label>
+                    <input type="text" class="col-sm-8 form-control" value="{{requestData.toLocationCode}}-{{requestData.toLocationName}}" readonly/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ag-grid-angular #agGrid style="width:100%;height:calc(100% - 20px);" class="ag-theme-alpine" [rowData]="rowRequestData" [columnDefs]="columnRequestDefs" rowSelection="multiple" cellSelection="none" animateRows="true" defaultColDef="defaultColDef" (gridReady)="onGridReady($event)"
+        suppressCellSelection="true"  (selectionChanged)="onDataGridSelectionChanged($event)" [defaultColDef]="{resizable: true}">
+    </ag-grid-angular>
+</div>

@@ -1,0 +1,33 @@
+export class MaintenanceItemsLine {
+    maintenanceId!: number;
+    serialNo!: string;
+    amount!: number;
+    remarks!: string;
+    maintenanceDate!: Date;
+    status!: number;
+    assetStatusId!: number;
+    assetConditionId!: number;
+    imageIds!: string;
+    productId!: number;
+    productCode!: string;
+    productName!: string;
+    productDescription!: string;
+    brandId!: number;
+    brandCode!: string;
+    brandName!: string;
+    modelId!: number;
+    modelCode!: string;
+    modelName!: string;
+    currentStatusId!: number;
+    currentConditionId!: number;
+    currentStatusText!: string;
+    currentConditionText!: string;
+    statusText!: string;
+    conditionText!: string;
+    companyID!: number;
+    isDeleted!: false;
+    createdBy!: string;
+    createdDate!: Date;
+    modifiedBy!: string;
+    modifiedDate!: Date;
+}

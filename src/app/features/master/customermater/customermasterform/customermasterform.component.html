@@ -1,0 +1,121 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Customer Master</h3>
+    </div>
+    <form [formGroup]="customerMasterForm" class="form-horizontal">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Customer Code *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="CustomerCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.CustomerCode.errors }"  />
+                            <div *ngIf="customerMasterFormControls.CustomerCode.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && customerMasterFormControls.CustomerCode.errors.required">
+                                    Customer Code is required</div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Customer Name *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="CustomerName" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.CustomerName.errors }"  />
+                            <div *ngIf="customerMasterFormControls.CustomerName.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && customerMasterFormControls.CustomerName.errors.required">
+                                    Customer Name is required</div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Address Line 1 *</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="AddressLine1" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.AddressLine1.errors }" />
+                            <div *ngIf="customerMasterFormControls.AddressLine1.errors" class="invalid-feedback">
+                                <div *ngIf="submitted && customerMasterFormControls.AddressLine1.errors.required">
+                                    Address Line 1 is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Address Line 2</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="AddressLine2" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Website</label>
+                        <div class="col-sm-6">
+                            <input type="URL" formControlName="CustomerWebsite" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Contact Person</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ContactPerson" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.ContactPerson.errors }"  />
+                            <div *ngIf="customerMasterFormControls.ContactPerson.errors" class="invalid-feedback">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Designation</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ContactPersonDesignation" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.ContactPersonDesignation.errors }"  />
+                            <div *ngIf="customerMasterFormControls.ContactPersonDesignation.errors" class="invalid-feedback">
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Contact Number</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="ContactNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.ContactNumber.errors }" pattern="[- +()0-9]+" />
+                            <div *ngIf="customerMasterFormControls.ContactNumber.errors" class="invalid-feedback">
+                                <div *ngIf="customerMasterFormControls.ContactNumber.errors.pattern && customerMasterFormControls.ContactNumber.dirty && customerMasterFormControls.ContactNumber.invalid">
+                                    Invalid Contact Number.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Contact Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" formControlName="Contactemail" class="form-control" [ngClass]="{ 'is-invalid': submitted && customerMasterFormControls.Contactemail.errors }" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                            <div *ngIf="customerMasterFormControls.Contactemail.errors" class="invalid-feedback">
+                                <div *ngIf="customerMasterFormControls.Contactemail.errors.pattern && customerMasterFormControls.Contactemail.dirty && customerMasterFormControls.Contactemail.invalid">
+                                    Invalid Email.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Location Latitude</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="CustomerLocationLatitude" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-5 col-form-label">Location Longitude</label>
+                        <div class="col-sm-6">
+                            <input type="text" formControlName="CustomerLocationLongitude" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="align-content: center;">
+            <button type="button" (click)="SaveCustomerMaster()" [disabled]="loading || isbtnSaveDisabled" class="btn btn-success btn-sm">
+                                    <i class="fa fa-save" aria-hidden="true"></i> Save
+                                </button>
+            <button type="button" (click)="ShowGrid()" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i> Back
+                                </button>
+            <button type="button" (click)="ClearContents()" [disabled]=" isbtnClearDisabled " class="btn btn-primary btn-sm">
+                                    <i class="fa fa-broom " aria-hidden="true "></i> Clear
+                                </button>
+            <div *ngIf="error " style="color: red;font-weight: bold; ">{{error}}</div>
+        </div>
+    </form>
+</div>
