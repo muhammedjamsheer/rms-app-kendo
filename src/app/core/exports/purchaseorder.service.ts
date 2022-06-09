@@ -49,7 +49,7 @@ export class PurchaseorderService {
     return content
   }
   getVoucherTable() {
-    var tablewidth = [25, 60, 60, '*', 60, 60, 60, 60,60,60,60];
+    var tablewidth = [25, 60, 60, '*', 60, 60, 60, 60, 60, 60, 60];
     let body = []
     let header = [
       {
@@ -109,25 +109,26 @@ export class PurchaseorderService {
       },
     ];
     body.push(header);
-    for (let index = 0; index < this.details.length; index++) {
-      const item = this.details[index];
-      var tabledata = [
-        { text: index + 1, alignment: 'left', style: 'normalText' },
-        { text: item.productId, alignment: 'left', style: 'normalText' },
-        { text: item.productCode, alignment: 'left', style: 'normalText' },
-        { text: item.poLineDescription, alignment: 'left', style: 'normalText' },
-        { text: item.uomCode, alignment: 'left', style: 'normalText' },
-        { text: item.uomQnty, alignment: 'left', style: 'normalText' },
-        { text: item.orderQty, alignment: 'left', style: 'normalText' },
-        { text: item.receivedQnty, alignment: 'left', style: 'normalText' },
-        { text: item.pendingQnty, alignment: 'left', style: 'normalText' },
-        { text: item.price, alignment: 'left', style: 'normalText' },
-        { text: item.priceAfterVAT, alignment: 'left', style: 'normalText' },
-      ]
-      body.push(tabledata);
+
+    if (this.details.length > 0) {
+      for (let index = 0; index < this.details.length; index++) {
+        const item = this.details[index];
+        var tabledata = [
+          { text: index + 1, alignment: 'left', style: 'normalText' },
+          { text: item.productId, alignment: 'left', style: 'normalText' },
+          { text: item.productCode, alignment: 'left', style: 'normalText' },
+          { text: item.poLineDescription, alignment: 'left', style: 'normalText' },
+          { text: item.uomCode, alignment: 'left', style: 'normalText' },
+          { text: item.uomQnty, alignment: 'left', style: 'normalText' },
+          { text: item.orderQty, alignment: 'left', style: 'normalText' },
+          { text: item.receivedQnty, alignment: 'left', style: 'normalText' },
+          { text: item.pendingQnty, alignment: 'left', style: 'normalText' },
+          { text: item.price, alignment: 'left', style: 'normalText' },
+          { text: item.priceAfterVAT, alignment: 'left', style: 'normalText' },
+        ]
+        body.push(tabledata);
+      }
     }
-
-
     return {
       layout: {
         hLineColor: function (i, node) {

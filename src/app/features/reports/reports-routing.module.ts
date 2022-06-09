@@ -34,7 +34,10 @@ const routes: Routes = [{ path: '', component: ReportsComponent },
 { path: 'employeewisereport', component: EmployeewisereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.employeewisereport} },
 { path: 'assethistoryreport', component: AssethistoryreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.assethistoryreport} },
 { path: 'productsummaryreport', component: ProductsummaryreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.productsummaryreport} },
-{ path: 'purchaseorderreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.purchaseorderreport} }
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+{ path: 'purchaseorderreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.purchaseorderreport} },
+{ path: 'purchaseorderreturnreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.purchaseorderreport} }
+
 
 
 

@@ -58,14 +58,13 @@ export class InboundService {
     return data;
   }
 
-
-
   getpurchaseorderSummary(id: number) {
     return this.http.get<any>(this.apidetUrl + '/' + id, this.httpOptions).pipe(tap((res: any) => {
       return res;
     }));
   }
 
+  //purchase return
 
   async getPurchaseReturn() {
     if (!(this.purchasereturncahe.length > 0)) {
@@ -91,5 +90,13 @@ export class InboundService {
       return res;
     }));
   }
-
+  getPurchaseReturnReport(filters: InboundFilter): Observable<PurchaseOrderHeader[]> {
+    this.filters = filters;
+    return this.http.get<PurchaseOrderHeader[]>(
+      this.apidetUrl + "/PoreturnHeader", { params: prepareHttpParams(filters) })
+      .pipe(tap((res: PurchaseOrderHeader[]) => {
+        this.dataCache = res;
+        return res;
+      }));
+  }
 }
