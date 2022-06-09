@@ -19,7 +19,7 @@ export class InboundService {
   private apiUrl = `${environment.apiUrl}/PurchaseOrder/PoHeaders`;
   private apidetUrl = `${environment.apiUrl}/PurchaseOrder`;
   private apiprintUrl = `${environment.apiUrl}/PurchaseOrder/PoPrintLines`;
-
+  private apiposummary = `${environment.apiUrl}/purchaseOrder/posummary`;
 
 
   headers = new HttpHeaders()
@@ -59,7 +59,7 @@ export class InboundService {
   }
 
   getpurchaseorderSummary(id: number) {
-    return this.http.get<any>(this.apidetUrl + '/' + id, this.httpOptions).pipe(tap((res: any) => {
+    return this.http.get<any>(this.apiposummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
       return res;
     }));
   }
@@ -84,11 +84,6 @@ export class InboundService {
       this.purchasereturncahe = data;
     }
     return this.purchasereturncahe;
-  }
-  getPurchaseReturndetails(id: number) {
-    return this.http.get<any>(this.apidetUrl + "/" + id, this.httpOptions).pipe(tap((res: any) => {
-      return res;
-    }));
   }
   getPurchaseReturnReport(filters: InboundFilter): Observable<PurchaseOrderHeader[]> {
     this.filters = filters;

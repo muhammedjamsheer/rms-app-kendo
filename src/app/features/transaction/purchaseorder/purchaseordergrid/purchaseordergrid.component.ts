@@ -54,7 +54,7 @@ export class PurchaseordergridComponent implements OnInit {
   }
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/purchasereturn/view', this.selectedNodes.poNumber]);
+    this.router.navigate(['/purchasereturn/view', this.selectedNodes.poId]);
   }
   triggerClick() {
     let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;

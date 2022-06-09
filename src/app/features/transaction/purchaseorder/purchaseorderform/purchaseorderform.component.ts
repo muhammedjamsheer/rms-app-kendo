@@ -1,16 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InboundService } from '../../../../core/service/inbound.service';
-import { ColDef, ValueParserParams } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PickListModel } from 'src/app/shared/model/sales-order';
-import { SaveAlert } from '../../../../shared/commonalerts/savealert';
-import { Subscription } from 'rxjs';
-import { PicklistService } from '../../../../core/service/picklist.service';
-import { ExportService } from '../../../../core/exports/export.service';
-import { CustomerMasterService } from '../../../../core/service/customermaster.service';
-import { CommonService } from 'src/app/core/service/common.service';
+
 
 @Component({
   selector: 'org-rms-purchaseorderform',
@@ -19,7 +12,7 @@ import { CommonService } from 'src/app/core/service/common.service';
 })
 export class PurchaseorderformComponent implements OnInit {
   @ViewChild('agGrid') agGrid!: AgGridAngular;
-  ponumber !: number;
+  poId !: number;
   purchaseorderdata: any[] = []
   columnDefs: ColDef[] = [
     {
@@ -47,13 +40,13 @@ export class PurchaseorderformComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['id'] != undefined) {
-        this.ponumber = Number(params['id']);
+        this.poId = Number(params['id']);
       }
     });
     this.getPurchaseOrderdetails();
   }
   getPurchaseOrderdetails() {
-    this.inboundService.getPurchaseReturndetails(this.ponumber).subscribe({
+    this.inboundService.getpurchaseorderSummary(this.poId).subscribe({
       next: (data: any[]) => {
         this.purchaseorderdata = data;
       },

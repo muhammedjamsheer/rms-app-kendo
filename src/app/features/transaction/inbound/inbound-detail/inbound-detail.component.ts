@@ -151,7 +151,7 @@ export class InboundDetailComponent implements OnInit, OnChanges {
       return
     } else {
       selectedData.forEach(element => {
-        if (isNaN(element.noOfLabels) || Number(element.noOfLabels) <= 0 || Number(element.noOfLabels) > Number(element.orderQty)) {
+        if (isNaN(element.noOfLabels) || Number(element.noOfLabels) <= 0 || Number(element.noOfLabels) > Number(element.qntyValidate)) {
           this.showvalidation = true;
           this.validationmessage = "* Please enter a valid label count for productid " + element.productId;
           return

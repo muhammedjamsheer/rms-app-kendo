@@ -40,6 +40,7 @@ export interface PurchaseDocumentLines {
         taxCode: string,
         uomQty: string,
         noOfLabels: number,
+        qntyValidate: number,
         print: string,
         price:string,
         priceAfterVAT: string,
