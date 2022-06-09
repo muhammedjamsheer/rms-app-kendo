@@ -30,7 +30,7 @@ export class ExportService {
     private receiptprintService: ReceiptprintService,
     private shipmemtprintService: ShipmemtprintService,
     private purchaseorderService: PurchaseorderService,
-    
+
   ) { }
 
   generatePdf(exportdata) {
@@ -69,7 +69,7 @@ export class ExportService {
         break;
       }
 
-      
+
     }
     this.docDefinition = {
       pageMargins: [30, 60, 30, 50],
@@ -146,6 +146,9 @@ export class ExportService {
     }
     if (printtype == "productmaster") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Inventory Uom', 'Category']
+    }
+    if (printtype == "purchaseorder") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Order Qty', 'Received Qty', 'Pending Qty', 'Price', 'Price after Vat']
     }
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -278,6 +281,25 @@ export class ExportService {
     if (printtype == "productmaster") {
       griddata.forEach((element, index) => {
         let rowdata = [index + 1, element.productId, element.productCode, element.productDescription, element.inventoryUOM, element.category]
+        const row = worksheet.addRow(rowdata);
+        row.eachCell(function (cell, number) {
+          cell.alignment = {
+            horizontal: 'left'
+          }
+        })
+      });
+      for (let i = 0; i < worksheet.columns.length; i += 1) {
+        const column = worksheet.columns[i];
+        if (i == 0) {
+          column.width = 15;
+        } else if (i == 3) { column.width = 50; } else { column.width = 30; }
+      }
+    }
+
+
+    if (printtype == "purchaseorder") {
+      griddata.forEach((element, index) => {
+        let rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty,   element.orderQty, element.receivedQnty, element.pendingQnty, element.price, element.priceAfterVAT]
         const row = worksheet.addRow(rowdata);
         row.eachCell(function (cell, number) {
           cell.alignment = {

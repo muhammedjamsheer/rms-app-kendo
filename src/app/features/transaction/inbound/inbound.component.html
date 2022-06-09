@@ -69,11 +69,14 @@
                 <input type="search" class="form-control full-width" placeholder="Search by PO Number"
                     (input)="onSearch($event)" />
             </div>
+            <span class="gridsummary" *ngIf="filteredData!=undefined &&  filteredData.length>0">Total Items :
+                {{filteredData.length}}</span>
             <div class="doc-header">
                 <button style="display: none;" #ViewButton type="button" (click)="triggerClick()"
                     class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
                     View
                 </button>
+
                 <app-inbound-head [filteredData]="filteredData"
                     [selectedIdInput]="SelectedDoc ? SelectedDoc.poNumber : 'none'" (docSelected)="docSelected($event)">
                 </app-inbound-head>
@@ -93,9 +96,6 @@
                                 <app-inbound-detail [docHeader]="SelectedDoc"
                                     (printedDocument)="onprintDocument($event)"></app-inbound-detail>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

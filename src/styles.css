@@ -472,3 +472,9 @@ body {
     margin-right: 5px;
     font-weight: bold;
 }
+
+.btn-primary {
+    background-color: #317589 !important;
+    border-color: #317589 !important;
+}
+

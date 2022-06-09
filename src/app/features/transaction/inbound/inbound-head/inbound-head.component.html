@@ -1,4 +1,5 @@
 
+
 <table class="table table-sm ">
   <thead>
     <tr>
@@ -15,18 +16,29 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="card-doc" *ngFor="let docHeaderInput of filteredData" (click)="onItemClick(docHeaderInput)"
-      [ngClass]="{'selected': selectedIdInput==docHeaderInput.poNumber, 'pending': docHeaderInput.docStatus=='Pending', 'completed': docHeaderInput.docStatus=='Completed'}">
-      <td>{{docHeaderInput.poNumber}}</td>
-      <td>{{docHeaderInput.poEntry}}</td>
-      <td>{{docHeaderInput.warehouse}}</td>
-      <td>{{docHeaderInput.poDate | date :'dd-MM-yyyy' }}</td>
-      <td>{{docHeaderInput.poDueDate | date :'dd-MM-yyyy'}}</td>
-      <td>{{docHeaderInput.notes}}</td>
-      <td>{{docHeaderInput.createdBy}}</td>
-      <td>{{docHeaderInput.createdDate | date :'dd-MM-yyyy'}}</td>
-      <td>{{docHeaderInput.modifiedBy}}</td>
-      <td>{{docHeaderInput.modifiedDate | date :'dd-MM-yyyy'}}</td>
-    </tr>
+    <ng-container *ngIf="filteredData!=undefined &&  filteredData.length>0  else loading">
+      <tr class="card-doc" *ngFor="let docHeaderInput of filteredData" (click)="onItemClick(docHeaderInput)"
+        [ngClass]="{'selected': selectedIdInput==docHeaderInput.poNumber, 'pending': docHeaderInput.docStatus=='Pending', 'completed': docHeaderInput.docStatus=='Completed'}">
+        <td>{{docHeaderInput.poNumber}}</td>
+        <td>{{docHeaderInput.poEntry}}</td>
+        <td>{{docHeaderInput.warehouse}}</td>
+        <td>{{docHeaderInput.poDate | date :'dd-MM-yyyy' }}</td>
+        <td>{{docHeaderInput.poDueDate | date :'dd-MM-yyyy'}}</td>
+        <td>{{docHeaderInput.notes}}</td>
+        <td>{{docHeaderInput.createdBy}}</td>
+        <td>{{docHeaderInput.createdDate | date :'dd-MM-yyyy'}}</td>
+        <td>{{docHeaderInput.modifiedBy}}</td>
+        <td>{{docHeaderInput.modifiedDate | date :'dd-MM-yyyy'}}</td>
+      </tr>
+    </ng-container>
+    <ng-template #loading>
+      <tr>
+        <td colspan="10" style="text-align:center">
+          <span>No Rows To Show</span>
+        </td>
+      </tr>
+
+    </ng-template>
+
   </tbody>
 </table>

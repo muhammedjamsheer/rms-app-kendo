@@ -88,11 +88,11 @@ export class PurchaseorderreportComponent implements OnInit {
   async GetScreenDetails(type) {
     switch (type) {
       case 'purchaseorderreport':
-        this.screenName = "Purchase Order Report List";
+        this.screenName = "Purchase Order Report";
         this.isPurchaseOrder = true;
         break;
       case 'purchaseorderreturnreport':
-        this.screenName = "Purchase Order Return Report List";
+        this.screenName = "Purchase Order Return Report";
         this.isPurchaseReturn = true;
         break;
     }
@@ -116,7 +116,6 @@ export class PurchaseorderreportComponent implements OnInit {
         if (data == null) { this.rowData = [] }
         else { this.rowData = data; }
         this.loading = false;
-        debugger;
       },
       error: (err => { this.loading = false; }),
       complete: () => { this.loading = false; }
@@ -155,10 +154,17 @@ export class PurchaseorderreportComponent implements OnInit {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
       printtype: 'purchaseorder',
-      title: this.isPurchaseOrder ? 'Purchase Order Summary Report' : 'Purchase Order Return Summary Report'
+      title: this.screenName
     }
     this.exportService.generatePdf(data);
-
   };
-
+  getExcel() {
+    var data = {
+      headerdata: this.selectedHeader,
+      griddata: this.summaryLines,
+      printtype: 'purchaseorder',
+      title: this.screenName
+    }
+    this.exportService.generateExcel(data);
+  };
 }
