@@ -2,21 +2,14 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { ColDef } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { DatePipe } from '@angular/common';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PurchaseDocumentLines, PurchaseOrderHeader } from '../../../../shared/model/inbound.model';
 import { InboundService } from '../../../../core/service/inbound.service';
-import { DownloadService } from '../../../../core/service/download.service';
-import { dateFormatter } from 'src/app/_helpers/utils';
-import { Observable } from 'rxjs';
 import { PrintLabelService } from 'src/app/core/service/printlabel.service';
 import { CommonService } from 'src/app/core/service/common.service';
-import jsPDF from 'jspdf';
-import * as XLSX from 'xlsx';
-import html2canvas from 'html2canvas';
 declare var $: any;
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { Console } from 'console';
+
 @Component({
   selector: 'app-inbound-detail',
   templateUrl: './inbound-detail.component.html',
@@ -27,8 +20,9 @@ export class InboundDetailComponent implements OnInit, OnChanges {
   rowcountform!: FormGroup;
   @ViewChild('agGrid') agGrid!: AgGridAngular;
   @Input() docHeader!: PurchaseOrderHeader;
+  @Input() detailLines!: PurchaseDocumentLines[];
   @Output() printedDocument = new EventEmitter<boolean>();
-  detailLines!: PurchaseDocumentLines[];
+
   imageSource!: any;
   imageId!: string;
   TotalQnty: any
@@ -90,44 +84,19 @@ export class InboundDetailComponent implements OnInit, OnChanges {
   private async getLabelDesign() {
     this.printLabelDesignCodes = await this.printLabelService.getPrintLabelDesign();
     if (this.printLabelDesignCodes.length == 1) {
-      this.rowcountformcontrol.PrintTemplateSelCode.setValue(this.printLabelDesignCodes[0]);
+      this.formcontrols.PrintTemplateSelCode.setValue(this.printLabelDesignCodes[0]);
     }
   }
   async ngOnInit(): Promise<void> {
-    this.onRefresh();
-  }
-  get rowcountformcontrol() { return this.rowcountform.controls; }
 
+  }
   ngOnChanges(_changes: SimpleChanges): void {
-   this.onRefresh();
-
-  }
-  countDisplayedRows(params: any) {
-    // this.lblName = params.api.getDisplayedRowCount();
-    // console.log(params.api.getDisplayedRowCount());
 
   }
   get formcontrols() { return this.rowcountform.controls; }
+
   onGridReady(params: any) {
     this.gridApi = params.api;
-  }
-
-  onRefresh() {
-    this.service.getDocumentprintDetails(this.docHeader.poNumber).subscribe(
-      (data: PurchaseDocumentLines[]) => {
-        this.detailLines = data;
-        let Qnty = 0
-        for (let data of this.detailLines) {
-          //Qnty += data.quantity;
-
-        }
-        this.TotalQnty = Qnty;
-        console.log(data.length);
-      },
-      (err => { console.error(err) }));
-  }
-  onPrintRowClick(event: any) {
-
   }
   onChangePrintTemplate(event: any) {
     this.onSelectionChanged(event)
@@ -166,7 +135,7 @@ export class InboundDetailComponent implements OnInit, OnChanges {
     this.startprinting = true;
     var printZPL = '';
     var finalZPL = '';
-    var designContent = await this.printLabelService.getPrintLabelDesignData(this.rowcountformcontrol.PrintTemplateSelCode.value);
+    var designContent = await this.printLabelService.getPrintLabelDesignData(this.formcontrols.PrintTemplateSelCode.value);
     designContent = designContent.replace(/\r?\n|\r/g, "</br>");
     var index = selectedData.length;
     var startedindex = 1;
@@ -233,6 +202,4 @@ export class InboundDetailComponent implements OnInit, OnChanges {
     this.submitted = false
     this.startprinting = false;
   }
-
-
 }

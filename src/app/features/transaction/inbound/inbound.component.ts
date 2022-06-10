@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PurchaseOrderHeader } from '../../../shared/model/inbound.model';
 import { InboundService } from '../../../core/service/inbound.service';
 import { getTodayEndTime, getTodayStartTime } from 'src/app/_helpers/utils';
 import { CustomerMasterService } from '../../../core/service/customermaster.service';
+import { PurchaseDocumentLines, PurchaseOrderHeader } from '../../../shared/model/inbound.model';
+
 declare var $: any;
 @Component({
   selector: 'app-inbound',
@@ -18,6 +19,7 @@ export class InboundComponent implements OnInit {
   showFilters: boolean = true;
   loading: boolean = false;
   customerlist: any[] = []
+  detailLines!: PurchaseDocumentLines[];
 
   constructor(private service: InboundService, private formBuilder: FormBuilder, private customerMasterService: CustomerMasterService,) {
     this.filterForm = this.formBuilder.group({
@@ -56,15 +58,19 @@ export class InboundComponent implements OnInit {
   get formcontrols() { return this.filterForm.controls; }
   fetchData() {
     this.loading = true;
-    this.service.getDocumentHeaders(this.filterForm.value)
-      .subscribe({
-        next: (data: PurchaseOrderHeader[]) => {
+    this.service.getDocumentHeaders(this.filterForm.value).subscribe({
+      next: (data: PurchaseOrderHeader[]) => {
+        if (data == null) {
+          this.localData = [];
+          this.filteredData = [];
+        } else {
           this.localData = data;
           this.filteredData = data;
-        },
-        error: (err => { console.error(err) }),
-        complete: () => { this.loading = false; }
-      });
+        }
+      },
+      error: (err => { console.error(err) }),
+      complete: () => { this.loading = false; }
+    });
   }
 
   onReset() {
@@ -75,6 +81,14 @@ export class InboundComponent implements OnInit {
 
   docSelected(userClickedDoc: PurchaseOrderHeader) {
     this.SelectedDoc = userClickedDoc;
+    this.detailLines = [];
+    this.service.getDocumentprintDetails(this.SelectedDoc.poNumber).subscribe(
+      (data: PurchaseDocumentLines[]) => {
+        if (data != null && data.length > 0) {
+          this.detailLines = data;
+        }
+      },
+      (err => { console.error(err) }));
     this.triggerClick();
   }
 
