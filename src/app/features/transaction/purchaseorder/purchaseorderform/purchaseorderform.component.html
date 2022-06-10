@@ -3,7 +3,7 @@
 </div>
 <div class="card-body">
     <button routerLink="/purchasereturn" class="btn btn-info btn-sm">Back</button>
-
+    <span class="gridsummary">Total Items : {{purchaseorderdata.length}}</span>
     <div class="canvas_div_pdf">
         <ag-grid-angular #agGrid style="width: 100%; height: 80vh;" class="ag-theme-alpine" [columnDefs]="columnDefs"
             rowHeight="50" [rowData]="purchaseorderdata" cellSelection="none" animateRows="true"
@@ -11,5 +11,4 @@
             (onGridReady)="onGridReady($event)">
         </ag-grid-angular>
     </div>
-
 </div>

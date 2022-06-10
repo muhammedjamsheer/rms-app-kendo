@@ -20,7 +20,7 @@ export class InboundService {
   private apidetUrl = `${environment.apiUrl}/PurchaseOrder`;
   private apiprintUrl = `${environment.apiUrl}/PurchaseOrder/PoPrintLines`;
   private apiposummary = `${environment.apiUrl}/purchaseOrder/posummary`;
-
+  private apiporeturnsummary = `${environment.apiUrl}/purchaseOrder/poreturnSummary`;
 
   headers = new HttpHeaders()
     .set('Authorization', "Bearer " + this.token)
@@ -63,9 +63,7 @@ export class InboundService {
       return res;
     }));
   }
-
   //purchase return
-
   async getPurchaseReturn() {
     if (!(this.purchasereturncahe.length > 0)) {
       const data = await this.http.get<any[]>(this.apidetUrl + "/PoreturnHeader", this.httpOptions).toPromise();
@@ -84,6 +82,11 @@ export class InboundService {
       this.purchasereturncahe = data;
     }
     return this.purchasereturncahe;
+  }
+  getpurchaseorderReturnSummary(id: number) {
+    return this.http.get<any>(this.apiporeturnsummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
   }
   getPurchaseReturnReport(filters: InboundFilter): Observable<PurchaseOrderHeader[]> {
     this.filters = filters;

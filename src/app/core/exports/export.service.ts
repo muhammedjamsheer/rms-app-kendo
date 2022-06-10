@@ -125,6 +125,7 @@ export class ExportService {
     const title = exportdata.title;
     const griddata: any[] = exportdata.griddata
     const printtype = exportdata.printtype;
+    const reporttype = exportdata.reporttype;
     var gridheader = []
     if (printtype == "receiptsummary") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Batch No. ', 'UOM Code', 'UOM Qty', 'Purchase Price']
@@ -147,12 +148,17 @@ export class ExportService {
     if (printtype == "productmaster") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Inventory Uom', 'Category']
     }
-    if (printtype == "purchaseorder") {
+    if (printtype == "purchaseorder" && reporttype == "purchaseorder") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Order Qty', 'Received Qty', 'Pending Qty', 'Price', 'Price after Vat']
     }
+    if (printtype == "purchaseorder" && reporttype == "purchaseorderreturn") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Return', 'Returned Qty', 'Pending Qty', 'Price', 'Price after Vat']
+    }
+
+
     //Create a workbook with a worksheet
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Sales Data');
+    let worksheet = workbook.addWorksheet(title);
     //Add  titleRow
     const arraylength = gridheader.length;
     const titleRow = worksheet.addRow([title]);
@@ -298,8 +304,14 @@ export class ExportService {
 
 
     if (printtype == "purchaseorder") {
+      let rowdata = []
       griddata.forEach((element, index) => {
-        let rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty,   element.orderQty, element.receivedQnty, element.pendingQnty, element.price, element.priceAfterVAT]
+        if (reporttype == "purchaseorder") {
+          rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty, element.orderQty, element.receivedQnty, element.pendingQnty, element.price, element.priceAfterVAT]
+        }
+        if (reporttype == "purchaseorderreturn") {
+          rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty, element.qntytobeReturn, element.returnedQnty, element.pendingQnty, element.price, element.priceAfterVAT]
+        }
         const row = worksheet.addRow(rowdata);
         row.eachCell(function (cell, number) {
           cell.alignment = {

@@ -10,7 +10,8 @@ export class PurchaseorderService {
   shortdateFormat = environment.shortdateformatpipe;
   details: any[] = []
   headerdetails: any;
-  printtype!: string
+  printtype!: string;
+  reporttype!: string;
   constructor(
     private datePipe: DatePipe,
 
@@ -19,6 +20,10 @@ export class PurchaseorderService {
     this.details = exportdata.griddata;
     this.headerdetails = exportdata.headerdata;
     this.printtype = exportdata.printtype;
+    this.reporttype = exportdata.reporttype;
+
+    debugger;
+
     let content = [
       {
         columns: [
@@ -83,16 +88,6 @@ export class PurchaseorderService {
         alignment: 'left'
       },
       {
-        text: 'Order Qty',
-        style: 'tableHeader',
-        alignment: 'left'
-      },
-      {
-        text: 'Received Qty',
-        style: 'tableHeader',
-        alignment: 'left'
-      },
-      {
         text: 'Pending Qty',
         style: 'tableHeader',
         alignment: 'left'
@@ -108,8 +103,35 @@ export class PurchaseorderService {
         alignment: 'left'
       },
     ];
-    body.push(header);
 
+    if (this.reporttype == "purchaseorder") {
+      header.splice(6, 0,
+        {
+          text: 'Order Qty',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+        {
+          text: 'Received Qty',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+      )
+    } else {
+      header.splice(6, 0,
+        {
+          text: 'Qty to be Return',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+        {
+          text: 'Returned Qty',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+      )
+    }
+    body.push(header);
     if (this.details.length > 0) {
       for (let index = 0; index < this.details.length; index++) {
         const item = this.details[index];
@@ -119,13 +141,23 @@ export class PurchaseorderService {
           { text: item.productCode, alignment: 'left', style: 'normalText' },
           { text: item.poLineDescription, alignment: 'left', style: 'normalText' },
           { text: item.uomCode, alignment: 'left', style: 'normalText' },
-          { text: item.uomQnty, alignment: 'left', style: 'normalText' },
-          { text: item.orderQty, alignment: 'left', style: 'normalText' },
-          { text: item.receivedQnty, alignment: 'left', style: 'normalText' },
+          { text: item.uomQty, alignment: 'left', style: 'normalText' },
           { text: item.pendingQnty, alignment: 'left', style: 'normalText' },
           { text: item.price, alignment: 'left', style: 'normalText' },
           { text: item.priceAfterVAT, alignment: 'left', style: 'normalText' },
         ]
+        if (this.reporttype == "purchaseorder") {
+          tabledata.splice(6, 0,
+            { text: item.orderQty, alignment: 'left', style: 'normalText' },
+            { text: item.receivedQnty, alignment: 'left', style: 'normalText' },
+          )
+        }
+        else {
+          tabledata.splice(6, 0,
+            { text: item.qntytobeReturn, alignment: 'left', style: 'normalText' },
+            { text: item.returnedQnty, alignment: 'left', style: 'normalText' },
+          )
+        }
         body.push(tabledata);
       }
     }

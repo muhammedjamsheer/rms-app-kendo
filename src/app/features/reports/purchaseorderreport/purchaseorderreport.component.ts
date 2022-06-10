@@ -5,7 +5,6 @@ import { CustomerMasterService } from '../../../core/service/customermaster.serv
 import { InboundService } from '../../../core/service/inbound.service';
 import { CommonService } from 'src/app/core/service/common.service';
 import { ColDef } from 'ag-grid-community';
-import { PurchaseOrderHeader } from '../../../shared/model/inbound.model';
 import { ExportService } from '../../../core/exports/export.service';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
@@ -43,19 +42,8 @@ export class PurchaseorderreportComponent implements OnInit {
     { field: 'modifiedBy', sortable: true, resizable: true, filter: true },
     { field: 'modifiedDate', sortable: true, resizable: true, filter: true, valueFormatter: this.commonService.dateFormatter },
   ];
-  summarycolumnDefs: ColDef[] = [
-    { field: 'productId', sortable: true, filter: true, resizable: true, width: 150 },
-    { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'poLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
-    { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'orderQty', sortable: true, resizable: true, filter: true },
-    { field: 'receivedQnty', sortable: true, resizable: true, filter: true },
-    { field: 'pendingQnty', sortable: true, resizable: true, filter: true },
-    { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
+  summarycolumnDefs: ColDef[] = [];
 
-  ];
   constructor(
     private formBuilder: FormBuilder,
     private customerMasterService: CustomerMasterService,
@@ -90,10 +78,34 @@ export class PurchaseorderreportComponent implements OnInit {
       case 'purchaseorderreport':
         this.screenName = "Purchase Order Report";
         this.isPurchaseOrder = true;
+        this.summarycolumnDefs = [
+          { field: 'productId', sortable: true, filter: true, resizable: true, width: 150 },
+          { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'poLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
+          { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'orderQty', sortable: true, resizable: true, filter: true },
+          { field: 'receivedQnty', sortable: true, resizable: true, filter: true },
+          { field: 'pendingQnty', sortable: true, resizable: true, filter: true },
+          { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
+        ];
         break;
       case 'purchaseorderreturnreport':
         this.screenName = "Purchase Order Return Report";
         this.isPurchaseReturn = true;
+        this.summarycolumnDefs = [
+          { field: 'productId', sortable: true, filter: true, resizable: true, width: 150 },
+          { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'poLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
+          { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'qntytobeReturn', headerName: "Qty to be Return", sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'returnedQnty', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'pendingQnty', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
+        ];
         break;
     }
   }
@@ -101,8 +113,6 @@ export class PurchaseorderreportComponent implements OnInit {
     this.totalGridCount = $event;
   }
   get formcontrols() { return this.filterForm.controls; }
-
-
   onSearchFilter() {
     this.loading = true
     let saveResponse: Observable<any>;
@@ -121,7 +131,6 @@ export class PurchaseorderreportComponent implements OnInit {
       complete: () => { this.loading = false; }
     });
   }
-
   onReset() {
     this.filterForm.reset();
     this.rowData = [];
@@ -137,16 +146,24 @@ export class PurchaseorderreportComponent implements OnInit {
     this.isRowUnSelected = false;
   }
   OnSummaryClick() {
-    if (this.selectedHeader == undefined) { return }
-    this.inboundService.getpurchaseorderSummary(this.selectedHeader.poId).subscribe({
-      next: (data: any[]) => {
-        if (data == null) { this.summaryLines = [] }
-        else { this.summaryLines = data; }
+    this.summaryLines = []
+    let saveResponse: Observable<any>;
+    if (this.isPurchaseOrder) {
+      saveResponse = this.inboundService.getpurchaseorderSummary(this.selectedHeader.poId);
+    } else {
+      saveResponse = this.inboundService.getpurchaseorderReturnSummary(this.selectedHeader.poId);
+    }
+    saveResponse.subscribe({
+      next: (data: any) => {
+        if (data != null && data.length > 0) {
+          this.summaryLines = data;
+        }
+      },
+      error: (err => { }),
+      complete: () => {
         let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;
         el.click();
-      },
-      error: (err => { console.error(err) }),
-      complete: () => { this.loading = false; }
+      }
     });
   }
   getPDF() {
@@ -154,7 +171,8 @@ export class PurchaseorderreportComponent implements OnInit {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
       printtype: 'purchaseorder',
-      title: this.screenName
+      title: this.screenName,
+      reporttype: this.isPurchaseOrder ? 'purchaseorder' : 'purchaseorderreturn'
     }
     this.exportService.generatePdf(data);
   };
@@ -163,8 +181,10 @@ export class PurchaseorderreportComponent implements OnInit {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
       printtype: 'purchaseorder',
-      title: this.screenName
+      title: this.screenName,
+      reporttype: this.isPurchaseOrder ? 'purchaseorder' : 'purchaseorderreturn'
     }
+
     this.exportService.generateExcel(data);
   };
 }

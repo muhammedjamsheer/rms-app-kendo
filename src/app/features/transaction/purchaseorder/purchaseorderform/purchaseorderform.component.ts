@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InboundService } from '../../../../core/service/inbound.service';
 import { ColDef } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
-
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'org-rms-purchaseorderform',
@@ -13,6 +13,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 export class PurchaseorderformComponent implements OnInit {
   @ViewChild('agGrid') agGrid!: AgGridAngular;
   poId !: number;
+  isPurchaseorderreturnsummary: boolean = true;
   purchaseorderdata: any[] = []
   columnDefs: ColDef[] = [
     {
@@ -23,13 +24,13 @@ export class PurchaseorderformComponent implements OnInit {
     },
     { field: 'poLineNumber', sortable: true, resizable: true, filter: true, width: 100 },
     { field: 'productCode', sortable: true, resizable: true, filter: true, width: 130 },
+    { field: 'poLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
     { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 130 },
     { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 130 },
-    { field: 'openQty', headerName: "Quantity", sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'orderQty', headerName: "Packaging Qty", sortable: true, resizable: true, filter: true, width: 150 },
+    { field: 'orderQty', headerName: "Qty to be Return", sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true },
-    { field: 'poLineDescription', sortable: true, resizable: true, filter: true, width: 150 },
+
   ];
   constructor(
     private router: Router,
@@ -45,15 +46,22 @@ export class PurchaseorderformComponent implements OnInit {
     });
     this.getPurchaseOrderdetails();
   }
+
   getPurchaseOrderdetails() {
-    this.inboundService.getpurchaseorderSummary(this.poId).subscribe({
-      next: (data: any[]) => {
-        this.purchaseorderdata = data;
+    this.purchaseorderdata = []
+    let saveResponse: Observable<any>;
+    saveResponse = this.inboundService.getpurchaseorderSummary(this.poId);
+    saveResponse.subscribe({
+      next: (data: any) => {
+        if (data != null && data.length > 0) {
+          this.purchaseorderdata = data;
+        }
       },
-      error: (err => { console.error(err) }),
+      error: (err => { }),
       complete: () => { }
     });
   }
+
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }
