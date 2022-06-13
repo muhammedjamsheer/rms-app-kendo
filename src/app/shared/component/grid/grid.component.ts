@@ -979,7 +979,7 @@ export class GridComponent implements OnInit {
         });
         break;
       }
-      case 'salesorderreturn': {
+      case 'salesreturn': {
         this.columnDefs = [
           { field: 'soNumber', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'soEntry', sortable: true, resizable: true, filter: true, width: 200 },
@@ -1001,7 +1001,7 @@ export class GridComponent implements OnInit {
           { field: 'modifiedBy', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'modifiedDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
         ];
-        this.rowData = await this.salesreturnService.getSalesOrderReturn();
+        this.rowData = await this.salesreturnService.getSalesReturn();
         this.subscription = this.salesreturnService.refreshClickevent.subscribe((e) => {
           this.OnRefreshCick();
         });
@@ -1373,7 +1373,7 @@ export class GridComponent implements OnInit {
         this.rowData = await this.salesorderService.onRefreshsalesorder();
         break;
       }
-      case 'salesorderreturn': {
+      case 'salesreturn': {
         this.rowData = await this.salesreturnService.onRefreshSalesOrderReturn();
         break;
       }
@@ -1533,7 +1533,7 @@ export class GridComponent implements OnInit {
         this.salesorderService.selectedrowevent.next(event);
         break;
       }
-      case 'salesorderreturn': {
+      case 'salesreturn': {
         this.salesreturnService.selectedrowevent.next(event);
         break;
       }

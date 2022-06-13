@@ -9,15 +9,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./salesreturngrid.component.css']
 })
 export class SalesreturngridComponent implements OnInit {
-
-  @Input() name: string = 'salesorderreturn';
+  @Input() name: string = 'salesreturn';
   isCreateAllowed: boolean = false;
   isEditAllowed: boolean = false;
   isViewAllowed: boolean = false;
   isDeleteAllowed: boolean = false;
   isRowUnSelected: boolean = true;
-
-
   subscription!: Subscription;
   selectedNodes: any;
   totalGridCount: number = 0;

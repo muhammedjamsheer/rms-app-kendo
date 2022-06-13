@@ -24,7 +24,8 @@ export class SalesreturnService {
     private http: HttpClient,
   ) { }
 
-  async getSalesOrderReturn() {
+  async getSalesReturn() {
+    debugger;
     if (!(this.salesOrderReturnDataCache.length > 0)) {
       const data = await this.http.get<any[]>(this.apiUrl + "/SoreturnHeader", this.httpOptions).toPromise();
       this.salesOrderReturnDataCache = data;
