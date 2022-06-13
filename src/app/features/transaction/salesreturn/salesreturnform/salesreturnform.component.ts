@@ -20,7 +20,6 @@ export class SalesreturnformComponent implements OnInit {
   @ViewChild('agGrid') agGrid!: AgGridAngular;
   screenName!: string;
   State!: string;
-  Sonumber !: number;
   Soid!: number;
   salesorderreturndata: any[] = []
   columnDefs: ColDef[] = [
@@ -72,28 +71,16 @@ export class SalesreturnformComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.State = params['state'];
-      if (params['state'] === 'view' && params['id'] != undefined) {
-        this.Sonumber = Number(params['id']);
-      }
-      if (params['state'] === 'summary' && params['id'] != undefined) {
-        this.Soid = Number(params['id']);
-      }
+      this.Soid = Number(params['id']);
     });
 
-    if (this.State === 'summary') {
-      this.screenName = "Sales  Return Summary"
-      this.getSalesReturnSummary();
-    }
-    if (this.State === 'view') {
-      this.screenName = "Sales  Return Details"
-      this.getSalesReturnDetails();
-    }
+    this.getSalesReturnDetails();
   }
 
 
   getSalesReturnDetails() {
     this.salesorderreturndata = []
-    this.salesreturnService.getSalesOrderReturndetails(this.Sonumber).subscribe({
+    this.salesreturnService.getSalesOrderReturndetails(this.Soid).subscribe({
       next: (data: any[]) => {
         if (data != null && data.length > 0) {
           this.salesorderreturndata = data;
@@ -104,18 +91,6 @@ export class SalesreturnformComponent implements OnInit {
     });
   }
 
-  getSalesReturnSummary() {
-    this.salesorderreturndata = []
-    this.salesreturnService.getSalesOrderReturnSummary(this.Soid).subscribe({
-      next: (data: any[]) => {
-        if (data != null && data.length > 0) {
-          this.salesorderreturndata = data;
-        }
-      },
-      error: (err => { }),
-      complete: () => { }
-    });
-  }
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }

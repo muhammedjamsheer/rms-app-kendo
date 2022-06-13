@@ -39,7 +39,7 @@ export class TransferreturngridComponent implements OnInit {
 
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/transferreturn/view', this.selectedNodes.toNumber]);
+    this.router.navigate(['/transferreturn/view', this.selectedNodes.toId]);
   }
 
   OnRefreshCick() {

@@ -25,7 +25,6 @@ export class SalesorderformComponent implements OnInit {
   @ViewChild('ViewButton') ViewButton!: ElementRef;
   picklistobj: PickListModel = new PickListModel();
   selectednodes: any[] = []
-  Sonumber!: number;
   State!: string;
   Soid!: number;
   screenName !: string;
@@ -96,12 +95,7 @@ export class SalesorderformComponent implements OnInit {
     $('.select2bs4').select2();
     this.route.params.subscribe(params => {
       this.State = params['state'];
-      if (params['state'] === 'view' && params['id'] != undefined) {
-        this.Sonumber = Number(params['id']);
-      }
-      if (params['state'] === 'summary' && params['id'] != undefined) {
-        this.Soid = Number(params['id']);
-      }
+      this.Soid = Number(params['id']);
     });
 
     this.picklistForm = this.formBuilder.group({
@@ -130,7 +124,7 @@ export class SalesorderformComponent implements OnInit {
 
   getSalesOrderdetails() {
     this.salesorderdata = []
-    this.salesorderService.getSalesOrderdetails(this.Sonumber).subscribe({
+    this.salesorderService.getSalesOrderdetails(this.Soid).subscribe({
       next: (data: any[]) => {
         if (data != null && data.length > 0) {
           this.salesorderdata = data;

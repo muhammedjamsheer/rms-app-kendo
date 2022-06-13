@@ -87,8 +87,6 @@ export class PurchaseorderreportComponent implements OnInit {
           { field: 'orderQty', sortable: true, resizable: true, filter: true },
           { field: 'receivedQnty', sortable: true, resizable: true, filter: true },
           { field: 'pendingQnty', sortable: true, resizable: true, filter: true },
-          { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
         ];
         break;
       case 'purchaseorderreturnreport':
@@ -103,8 +101,6 @@ export class PurchaseorderreportComponent implements OnInit {
           { field: 'qntytobeReturn', headerName: "Qty to be Return", sortable: true, resizable: true, filter: true, width: 150 },
           { field: 'returnedQnty', sortable: true, resizable: true, filter: true, width: 150 },
           { field: 'pendingQnty', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
         ];
         break;
     }

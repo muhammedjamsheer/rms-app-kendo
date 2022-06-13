@@ -94,19 +94,6 @@ export class ProductionorderformComponent implements OnInit {
       this.showzerocountvalidation = true;
       return
     }
-    // if (this.selectednodes.find(x => x.qntyToPick == 0) != undefined) {
-    //   let product = this.selectednodes.find(x => x.qntyToPick == 0);
-    //   this.errorMessage = "* Please enter a valid qty for productid " + product.productId;
-    //   this.showzerocountvalidation = true;
-    //   return
-    // }
-    // if (this.selectednodes.find(x => Number(x.qntyToPick) > x.openQty) != undefined) {
-    //   let product = this.selectednodes.find(x => Number(x.qntyToPick) > x.openQty);
-    //   this.errorMessage = "* Please enter a valid qty for productid " + product.productId;
-    //   this.showzerocountvalidation = true;
-    //   return
-    // }
-
     this.showzerocountvalidation = false;
     let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;
     el.click();

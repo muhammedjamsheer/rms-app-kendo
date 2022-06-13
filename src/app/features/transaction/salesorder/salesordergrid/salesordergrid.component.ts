@@ -52,15 +52,9 @@ export class SalesordergridComponent implements OnInit {
         break;
     }
   }
-  btnNewClick() {
-    this.router.navigateByUrl('/salesorder/add');
-  }
-  OnEditClick() {
-    this.router.navigate(['/salesorder/edit', this.selectedNodes.soNumber]);
-  }
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/salesorder/view', this.selectedNodes.soNumber]);
+    this.router.navigate(['/salesorder/view', this.selectedNodes.soId]);
   }
   OnRefreshCick() {
     this.isRowUnSelected = true;

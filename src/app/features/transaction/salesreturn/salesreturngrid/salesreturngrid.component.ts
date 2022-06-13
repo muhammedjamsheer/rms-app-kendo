@@ -36,7 +36,7 @@ export class SalesreturngridComponent implements OnInit {
 
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/salesreturn/view', this.selectedNodes.soNumber]);
+    this.router.navigate(['/salesreturn/view', this.selectedNodes.soId]);
   }
 
   OnRefreshCick() {

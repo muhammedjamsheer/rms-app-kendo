@@ -22,6 +22,7 @@ export interface PurchaseOrderHeader {
           modifiedBy:string,
           modifiedDate: string,
           docStatus: string,
+          poId:number
        
 }
 

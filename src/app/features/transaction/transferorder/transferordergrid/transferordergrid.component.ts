@@ -73,7 +73,7 @@ export class TransferordergridComponent implements OnInit {
   }
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/transferorder/view', this.selectedNodes.toNumber]);
+    this.router.navigate(['/transferorder/view', this.selectedNodes.toId]);
   }
 
   triggerClick() {

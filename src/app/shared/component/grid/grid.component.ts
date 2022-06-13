@@ -1090,17 +1090,17 @@ export class GridComponent implements OnInit {
       }
       case 'transferorder': {
         this.columnDefs = [
+          { field: 'toNumber', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toEntry', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'toDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
           { field: 'fromWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'toWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'journalMemo', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'externalDocType', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'toDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
-          { field: 'toDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
           { field: 'vendorName', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'warehouse', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'toEntry', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'notes', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'toNumber', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'docObjectCode', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'docStatus', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'createdBy', sortable: true, resizable: true, filter: true },
@@ -1116,17 +1116,17 @@ export class GridComponent implements OnInit {
       }
       case 'transferreturn': {
         this.columnDefs = [
+          { field: 'toNumber', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toEntry', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'toDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
           { field: 'fromWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'toWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'journalMemo', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'externalDocType', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'toDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
-          { field: 'toDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
           { field: 'vendorName', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'warehouse', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'toEntry', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'notes', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'toNumber', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'docObjectCode', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'docStatus', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'createdBy', sortable: true, resizable: true, filter: true },
@@ -1183,12 +1183,14 @@ export class GridComponent implements OnInit {
           { field: 'warehouseName', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'quantity', sortable: true, resizable: true, filter: true, width: 200, },
           { field: 'inventoryItem', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'inventoryStatus', sortable: true, resizable: true, filter: true, width: 200 },
           {
             headerName: 'Is Active', field: 'isActive', sortable: true, filter: true, resizable: true, cellEditor: 'booleanEditor',
             cellRenderer: this.booleanCellRenderer
           }
         ];
         this.rowData = await this.inventoryService.getInventoryDetails();
+        debugger
         this.subscription = this.inventoryService.refreshClickevent.subscribe((e) => {
           this.OnRefreshCick();
         });
@@ -1197,10 +1199,9 @@ export class GridComponent implements OnInit {
       case 'productionorder': {
         this.columnDefs = [
           { field: 'productionNumber', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'productionEntry', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'productCode', sortable: true, resizable: true, filter: true, width: 250 },
           { field: 'productDescription', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'productionEntry', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'productDescription', sortable: true, resizable: true, filter: true, width: 200, },
           { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150, },
           { field: 'uomQnty', sortable: true, resizable: true, filter: true, width: 200, },
           { field: 'plannedQuantity', sortable: true, resizable: true, filter: true, width: 200 },
@@ -1402,6 +1403,7 @@ export class GridComponent implements OnInit {
         break;
       }
       case 'productionorder': {
+        debugger;
         this.rowData = await this.productionorderService.onRefreshproductionorder();
         break;
       }

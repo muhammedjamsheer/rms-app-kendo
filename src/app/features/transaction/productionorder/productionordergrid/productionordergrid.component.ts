@@ -38,13 +38,15 @@ export class ProductionordergridComponent implements OnInit {
     this.router.navigateByUrl('/productionorder/add');
   }
   OnViewClick() {
-    this.router.navigate(['/productionorder/view', this.selectedNodes.productionNumber]);
+    debugger;
+    this.router.navigate(['/productionorder/view', this.selectedNodes.productionId]);
   }
   totalGridItems($event: number) {
     this.totalGridCount = $event;
   }
   OnRefreshCick() {
     this.isRowUnSelected = true;
+    debugger;
     this.productionorderService.refreshClickevent.next();
   }
 

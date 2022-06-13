@@ -26,7 +26,6 @@ export class TransferorderformComponent implements OnInit {
   picklistForm!: FormGroup;
   screenName!: string;
   State!: string;
-  toNumber !: number;
   toId!: number;
   errorMessage: string = ''
   columnDefs: ColDef[] = [
@@ -73,31 +72,19 @@ export class TransferorderformComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.State = params['state'];
-      if (params['state'] === 'view' && params['id'] != undefined) {
-        this.toNumber = Number(params['id']);
-      }
-      if (params['state'] === 'summary' && params['id'] != undefined) {
-        this.toId = Number(params['id']);
-      }
+      this.toId = Number(params['id']);
     });
     this.picklistForm = this.formBuilder.group({
       ToWarehouse: [''],
       CustomerLocation: [''],
       Remarks: ['']
     });
-
-    switch (this.State) {
-      case 'view':
-        this.screenName = "Sales Order Details";
-        this.getTransferOrderDetails();
-        break;
-    }
-
+    this.getTransferOrderDetails();
   }
   getTransferOrderDetails() {
     this.loading = true
     this.transferorderdetails = []
-    this.transferorderService.getTransferOrderDetails(this.toNumber).subscribe({
+    this.transferorderService.getTransferOrderDetails(this.toId).subscribe({
       next: (data: any) => {
         if (data != null && data.length > 0) {
           this.transferorderdetails = data;
@@ -107,19 +94,6 @@ export class TransferorderformComponent implements OnInit {
       complete: () => { this.loading = false; }
     });
   }
-  // getTransferOrderSummary() {
-  //   this.loading = true
-  //   this.transferorderdetails = []
-  //   this.transferorderService.getTransferOrderSummary(this.toId).subscribe({
-  //     next: (data: any) => {
-  //       if (data != null && data.length > 0) {
-  //         this.transferorderdetails = data;
-  //       }
-  //     },
-  //     error: (err => { console.error(err) }),
-  //     complete: () => { this.loading = false; }
-  //   });
-  // }
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }

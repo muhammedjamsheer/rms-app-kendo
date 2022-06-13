@@ -93,11 +93,10 @@ export class TransferorderreportComponent implements OnInit {
           { field: 'toLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
           { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150 },
           { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'orderQty', sortable: true, resizable: true, filter: true },
-          { field: 'receivedQnty', sortable: true, resizable: true, filter: true },
+          { field: 'qntytobeShip', headerName: "Qty to be Ship", sortable: true, resizable: true, filter: true },
+          { field: 'shippedQnty', sortable: true, resizable: true, filter: true },
           { field: 'pendingQnty', sortable: true, resizable: true, filter: true },
-          { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
+
         ];
         break;
       case 'transferorderreturnreport':
@@ -112,8 +111,6 @@ export class TransferorderreportComponent implements OnInit {
           { field: 'qntytobeReturn', headerName: "Qty to be Return", sortable: true, resizable: true, filter: true, width: 150 },
           { field: 'returnedQnty', sortable: true, resizable: true, filter: true, width: 150 },
           { field: 'pendingQnty', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'price', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'priceAfterVAT', sortable: true, resizable: true, filter: true, width: 150 },
         ];
         break;
     }
@@ -160,6 +157,7 @@ export class TransferorderreportComponent implements OnInit {
       next: (data: any) => {
         if (data != null && data.length > 0) {
           this.summaryLines = data;
+          debugger;
         }
       },
       error: (err => { }),

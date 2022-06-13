@@ -82,10 +82,11 @@ export class InboundComponent implements OnInit {
   docSelected(userClickedDoc: PurchaseOrderHeader) {
     this.SelectedDoc = userClickedDoc;
     this.detailLines = [];
-    this.service.getDocumentprintDetails(this.SelectedDoc.poNumber).subscribe(
+    this.service.getDocumentprintDetails(this.SelectedDoc.poId).subscribe(
       (data: PurchaseDocumentLines[]) => {
         if (data != null && data.length > 0) {
           this.detailLines = data;
+
         }
       },
       (err => { console.error(err) }));

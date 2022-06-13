@@ -5,10 +5,7 @@ import { ColDef, ValueParserParams } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SaveAlert } from 'src/app/shared/commonalerts/savealert';
-import { Subscription } from 'rxjs';
-import { PicklistService } from 'src/app/core/service/picklist.service';
 import { ExportService } from 'src/app/core/exports/export.service';
-import { CustomerMasterService } from 'src/app/core/service/customermaster.service';
 import { CommonService } from 'src/app/core/service/common.service';
 
 @Component({
@@ -20,8 +17,7 @@ export class TransferreturnformComponent implements OnInit {
   @ViewChild('agGrid') agGrid!: AgGridAngular;
   screenName!: string;
   State!: string;
-  Sonumber !: number;
-  Soid!: number;
+  toId!: number;
   transferreturndata:any[]=[]
 
   columnDefs: ColDef[] = [
@@ -69,23 +65,14 @@ export class TransferreturnformComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.State = params['state'];
-      if (params['state'] === 'view' && params['id'] != undefined) {
-        this.Sonumber = Number(params['id']);
-      }
-      if (params['state'] === 'summary' && params['id'] != undefined) {
-        this.Soid = Number(params['id']);
-      }
+      this.toId = Number(params['id']);
     });
-    if (this.State === 'view') {
-      this.screenName = "Transfer Return Details"
-      this.getTransferReturnDetails();
-    }
   }
 
 
   getTransferReturnDetails() {
     this.transferreturndata = []
-    this.transferreturnService.getTransferReturndetails(this.Sonumber).subscribe({
+    this.transferreturnService.getTransferReturndetails(this.toId).subscribe({
       next: (data: any[]) => {
         if (data != null && data.length > 0) {
           this.transferreturndata = data;

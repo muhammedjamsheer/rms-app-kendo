@@ -40,6 +40,7 @@ export class ProductionorderService {
     }));
   }
   async onRefreshproductionorder() {
+    debugger;
     const data = await this.http.get<any[]>(this.apiUrl + "/ProdHeaders", this.httpOptions).toPromise();
     if (data == null) {
       this.productionorderDataCache = [];
