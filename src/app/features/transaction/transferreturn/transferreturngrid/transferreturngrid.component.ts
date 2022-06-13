@@ -41,10 +41,7 @@ export class TransferreturngridComponent implements OnInit {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
     this.router.navigate(['/transferreturn/view', this.selectedNodes.toNumber]);
   }
-  OnSummaryClick() {
-    localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/transferreturn/summary', this.selectedNodes.toId]);
-  }
+
   OnRefreshCick() {
     this.isRowUnSelected = true;
     this.transferreturnService.refreshClickevent.next();

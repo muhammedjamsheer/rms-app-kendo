@@ -44,11 +44,7 @@ export class TransferreturnService {
     }
     return this.transferReturnDataCache;
   }
-  getTransferReturnSummary(id: number) {
-    return this.http.get<any>(this.apiUrl + "/toreturnSummary/" + id, this.httpOptions).pipe(tap((res: any) => {
-      return res;
-    }));
-  }
+
   getTransferReturndetails(id: number) {
     return this.http.get<any>(this.apiUrl + "/" + id, this.httpOptions).pipe(tap((res: any) => {
       return res;

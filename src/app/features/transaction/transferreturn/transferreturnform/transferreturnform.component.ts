@@ -76,11 +76,6 @@ export class TransferreturnformComponent implements OnInit {
         this.Soid = Number(params['id']);
       }
     });
-
-    if (this.State === 'summary') {
-      this.screenName = "Transfer Return Summary"
-      this.getTransferReturnSummary();
-    }
     if (this.State === 'view') {
       this.screenName = "Transfer Return Details"
       this.getTransferReturnDetails();
@@ -101,18 +96,6 @@ export class TransferreturnformComponent implements OnInit {
     });
   }
 
-  getTransferReturnSummary() {
-    this.transferreturndata = []
-    this.transferreturnService.getTransferReturnSummary(this.Soid).subscribe({
-      next: (data: any[]) => {
-        if (data != null && data.length > 0) {
-          this.transferreturndata = data;
-        }
-      },
-      error: (err => { }),
-      complete: () => { }
-    });
-  }
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }

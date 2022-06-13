@@ -84,7 +84,7 @@ export class InboundService {
     return this.purchasereturncahe;
   }
   getpurchaseorderReturnSummary(id: number) {
-    return this.http.get<any>(this.apiporeturnsummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
+    return this.http.get<any>(this.apiporeturnsummary + '/' + 56, this.httpOptions).pipe(tap((res: any) => {
       return res;
     }));
   }

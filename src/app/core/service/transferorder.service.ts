@@ -4,7 +4,9 @@ import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ToManualReceiptModel } from 'src/app/shared/model/transferorder';
-
+import { ReportFilter } from '../../shared/model/commonreport';
+import { Observable, of } from "rxjs";
+import { prepareHttpParams } from '../../_helpers/utils'
 @Injectable({
   providedIn: 'root'
 })
@@ -58,9 +60,20 @@ export class TransferorderService {
       return res;
     }));
   }
-
+  getTransferReturnSummary(id: number) {
+    return this.http.get<any>(this.apiUrl + "/toreturnSummary/" + id, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
+  }
   createManualTransferOrderReceipt(data: ToManualReceiptModel) {
     return this.http.post<any>(this.apiUrlToManualReceipt, data, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
+  }
+
+  getTransferOrderReport(filters: ReportFilter, mastertype: string): Observable<any[]> {
+    let url = mastertype == "transferorderreport" ? this.apiUrl + "/ToHeaders" : this.apiUrl + "/ToreturnHeader"
+    return this.http.get<any[]>(url, { params: prepareHttpParams(filters) }).pipe(tap((res: any[]) => {
       return res;
     }));
   }

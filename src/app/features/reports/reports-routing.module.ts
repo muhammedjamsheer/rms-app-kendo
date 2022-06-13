@@ -13,7 +13,11 @@ import { LocationwisereportComponent } from './locationwisereport/locationwisere
 import { ProductsummaryreportComponent } from './productsummaryreport/productsummaryreport.component';
 import { ReportsComponent } from './reports.component';
 import { ReportsfilterformComponent } from './reportsfilterform/reportsfilterform.component';
+
 import { PurchaseorderreportComponent } from './purchaseorderreport/purchaseorderreport.component';
+import { SalesorderreportComponent } from './salesorderreport/salesorderreport.component';
+import { TransferorderreportComponent } from './transferorderreport/transferorderreport.component';
+
 
 const routes: Routes = [{ path: '', component: ReportsComponent },
 { path: 'assetregisterreportview', component: AssetregisterreportComponent, canActivate: [AuthGuard] },
@@ -25,18 +29,22 @@ const routes: Routes = [{ path: '', component: ReportsComponent },
 { path: 'assethistoryreportview', component: AssethistoryreportComponent, canActivate: [AuthGuard] },
 { path: 'productsummaryreportview', component: ProductsummaryreportComponent, canActivate: [AuthGuard] },
 { path: 'assetcountstatuswisereportview', component: AssetcountstatuswisereportComponent, canActivate: [AuthGuard] },
-{ path: 'assetregisterreport', component: AssetregisterreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.assetregisterreport} },
-{ path: 'locationwisereport', component: LocationwisereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.locationwisereport} },
-{ path: 'categorywisereport', component: CategorywisereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.categorywisereport} },
-{ path: 'categorywisevaluereport', component: CategorywisevaluereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.categorywisevaluereport} },
-{ path: 'assetcountstatuswisereport', component: AssetcountstatuswisereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.assetcountstatuswisereport} },
-{ path: 'departmentwisereport', component: DepartmentwisereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.departmentwisereport} },
-{ path: 'employeewisereport', component: EmployeewisereportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.employeewisereport} },
-{ path: 'assethistoryreport', component: AssethistoryreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.assethistoryreport} },
-{ path: 'productsummaryreport', component: ProductsummaryreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.productsummaryreport} },
+{ path: 'assetregisterreport', component: AssetregisterreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.assetregisterreport } },
+{ path: 'locationwisereport', component: LocationwisereportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.locationwisereport } },
+{ path: 'categorywisereport', component: CategorywisereportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.categorywisereport } },
+{ path: 'categorywisevaluereport', component: CategorywisevaluereportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.categorywisevaluereport } },
+{ path: 'assetcountstatuswisereport', component: AssetcountstatuswisereportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.assetcountstatuswisereport } },
+{ path: 'departmentwisereport', component: DepartmentwisereportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.departmentwisereport } },
+{ path: 'employeewisereport', component: EmployeewisereportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.employeewisereport } },
+{ path: 'assethistoryreport', component: AssethistoryreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.assethistoryreport } },
+{ path: 'productsummaryreport', component: ProductsummaryreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.productsummaryreport } },
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-{ path: 'purchaseorderreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.purchaseorderreport} },
-{ path: 'purchaseorderreturnreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: {reportType: ReportNumbers.purchaseorderreport} }
+{ path: 'purchaseorderreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.purchaseorderreport } },
+{ path: 'purchaseorderreturnreport', component: PurchaseorderreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.purchaseorderreport } },
+{ path: 'salesorderreport', component: SalesorderreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.purchaseorderreport } },
+{ path: 'salesorderreturnreport', component: SalesorderreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.purchaseorderreport } },
+{ path: 'transferorderreport', component: TransferorderreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.purchaseorderreport } },
+{ path: 'transferorderreturnreport', component: TransferorderreportComponent, canActivate: [AuthGuard], data: { reportType: ReportNumbers.purchaseorderreport } }
 
 
 

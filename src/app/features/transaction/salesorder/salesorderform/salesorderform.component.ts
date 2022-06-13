@@ -11,8 +11,6 @@ import { PicklistService } from '../../../../core/service/picklist.service';
 import { ExportService } from '../../../../core/exports/export.service';
 import { CustomerMasterService } from '../../../../core/service/customermaster.service';
 import { CommonService } from 'src/app/core/service/common.service';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 declare var $: any;
 
 
@@ -118,10 +116,6 @@ export class SalesorderformComponent implements OnInit {
         this.screenName = "Sales Order Details";
         this.getSalesOrderdetails();
         break;
-      case 'summary':
-        this.screenName = "Sales Order Summary";
-        this.getSalesOrderSummary();
-        break;
     }
     this.customerlist = await this.customerMasterService.getCustomersList();
 
@@ -137,18 +131,6 @@ export class SalesorderformComponent implements OnInit {
   getSalesOrderdetails() {
     this.salesorderdata = []
     this.salesorderService.getSalesOrderdetails(this.Sonumber).subscribe({
-      next: (data: any[]) => {
-        if (data != null && data.length > 0) {
-          this.salesorderdata = data;
-        }
-      },
-      error: (err => { }),
-      complete: () => { }
-    });
-  }
-  getSalesOrderSummary() {
-    this.salesorderdata = []
-    this.salesorderService.getSalesOrderSummary(this.Soid).subscribe({
       next: (data: any[]) => {
         if (data != null && data.length > 0) {
           this.salesorderdata = data;
@@ -253,28 +235,6 @@ export class SalesorderformComponent implements OnInit {
       printtype: 'salesorder'
     }
     this.exportService.generatePdf(data);
-    // var HTML_Width = $(".canvas_div_pdf").width();
-    // var HTML_Height = $(".canvas_div_pdf").height();
-    // var top_left_margin = 15;
-    // var PDF_Width = HTML_Width + (top_left_margin * 2);
-    // var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-    // var canvas_image_width = HTML_Width;
-    // var canvas_image_height = HTML_Height;
-    // var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-    // html2canvas($(".canvas_div_pdf")[0], { allowTaint: true }).then(function (canvas) {
-    //   canvas.getContext('2d');
-    //   console.log(canvas.height + "  " + canvas.width);
-
-    //   var imgData = canvas.toDataURL("image/jpeg", 1.0);
-    //   var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-    //   pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-
-    //   for (var i = 1; i <= totalPDFPages; i++) {
-    //     pdf.addPage([PDF_Width, PDF_Height], 'p');
-    //     pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-    //   }
-    //   pdf.save("SalesOrderDetails.pdf");
-    // });
   };
 }
 

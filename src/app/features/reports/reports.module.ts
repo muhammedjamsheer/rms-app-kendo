@@ -21,9 +21,11 @@ import { EmployeewisereportComponent } from './employeewisereport/employeewisere
 import { AssethistoryreportComponent } from './assethistoryreport/assethistoryreport.component';
 import { ProductsummaryreportComponent } from './productsummaryreport/productsummaryreport.component';
 import { PurchaseorderreportComponent } from './purchaseorderreport/purchaseorderreport.component';
+import { SalesorderreportComponent } from './salesorderreport/salesorderreport.component';
+import { TransferorderreportComponent } from './transferorderreport/transferorderreport.component';
 
 @NgModule({
-  declarations: [ReportsComponent, AssetregisterreportComponent, LocationwisereportComponent, CategorywisereportComponent, ReportsfilterformComponent, CategorywisevaluereportComponent, AssetcountstatuswisereportComponent, DepartmentwisereportComponent, EmployeewisereportComponent, AssethistoryreportComponent, ProductsummaryreportComponent, PurchaseorderreportComponent],
+  declarations: [ReportsComponent, AssetregisterreportComponent, LocationwisereportComponent, CategorywisereportComponent, ReportsfilterformComponent, CategorywisevaluereportComponent, AssetcountstatuswisereportComponent, DepartmentwisereportComponent, EmployeewisereportComponent, AssethistoryreportComponent, ProductsummaryreportComponent, PurchaseorderreportComponent, SalesorderreportComponent, TransferorderreportComponent],
   imports: [
     SharedModule,
     ReportsRoutingModule,

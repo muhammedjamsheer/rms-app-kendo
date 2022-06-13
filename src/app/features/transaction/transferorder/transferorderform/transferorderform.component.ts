@@ -91,10 +91,6 @@ export class TransferorderformComponent implements OnInit {
         this.screenName = "Sales Order Details";
         this.getTransferOrderDetails();
         break;
-      case 'summary':
-        this.screenName = "Sales Order Summary";
-        this.getTransferOrderSummary();
-        break;
     }
 
   }
@@ -111,19 +107,19 @@ export class TransferorderformComponent implements OnInit {
       complete: () => { this.loading = false; }
     });
   }
-  getTransferOrderSummary() {
-    this.loading = true
-    this.transferorderdetails = []
-    this.transferorderService.getTransferOrderSummary(this.toId).subscribe({
-      next: (data: any) => {
-        if (data != null && data.length > 0) {
-          this.transferorderdetails = data;
-        }
-      },
-      error: (err => { console.error(err) }),
-      complete: () => { this.loading = false; }
-    });
-  }
+  // getTransferOrderSummary() {
+  //   this.loading = true
+  //   this.transferorderdetails = []
+  //   this.transferorderService.getTransferOrderSummary(this.toId).subscribe({
+  //     next: (data: any) => {
+  //       if (data != null && data.length > 0) {
+  //         this.transferorderdetails = data;
+  //       }
+  //     },
+  //     error: (err => { console.error(err) }),
+  //     complete: () => { this.loading = false; }
+  //   });
+  // }
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }

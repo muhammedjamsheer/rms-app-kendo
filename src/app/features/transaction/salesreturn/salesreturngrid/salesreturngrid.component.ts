@@ -38,10 +38,7 @@ export class SalesreturngridComponent implements OnInit {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
     this.router.navigate(['/salesreturn/view', this.selectedNodes.soNumber]);
   }
-  OnSummaryClick() {
-    localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
-    this.router.navigate(['/salesreturn/summary', this.selectedNodes.soId]);
-  }
+
   OnRefreshCick() {
     this.isRowUnSelected = true;
     this.salesreturnService.refreshClickevent.next();
