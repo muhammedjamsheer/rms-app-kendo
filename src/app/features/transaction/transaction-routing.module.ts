@@ -55,6 +55,10 @@ import { ProductionorderformComponent } from './productionorder/productionorderf
 import { ProductionorderPrintlabelComponent } from './productionorder/productionorder-printlabel/productionorder-printlabel.component';
 import { PurchaseordergridComponent } from './purchaseorder/purchaseordergrid/purchaseordergrid.component';
 import { PurchaseorderformComponent } from './purchaseorder/purchaseorderform/purchaseorderform.component';
+import { SalesreturngridComponent } from './salesreturn/salesreturngrid/salesreturngrid.component';
+import { SalesreturnformComponent } from './salesreturn/salesreturnform/salesreturnform.component';
+import { TransferreturngridComponent } from './transferreturn/transferreturngrid/transferreturngrid.component';
+import { TransferreturnformComponent } from './transferreturn/transferreturnform/transferreturnform.component';
 
 
 import { InboundComponent } from './inbound/inbound.component';
@@ -114,14 +118,20 @@ const routes: Routes = [{ path: '', component: TransactionComponent },
 
 { path: 'inbound', component: InboundComponent, canActivate: [AuthGuard] },
 { path: 'salesorder', component: SalesordergridComponent, canActivate: [AuthGuard] },
-{ path: 'salesorder/view/:id', component: SalesorderformComponent, canActivate: [AuthGuard] },
+{ path: 'salesorder/:state/:id', component: SalesorderformComponent, canActivate: [AuthGuard] },
+{ path: 'salesreturn', component: SalesreturngridComponent, canActivate: [AuthGuard] },
+{ path: 'salesreturn/:state/:id', component: SalesreturnformComponent, canActivate: [AuthGuard] },
+
+
 { path: 'printexistingstock', component: PrintexistingstockComponent, canActivate: [AuthGuard] },
 { path: 'picklist', component: PicklistgridComponent, canActivate: [AuthGuard] },
 { path: 'picklist/:state/:id', component: PicklistformComponent, canActivate: [AuthGuard] },
 { path: 'shipment', component: ShipmentgridComponent, canActivate: [AuthGuard] },
 { path: 'shipment/:state/:id', component: ShipmentformComponent, canActivate: [AuthGuard] },
 { path: 'transferorder', component: TransferordergridComponent, canActivate: [AuthGuard] },
-{ path: 'transferorder/view/:id', component: TransferorderformComponent, canActivate: [AuthGuard] },
+{ path: 'transferorder/:state/:id', component: TransferorderformComponent, canActivate: [AuthGuard] },
+{ path: 'transferreturn', component: TransferreturngridComponent, canActivate: [AuthGuard] },
+{ path: 'transferreturn/:state/:id', component: TransferreturnformComponent, canActivate: [AuthGuard] },
 { path: 'transferrequest', component: TransferrquestgridComponent, canActivate: [AuthGuard] },
 { path: 'transferrequest/add', component: TransferrquestformComponent, canActivate: [AuthGuard] },
 { path: 'transferrequest/:state/:id', component: TransferrquestformComponent, canActivate: [AuthGuard] },

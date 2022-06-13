@@ -14,6 +14,7 @@ export class SalesordergridComponent implements OnInit {
   isEditAllowed: boolean = false;
   isViewAllowed: boolean = false;
   isDeleteAllowed: boolean = false;
+  isSummaryAllowed: boolean = false;
   isRowUnSelected: boolean = true;
   subscription!: Subscription;
   selectedNodes: any;
@@ -30,6 +31,9 @@ export class SalesordergridComponent implements OnInit {
     this.isEditAllowed = localStorage.getItem("isEditAllowed") == "true";
     this.isViewAllowed = localStorage.getItem("isViewAllowed") == "true";
     this.isDeleteAllowed = localStorage.getItem("isDeleteAllowed") == "true";
+    this.isSummaryAllowed = localStorage.getItem("isSummaryAllowed") == "true";
+
+    
     this.subscription = this.salesorderService.selectedrowevent.subscribe((e) => {
       this.isRowUnSelected = false;
       this.selectedNodes = e.data;
@@ -57,6 +61,10 @@ export class SalesordergridComponent implements OnInit {
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
     this.router.navigate(['/salesorder/view', this.selectedNodes.soNumber]);
+  }
+  OnSummaryClick() {
+    localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
+    this.router.navigate(['/salesorder/summary', this.selectedNodes.soId]);
   }
   OnRefreshCick() {
     this.isRowUnSelected = true;

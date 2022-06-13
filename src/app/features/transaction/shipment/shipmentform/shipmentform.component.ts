@@ -16,7 +16,6 @@ export class ShipmentformComponent implements OnInit {
   shipmentType!: string;
   shipmentdetails: any;
   itemLines: any[] = [];
-  totalGridCount: number = 0;
   isShipmentsummary: boolean = false;
   isShipmentdetails: boolean = false;
   columnDefs: ColDef[] = [
@@ -38,17 +37,15 @@ export class ShipmentformComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
+      this.shipmentType = params['state'];
       if (params['id'] != undefined) {
         this.shipmentid = Number(params['id']);
-      }
-      if (params['id'] != undefined) {
-        this.shipmentid = Number(params['id']);
-        this.shipmentType = params['state'];
       }
     });
     this.getscreendetails();
-    this.getSalesOrderdetails();
+
   }
   getscreendetails() {
     switch (this.shipmentType) {
@@ -60,11 +57,14 @@ export class ShipmentformComponent implements OnInit {
           { field: 'productId', sortable: true, resizable: true, filter: true },
           { field: 'productCode', sortable: true, resizable: true, filter: true },
           { field: 'productDescription', sortable: true, resizable: true, filter: true },
-          { field: 'quantity', sortable: true, resizable: true, filter: true },
           { field: 'uomCode', sortable: true, resizable: true, filter: true },
           { field: 'uomQnty', sortable: true, resizable: true, filter: true },
+          { field: 'orderQnty', sortable: true, resizable: true, filter: true },
+          { field: 'shippedQnty', sortable: true, resizable: true, filter: true },
+          { field: 'pendingQnty', sortable: true, resizable: true, filter: true },
           { field: 'purchasePrice', sortable: true, resizable: true, filter: true },
         ];
+        this.getShipmentDetails();
         break;
       }
       case 'details': {
@@ -74,8 +74,9 @@ export class ShipmentformComponent implements OnInit {
       }
     }
   }
-  getSalesOrderdetails() {
+  getShipmentDetails() {
     this.loading = true
+    this.itemLines=[]
     let saveResponse: Observable<any>;
     if (this.isShipmentsummary) {
       saveResponse = this.shipmentService.getshipmentsummary(this.shipmentid);
@@ -84,9 +85,10 @@ export class ShipmentformComponent implements OnInit {
     }
     saveResponse.subscribe({
       next: (data: any) => {
-        this.shipmentdetails = data;
-        this.itemLines = data.itemLines;
-        this.totalGridCount = this.itemLines.length;
+        if (data != null) {
+          this.shipmentdetails = data;
+          this.itemLines = data.itemLines;
+        }
       },
       error: (err => { console.error(err) }),
       complete: () => { this.loading = false; }

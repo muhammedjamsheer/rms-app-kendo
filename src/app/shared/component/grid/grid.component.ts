@@ -33,6 +33,7 @@ import { UserMasterService } from '../../../core/service/usermaster.service';
 import { DatePipe } from '@angular/common';
 import { userrolemasterservice } from 'src/app/core/service/userrolemaster.service';
 import { SalesorderService } from '../../../core/service/salesorder.service';
+import { SalesreturnService } from 'src/app/core/service/salesreturn.service';
 import { PrintLabelService } from 'src/app/core/service/printlabel.service';
 import { PicklistService } from 'src/app/core/service/picklist.service';
 import { ShipmentService } from 'src/app/core/service/shipment.service';
@@ -41,6 +42,7 @@ import { InventoryService } from 'src/app/core/service/inventory.service';
 import { WarehousemasterService } from 'src/app/core/service/warehousemaster.service';
 import { ProductionorderService } from 'src/app/core/service/productionorder.service';
 import { InboundService } from 'src/app/core/service/inbound.service';
+import { TransferreturnService } from 'src/app/core/service/transferreturn.service';
 @Component({
   selector: 'org-fat-grid',
   templateUrl: './grid.component.html',
@@ -86,10 +88,16 @@ export class GridComponent implements OnInit {
     private userMasterService: UserMasterService,
     private userroleMasterService: userrolemasterservice,
     private salesorderService: SalesorderService,
+    private salesreturnService: SalesreturnService,
+
+
     private printLabelService: PrintLabelService,
     private picklistService: PicklistService,
     private shipmentService: ShipmentService,
     private transferorderService: TransferorderService,
+    private transferreturnService: TransferreturnService,
+    
+
     private inventoryService: InventoryService,
     private warehousemasterService: WarehousemasterService,
     private productionorderService: ProductionorderService,
@@ -971,6 +979,36 @@ export class GridComponent implements OnInit {
         });
         break;
       }
+      case 'salesorderreturn': {
+        this.columnDefs = [
+          { field: 'soNumber', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'soEntry', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'soDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'soDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'cardCode', sortable: true, resizable: true, filter: true },
+          { field: 'cardName', sortable: true, resizable: true, filter: true },
+          { field: 'customerLocation', sortable: true, resizable: true, filter: true },
+          { field: 'docObjectCode', sortable: true, resizable: true, filter: true },
+          { field: 'docStatus', sortable: true, resizable: true, filter: true },
+          { field: 'externalDocType', sortable: true, resizable: true, filter: true },
+          { field: 'journalMemo', sortable: true, resizable: true, filter: true },
+          { field: 'numAtCard', sortable: true, resizable: true, filter: true },
+          { field: 'vendorName', sortable: true, resizable: true, filter: true },
+          { field: 'notes', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'warehouse', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'createdBy', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'createdDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'modifiedBy', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'modifiedDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+        ];
+        this.rowData = await this.salesreturnService.getSalesOrderReturn();
+        this.subscription = this.salesreturnService.refreshClickevent.subscribe((e) => {
+          this.OnRefreshCick();
+        });
+        break;
+      }
+
+
       case 'printexistingstock': {
         this.columnDefs = [
           { field: 'productCode', sortable: true, resizable: true, filter: true },
@@ -1021,7 +1059,6 @@ export class GridComponent implements OnInit {
       case 'shipment': {
         this.columnDefs = [
           { field: 'shipmentId', sortable: true, resizable: true, filter: true, width: 200 },
-          { field: 'shipmentType', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'shippedQuantity', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'shipmentDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
           { field: 'shipmentStatusText', sortable: true, resizable: true, filter: true, width: 200 },
@@ -1053,7 +1090,6 @@ export class GridComponent implements OnInit {
       }
       case 'transferorder': {
         this.columnDefs = [
-
           { field: 'fromWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'toWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
           { field: 'journalMemo', sortable: true, resizable: true, filter: true, width: 200 },
@@ -1071,8 +1107,6 @@ export class GridComponent implements OnInit {
           { field: 'createdDate', sortable: true, resizable: true, filter: true, valueFormatter: this.dateFormatter },
           { field: 'modifiedBy', sortable: true, resizable: true, filter: true },
           { field: 'modifiedDate', sortable: true, resizable: true, filter: true, valueFormatter: this.dateFormatter },
-
-
         ];
         this.rowData = await this.transferorderService.gettransferorders();
         this.subscription = this.transferorderService.refreshClickevent.subscribe((e) => {
@@ -1080,6 +1114,34 @@ export class GridComponent implements OnInit {
         });
         break;
       }
+      case 'transferreturn': {
+        this.columnDefs = [
+          { field: 'fromWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toWarehouse', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'journalMemo', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'externalDocType', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'toDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.dateFormatter },
+          { field: 'vendorName', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'warehouse', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toEntry', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'notes', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'toNumber', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'docObjectCode', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'docStatus', sortable: true, resizable: true, filter: true, width: 200 },
+          { field: 'createdBy', sortable: true, resizable: true, filter: true },
+          { field: 'createdDate', sortable: true, resizable: true, filter: true, valueFormatter: this.dateFormatter },
+          { field: 'modifiedBy', sortable: true, resizable: true, filter: true },
+          { field: 'modifiedDate', sortable: true, resizable: true, filter: true, valueFormatter: this.dateFormatter },
+        ];
+        this.rowData = await this.transferreturnService.getTransferReturn();
+        this.subscription = this.transferreturnService.refreshClickevent.subscribe((e) => {
+          this.OnRefreshCick();
+        });
+        break;
+      }
+
+      
       case 'inventorysummary': {
         this.columnDefs = [
           { field: 'productId', sortable: true, resizable: true, filter: true, width: 200 },
@@ -1311,8 +1373,16 @@ export class GridComponent implements OnInit {
         this.rowData = await this.salesorderService.onRefreshsalesorder();
         break;
       }
+      case 'salesorderreturn': {
+        this.rowData = await this.salesreturnService.onRefreshSalesOrderReturn();
+        break;
+      }
       case 'transferorder': {
         this.rowData = await this.transferorderService.onRefreshtransferorder();
+        break;
+      }
+      case 'transferreturn': {
+        this.rowData = await this.transferreturnService.onRefreshTransferReturn();
         break;
       }
       case 'picklist': {
@@ -1463,6 +1533,10 @@ export class GridComponent implements OnInit {
         this.salesorderService.selectedrowevent.next(event);
         break;
       }
+      case 'salesorderreturn': {
+        this.salesreturnService.selectedrowevent.next(event);
+        break;
+      }
       case 'printexistingstock': {
         this.printLabelService.selectedrowevent.next(event);
         break;
@@ -1477,6 +1551,10 @@ export class GridComponent implements OnInit {
       }
       case 'transferorder': {
         this.transferorderService.selectedrowevent.next(event);
+        break;
+      }
+      case 'transferreturn': {
+        this.transferreturnService.selectedrowevent.next(event);
         break;
       }
       case 'productionorder': {

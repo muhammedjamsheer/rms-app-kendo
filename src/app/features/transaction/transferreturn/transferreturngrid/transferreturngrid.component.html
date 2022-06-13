@@ -1,14 +1,12 @@
 <div class="card-header">
-    <h3 class="card-title">Transfer Order List</h3>
+    <h3 class="card-title">Transfer Return List</h3>
 </div>
 <button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
 
 <button (click)="OnSummaryClick()"
     [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected }">Summary</button>
 
-    
-<button (click)="OnViewClick()"
-    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
-<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+<button (click)="OnViewClick()" [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected }">View</button>
 
+<span class="gridsummary">Total Items : {{totalGridCount}}</span>
 <org-fat-grid [entity]="name" (totalGriditems)="totalGridItems($event)"></org-fat-grid>

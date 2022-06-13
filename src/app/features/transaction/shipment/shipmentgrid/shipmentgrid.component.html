@@ -2,10 +2,10 @@
     <h3 class="card-title">Shipment List</h3>
 </div>
 <button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
-<button (click)="OnViewClick()"
-    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
 <button (click)="OnSummaryClick()"
     [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isSummaryAllowed}">Summary</button>
+<button (click)="OnViewClick()"
+    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
 <button (click)="OnRepostClick()"
     [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isRepostAllowed}">Repost</button>
 <span class="gridsummary">Total Items : {{totalGridCount}}</span>

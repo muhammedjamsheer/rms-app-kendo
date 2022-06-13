@@ -21,9 +21,6 @@ export class PurchaseorderService {
     this.headerdetails = exportdata.headerdata;
     this.printtype = exportdata.printtype;
     this.reporttype = exportdata.reporttype;
-
-    debugger;
-
     let content = [
       {
         columns: [

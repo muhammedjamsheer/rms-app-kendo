@@ -8,6 +8,7 @@
     <button type="button"  (click)="getPDF()" class="btn btn-danger btn-sm">
         <i class="fa fa-file-pdf-o " aria-hidden="true"></i> Pdf
     </button>
+    <span class="gridsummary">Total Items : {{transferorderdetails.length}}</span>
     <div class="text-danger" *ngIf="showzerocountvalidation">{{errorMessage}}</div>
     <div>
         <ag-grid-angular #agGrid style="width: 100%; height: 80vh;" class="ag-theme-alpine" [columnDefs]="columnDefs"

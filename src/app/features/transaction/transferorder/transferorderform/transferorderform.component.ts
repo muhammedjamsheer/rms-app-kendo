@@ -18,13 +18,16 @@ export class TransferorderformComponent implements OnInit {
   @ViewChild('ViewButton') ViewButton!: ElementRef;
   picklistobj: PickListModel = new PickListModel();
   loading: boolean = false;
-  transferorderid!: string;
   transferorderdetails: any;
   selectednodes: any[] = []
   showzerocountvalidation: boolean = false;
   startprinting: boolean = false;
   submitted: boolean = false;
   picklistForm!: FormGroup;
+  screenName!: string;
+  State!: string;
+  toNumber !: number;
+  toId!: number;
   errorMessage: string = ''
   columnDefs: ColDef[] = [
     {
@@ -35,7 +38,7 @@ export class TransferorderformComponent implements OnInit {
     },
     { field: 'toLineNumber', sortable: true, resizable: true, filter: true },
     { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'toLineDescription', sortable: true, resizable: true, filter: true, width: 250  },
+    { field: 'toLineDescription', sortable: true, resizable: true, filter: true, width: 250 },
     { field: 'availableQnty', sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'orderQty', sortable: true, resizable: true, filter: true },
     {
@@ -69,8 +72,12 @@ export class TransferorderformComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      if (params['id'] != undefined) {
-        this.transferorderid = params['id'];
+      this.State = params['state'];
+      if (params['state'] === 'view' && params['id'] != undefined) {
+        this.toNumber = Number(params['id']);
+      }
+      if (params['state'] === 'summary' && params['id'] != undefined) {
+        this.toId = Number(params['id']);
       }
     });
     this.picklistForm = this.formBuilder.group({
@@ -78,13 +85,40 @@ export class TransferorderformComponent implements OnInit {
       CustomerLocation: [''],
       Remarks: ['']
     });
-    this.getSalesOrderdetails();
+
+    switch (this.State) {
+      case 'view':
+        this.screenName = "Sales Order Details";
+        this.getTransferOrderDetails();
+        break;
+      case 'summary':
+        this.screenName = "Sales Order Summary";
+        this.getTransferOrderSummary();
+        break;
+    }
+
   }
-  getSalesOrderdetails() {
+  getTransferOrderDetails() {
     this.loading = true
-    this.transferorderService.gettransferorderdetails(this.transferorderid).subscribe({
+    this.transferorderdetails = []
+    this.transferorderService.getTransferOrderDetails(this.toNumber).subscribe({
       next: (data: any) => {
-        this.transferorderdetails = data;
+        if (data != null && data.length > 0) {
+          this.transferorderdetails = data;
+        }
+      },
+      error: (err => { console.error(err) }),
+      complete: () => { this.loading = false; }
+    });
+  }
+  getTransferOrderSummary() {
+    this.loading = true
+    this.transferorderdetails = []
+    this.transferorderService.getTransferOrderSummary(this.toId).subscribe({
+      next: (data: any) => {
+        if (data != null && data.length > 0) {
+          this.transferorderdetails = data;
+        }
       },
       error: (err => { console.error(err) }),
       complete: () => { this.loading = false; }
@@ -148,7 +182,7 @@ export class TransferorderformComponent implements OnInit {
         pickQuantity: Number(element.qntyToPick),
         UomCode: element.uomCode,
         uomQtytoPick: Number(element.uomQntyToPick),
-        fromWarehouse:element.warehouseCode
+        fromWarehouse: element.warehouseCode
       })
     });
     this.picklistService.createPicklist(this.picklistobj).subscribe({

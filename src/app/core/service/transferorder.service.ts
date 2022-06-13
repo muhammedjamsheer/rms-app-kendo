@@ -27,7 +27,6 @@ export class TransferorderService {
     private http: HttpClient,
   ) { }
 
-
   async gettransferorders() {
     if (!(this.transferorderDataCache.length > 0)) {
       const data = await this.http.get<any[]>(this.apiUrl + "/ToHeaders", this.httpOptions).toPromise();
@@ -38,11 +37,6 @@ export class TransferorderService {
       return this.transferorderDataCache;
     }
   }
-  gettransferorderdetails(id: string) {
-    return this.http.get<any>(this.apiUrl + "/" + id, this.httpOptions).pipe(tap((res: any) => {
-      return res;
-    }));
-  }
   async onRefreshtransferorder() {
     const data = await this.http.get<any[]>(this.apiUrl + "/ToHeaders", this.httpOptions).toPromise();
     if (data == null) {
@@ -51,7 +45,18 @@ export class TransferorderService {
       this.transferorderDataCache = data;
     }
     return this.transferorderDataCache;
-    
+  }
+
+  getTransferOrderDetails(id: number) {
+    return this.http.get<any>(this.apiUrl + "/" + id, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
+  }
+
+  getTransferOrderSummary(id: number) {
+    return this.http.get<any>(this.apiUrl + "/tosummary/" + id, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
   }
 
   createManualTransferOrderReceipt(data: ToManualReceiptModel) {

@@ -71,6 +71,11 @@ import { ProductionorderformComponent } from './productionorder/productionorderf
 import { ProductionorderPrintlabelComponent } from './productionorder/productionorder-printlabel/productionorder-printlabel.component';
 import { PurchaseordergridComponent } from './purchaseorder/purchaseordergrid/purchaseordergrid.component';
 import { PurchaseorderformComponent } from './purchaseorder/purchaseorderform/purchaseorderform.component';
+import { SalesreturngridComponent } from './salesreturn/salesreturngrid/salesreturngrid.component';
+import { SalesreturnformComponent } from './salesreturn/salesreturnform/salesreturnform.component';
+
+import { TransferreturngridComponent } from './transferreturn/transferreturngrid/transferreturngrid.component';
+import { TransferreturnformComponent } from './transferreturn/transferreturnform/transferreturnform.component';
 
 
 
@@ -80,8 +85,8 @@ import { PurchaseorderformComponent } from './purchaseorder/purchaseorderform/pu
     , PrintlabelformComponent, AssetsummaryComponent
     , AssettransferverificationComponent, ReceiptUploadComponent
     , DocumenttagprintComponent, MacrofileupdateComponent
-    , AssetfileuploadComponent, QrcodeprintComponent,InboundComponent
-    ,InboundHeadComponent,InboundDetailComponent, SalesorderformComponent, SalesordergridComponent, PrintexistingstockComponent, PicklistgridComponent, ReceiptdetailsComponent, ShipmentgridComponent, ShipmentformComponent, TransferordergridComponent, TransferorderformComponent, TransferrquestgridComponent, TransferrquestformComponent, InventorysummarygridComponent, InventorydetailsgridComponent, PicklistformComponent, ManaultoreceiptformComponent, ProductionordergridComponent, ProductionorderformComponent, ProductionorderPrintlabelComponent, PurchaseordergridComponent, PurchaseorderformComponent],
+    , AssetfileuploadComponent, QrcodeprintComponent, InboundComponent
+    , InboundHeadComponent, InboundDetailComponent, SalesorderformComponent, SalesordergridComponent, PrintexistingstockComponent, PicklistgridComponent, ReceiptdetailsComponent, ShipmentgridComponent, ShipmentformComponent, TransferordergridComponent, TransferorderformComponent, TransferrquestgridComponent, TransferrquestformComponent, InventorysummarygridComponent, InventorydetailsgridComponent, PicklistformComponent, ManaultoreceiptformComponent, ProductionordergridComponent, ProductionorderformComponent, ProductionorderPrintlabelComponent, PurchaseordergridComponent, PurchaseorderformComponent, SalesreturngridComponent, SalesreturnformComponent, TransferreturngridComponent, TransferreturnformComponent],
   imports: [
     SharedModule,
     TransactionRoutingModule,
@@ -89,7 +94,7 @@ import { PurchaseorderformComponent } from './purchaseorder/purchaseorderform/pu
     BrowserModule,
     MasterRoutingModule,
     ReactiveFormsModule,
-    FileUploadModule,    
+    FileUploadModule,
     ModalModule,
     AgGridModule.withComponents([]),
     TreeviewModule.forRoot(),

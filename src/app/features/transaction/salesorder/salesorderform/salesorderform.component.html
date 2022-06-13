@@ -1,5 +1,5 @@
 <div class="card-header">
-    <h3 class="card-title">Sales Order Details</h3>
+    <h3 class="card-title">{{screenName}}</h3>
 </div>
 <div class="card-body">
     <button (click)="OnPicklist();" class="btn btn-info btn-sm">Create Pick List</button>
@@ -8,9 +8,11 @@
     <button type="button" (click)="getPDF()" class="btn btn-danger btn-sm">
         <i class="fa fa-file-pdf-o " aria-hidden="true"></i> Pdf
     </button>
+    <span class="gridsummary">Total Items : {{salesorderdata.length}}</span>
     <div class="text-danger" *ngIf="showzerocountvalidation">
         {{errorMessage}} </div>
     <div>
+
         <div class="canvas_div_pdf">
             <ag-grid-angular #agGrid style="width: 100%; height: 80vh;" class="ag-theme-alpine"
                 [columnDefs]="columnDefs" rowSelection="multiple" rowHeight="50" [rowData]="salesorderdata"

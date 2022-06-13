@@ -2,6 +2,8 @@
     <h3 class="card-title">{{screenName}}</h3>
 </div>
 <button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button (click)="OnSummaryClick()"
+    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected }">Summary</button>
 <button (click)="OnViewClick()"
     [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
 <span class="gridsummary">Total Items : {{totalGridCount}}</span>

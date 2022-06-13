@@ -10,7 +10,7 @@
 <button type="button" (click)="getExcel()" class="btn btn-success btn-sm">
     <i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel
 </button>
-<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+<span class="gridsummary">Total Items : {{itemLines.length}}</span>
 <div class="card-body">
     <ag-grid-angular #agGrid style="width: 100%; height: 80vh;" class="ag-theme-alpine" [columnDefs]="columnDefs"
         rowSelection="multiple" rowHeight="50" [rowData]="itemLines" cellSelection="none" animateRows="true"

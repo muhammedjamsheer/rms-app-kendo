@@ -28,6 +28,9 @@ export class SalesorderformComponent implements OnInit {
   picklistobj: PickListModel = new PickListModel();
   selectednodes: any[] = []
   Sonumber!: number;
+  State!: string;
+  Soid!: number;
+  screenName !: string;
   salesorderdata: any[] = []
   loading: boolean = false;
   customerlist: any[] = []
@@ -65,7 +68,7 @@ export class SalesorderformComponent implements OnInit {
     { field: 'price', sortable: true, resizable: true, filter: true },
     { field: 'warehouseCode', sortable: true, resizable: true, filter: true }
 
-      
+
   ];
   picklistForm!: FormGroup;
   submitted: boolean = false;
@@ -94,16 +97,32 @@ export class SalesorderformComponent implements OnInit {
   async ngOnInit() {
     $('.select2bs4').select2();
     this.route.params.subscribe(params => {
-      if (params['id'] != undefined) {
+      this.State = params['state'];
+      if (params['state'] === 'view' && params['id'] != undefined) {
         this.Sonumber = Number(params['id']);
       }
+      if (params['state'] === 'summary' && params['id'] != undefined) {
+        this.Soid = Number(params['id']);
+      }
     });
+
     this.picklistForm = this.formBuilder.group({
       Towarehouse: [''],
       Remarks: [''],
       Customer: [null, Validators.required],
       Address: [null, Validators.required],
     });
+
+    switch (this.State) {
+      case 'view':
+        this.screenName = "Sales Order Details";
+        this.getSalesOrderdetails();
+        break;
+      case 'summary':
+        this.screenName = "Sales Order Summary";
+        this.getSalesOrderSummary();
+        break;
+    }
     this.customerlist = await this.customerMasterService.getCustomersList();
 
     $('[name="Customer"]').on("change", () => {
@@ -113,19 +132,35 @@ export class SalesorderformComponent implements OnInit {
     $('[name="Address"]').on("change", () => {
       this.formcontrols.Address.setValue($('[name="Address"]').val());
     });
-    this.getSalesOrderdetails();
   }
 
   getSalesOrderdetails() {
-    this.loading = true
+    this.salesorderdata = []
     this.salesorderService.getSalesOrderdetails(this.Sonumber).subscribe({
       next: (data: any[]) => {
-        this.salesorderdata = data;
+        if (data != null && data.length > 0) {
+          this.salesorderdata = data;
+        }
       },
-      error: (err => { console.error(err) }),
-      complete: () => { this.loading = false; }
+      error: (err => { }),
+      complete: () => { }
     });
   }
+  getSalesOrderSummary() {
+    this.salesorderdata = []
+    this.salesorderService.getSalesOrderSummary(this.Soid).subscribe({
+      next: (data: any[]) => {
+        if (data != null && data.length > 0) {
+          this.salesorderdata = data;
+        }
+      },
+      error: (err => { }),
+      complete: () => { }
+    });
+  }
+
+
+
   onSelectionChanged(event: any) {
     let selectedNodes = this.agGrid.api.getSelectedNodes();
     this.selectednodes = selectedNodes.map<any>(node => node.data);
@@ -186,7 +221,7 @@ export class SalesorderformComponent implements OnInit {
         pickQuantity: Number(element.qntyToPick),
         UomCode: element.uomCode,
         uomQtytoPick: Number(element.uomQntyToPick),
-        fromWarehouse:element.warehouseCode,
+        fromWarehouse: element.warehouseCode,
       })
     });
     this.picklistService.createPicklist(this.picklistobj).subscribe({
