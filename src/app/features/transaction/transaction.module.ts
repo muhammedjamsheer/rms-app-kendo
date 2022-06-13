@@ -73,9 +73,10 @@ import { PurchaseordergridComponent } from './purchaseorder/purchaseordergrid/pu
 import { PurchaseorderformComponent } from './purchaseorder/purchaseorderform/purchaseorderform.component';
 import { SalesreturngridComponent } from './salesreturn/salesreturngrid/salesreturngrid.component';
 import { SalesreturnformComponent } from './salesreturn/salesreturnform/salesreturnform.component';
-
 import { TransferreturngridComponent } from './transferreturn/transferreturngrid/transferreturngrid.component';
 import { TransferreturnformComponent } from './transferreturn/transferreturnform/transferreturnform.component';
+import { PurchaseorderreturngridComponent } from './purchaseorderreturn/purchaseorderreturngrid/purchaseorderreturngrid.component';
+import { PurchaseorderreturformComponent } from './purchaseorderreturn/purchaseorderreturform/purchaseorderreturform.component';
 
 
 
@@ -86,7 +87,7 @@ import { TransferreturnformComponent } from './transferreturn/transferreturnform
     , AssettransferverificationComponent, ReceiptUploadComponent
     , DocumenttagprintComponent, MacrofileupdateComponent
     , AssetfileuploadComponent, QrcodeprintComponent, InboundComponent
-    , InboundHeadComponent, InboundDetailComponent, SalesorderformComponent, SalesordergridComponent, PrintexistingstockComponent, PicklistgridComponent, ReceiptdetailsComponent, ShipmentgridComponent, ShipmentformComponent, TransferordergridComponent, TransferorderformComponent, TransferrquestgridComponent, TransferrquestformComponent, InventorysummarygridComponent, InventorydetailsgridComponent, PicklistformComponent, ManaultoreceiptformComponent, ProductionordergridComponent, ProductionorderformComponent, ProductionorderPrintlabelComponent, PurchaseordergridComponent, PurchaseorderformComponent, SalesreturngridComponent, SalesreturnformComponent, TransferreturngridComponent, TransferreturnformComponent],
+    , InboundHeadComponent, InboundDetailComponent, SalesorderformComponent, SalesordergridComponent, PrintexistingstockComponent, PicklistgridComponent, ReceiptdetailsComponent, ShipmentgridComponent, ShipmentformComponent, TransferordergridComponent, TransferorderformComponent, TransferrquestgridComponent, TransferrquestformComponent, InventorysummarygridComponent, InventorydetailsgridComponent, PicklistformComponent, ManaultoreceiptformComponent, ProductionordergridComponent, ProductionorderformComponent, ProductionorderPrintlabelComponent, PurchaseordergridComponent, PurchaseorderformComponent, SalesreturngridComponent, SalesreturnformComponent, TransferreturngridComponent, TransferreturnformComponent, PurchaseorderreturngridComponent, PurchaseorderreturformComponent],
   imports: [
     SharedModule,
     TransactionRoutingModule,

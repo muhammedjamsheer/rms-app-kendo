@@ -6,11 +6,12 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Subscription, Observable } from 'rxjs';
 
 @Component({
-  selector: 'org-rms-purchaseorderform',
-  templateUrl: './purchaseorderform.component.html',
-  styleUrls: ['./purchaseorderform.component.css']
+  selector: 'org-rms-purchaseorderreturform',
+  templateUrl: './purchaseorderreturform.component.html',
+  styleUrls: ['./purchaseorderreturform.component.css']
 })
-export class PurchaseorderformComponent implements OnInit {
+export class PurchaseorderreturformComponent implements OnInit {
+
   @ViewChild('agGrid') agGrid!: AgGridAngular;
   poId !: number;
   isPurchaseorderreturnsummary: boolean = true;
@@ -44,10 +45,10 @@ export class PurchaseorderformComponent implements OnInit {
         this.poId = Number(params['id']);
       }
     });
-    this.getpurchaseorderReturnSummary();
+    this.getPurchaseOrderdetails();
   }
 
-  getpurchaseorderReturnSummary() {
+  getPurchaseOrderdetails() {
     this.purchaseorderdata = []
     let saveResponse: Observable<any>;
     saveResponse = this.inboundService.getpurchaseorderReturnSummary(this.poId);
@@ -65,4 +66,5 @@ export class PurchaseorderformComponent implements OnInit {
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }
+
 }

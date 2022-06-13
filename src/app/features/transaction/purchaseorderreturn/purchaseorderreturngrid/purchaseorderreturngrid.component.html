@@ -1,0 +1,9 @@
+<div class="card-header">
+    <h3 class="card-title">Purchase Order Return List</h3>
+</div>
+<button (click)="OnRefreshCick();" class="btn btn-info btn-sm">Refresh</button>
+<button (click)="OnViewClick()"
+    [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected || !isViewAllowed}">View</button>
+<span class="gridsummary">Total Items : {{totalGridCount}}</span>
+
+<org-fat-grid [entity]="name" (totalGriditems)="totalGridItems($event)"></org-fat-grid>

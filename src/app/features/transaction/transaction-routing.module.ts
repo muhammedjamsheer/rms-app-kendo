@@ -59,6 +59,9 @@ import { SalesreturngridComponent } from './salesreturn/salesreturngrid/salesret
 import { SalesreturnformComponent } from './salesreturn/salesreturnform/salesreturnform.component';
 import { TransferreturngridComponent } from './transferreturn/transferreturngrid/transferreturngrid.component';
 import { TransferreturnformComponent } from './transferreturn/transferreturnform/transferreturnform.component';
+import { PurchaseorderreturngridComponent } from './purchaseorderreturn/purchaseorderreturngrid/purchaseorderreturngrid.component';
+import { PurchaseorderreturformComponent } from './purchaseorderreturn/purchaseorderreturform/purchaseorderreturform.component';
+
 
 
 import { InboundComponent } from './inbound/inbound.component';
@@ -117,17 +120,14 @@ const routes: Routes = [{ path: '', component: TransactionComponent },
 { path: 'assetdisposal', component: AssetdisposalformComponent, canActivate: [AuthGuard] },
 
 { path: 'inbound', component: InboundComponent, canActivate: [AuthGuard] },
+{ path: 'purchasereturn', component: PurchaseorderreturngridComponent, canActivate: [AuthGuard] },
+{ path: 'purchasereturn/view/:id', component: PurchaseorderreturformComponent, canActivate: [AuthGuard] },
+
 { path: 'salesorder', component: SalesordergridComponent, canActivate: [AuthGuard] },
 { path: 'salesorder/:state/:id', component: SalesorderformComponent, canActivate: [AuthGuard] },
 { path: 'salesreturn', component: SalesreturngridComponent, canActivate: [AuthGuard] },
 { path: 'salesreturn/:state/:id', component: SalesreturnformComponent, canActivate: [AuthGuard] },
 
-
-{ path: 'printexistingstock', component: PrintexistingstockComponent, canActivate: [AuthGuard] },
-{ path: 'picklist', component: PicklistgridComponent, canActivate: [AuthGuard] },
-{ path: 'picklist/:state/:id', component: PicklistformComponent, canActivate: [AuthGuard] },
-{ path: 'shipment', component: ShipmentgridComponent, canActivate: [AuthGuard] },
-{ path: 'shipment/:state/:id', component: ShipmentformComponent, canActivate: [AuthGuard] },
 { path: 'transferorder', component: TransferordergridComponent, canActivate: [AuthGuard] },
 { path: 'transferorder/:state/:id', component: TransferorderformComponent, canActivate: [AuthGuard] },
 { path: 'transferreturn', component: TransferreturngridComponent, canActivate: [AuthGuard] },
@@ -135,17 +135,20 @@ const routes: Routes = [{ path: '', component: TransactionComponent },
 { path: 'transferrequest', component: TransferrquestgridComponent, canActivate: [AuthGuard] },
 { path: 'transferrequest/add', component: TransferrquestformComponent, canActivate: [AuthGuard] },
 { path: 'transferrequest/:state/:id', component: TransferrquestformComponent, canActivate: [AuthGuard] },
+
+
+{ path: 'printexistingstock', component: PrintexistingstockComponent, canActivate: [AuthGuard] },
+{ path: 'picklist', component: PicklistgridComponent, canActivate: [AuthGuard] },
+{ path: 'picklist/:state/:id', component: PicklistformComponent, canActivate: [AuthGuard] },
+{ path: 'shipment', component: ShipmentgridComponent, canActivate: [AuthGuard] },
+{ path: 'shipment/:state/:id', component: ShipmentformComponent, canActivate: [AuthGuard] },
+
 { path: 'inventorysummary', component: InventorysummarygridComponent, canActivate: [AuthGuard] },
 { path: 'inventorydetails', component: InventorydetailsgridComponent, canActivate: [AuthGuard] },
 { path: 'manualtoreceipt', component: ManaultoreceiptformComponent, canActivate: [AuthGuard] },
 { path: 'productionorder', component: ProductionordergridComponent, canActivate: [AuthGuard] },
 { path: 'productionorder/:state/:id', component: ProductionorderformComponent, canActivate: [AuthGuard] },
 { path: 'printlabelproduction', component: ProductionorderPrintlabelComponent, canActivate: [AuthGuard] },
-
-{ path: 'salesreturn', component: SalesordergridComponent, canActivate: [AuthGuard] },
-{ path: 'transferreturn', component: TransferordergridComponent, canActivate: [AuthGuard] },
-{ path: 'purchasereturn', component: PurchaseordergridComponent, canActivate: [AuthGuard] },
-{ path: 'purchasereturn/view/:id', component: PurchaseorderformComponent, canActivate: [AuthGuard] },
 
 ];
 
