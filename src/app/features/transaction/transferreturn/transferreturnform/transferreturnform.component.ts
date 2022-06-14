@@ -18,7 +18,7 @@ export class TransferreturnformComponent implements OnInit {
   screenName!: string;
   State!: string;
   toId!: number;
-  transferreturndata:any[]=[]
+  transferreturndata: any[] = []
 
   columnDefs: ColDef[] = [
     {
@@ -29,7 +29,7 @@ export class TransferreturnformComponent implements OnInit {
     },
     { field: 'toLineNumber', sortable: true, resizable: true, filter: true },
     { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'toLineDescription', sortable: true, resizable: true, filter: true, width: 250  },
+    { field: 'toLineDescription', sortable: true, resizable: true, filter: true, width: 250 },
     { field: 'availableQnty', sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'orderQty', sortable: true, resizable: true, filter: true },
     {
@@ -86,5 +86,15 @@ export class TransferreturnformComponent implements OnInit {
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }
-
+  getPDF() {
+    var data = {
+      headerdata: undefined,
+      griddata: this.transferreturndata,
+      printtype: 'transferorder',
+      title: 'Transfer Order Return',
+      mastertype: 'transferorderreturn',
+      isreport: false
+    }
+    this.exportService.generatePdf(data);
+  }
 }

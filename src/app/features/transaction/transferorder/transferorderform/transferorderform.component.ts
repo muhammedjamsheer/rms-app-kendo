@@ -8,6 +8,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { PicklistService } from '../../../../core/service/picklist.service';
 import { SaveAlert } from '../../../../shared/commonalerts/savealert';
 import { ExportService } from '../../../../core/exports/export.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'org-rms-transferorderform',
   templateUrl: './transferorderform.component.html',
@@ -28,6 +29,8 @@ export class TransferorderformComponent implements OnInit {
   State!: string;
   toId!: number;
   errorMessage: string = ''
+  selectedHeader:any;
+  subscription!: Subscription;
   columnDefs: ColDef[] = [
     {
       headerName: 'ProductId', field: 'productId', sortable: true, filter: true, resizable: true,
@@ -37,7 +40,7 @@ export class TransferorderformComponent implements OnInit {
     },
     { field: 'toLineNumber', sortable: true, resizable: true, filter: true },
     { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'toLineDescription', sortable: true, resizable: true, filter: true, width: 250 },
+    { field: 'toLineDescription', headerName: "Product Deascription", sortable: true, resizable: true, filter: true, width: 250 },
     { field: 'availableQnty', sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'orderQty', sortable: true, resizable: true, filter: true },
     {
@@ -67,7 +70,11 @@ export class TransferorderformComponent implements OnInit {
     private saveAlert: SaveAlert,
     private exportService: ExportService,
 
-  ) { }
+  ) {
+    this.subscription = this.transferorderService.selectedrowevent.subscribe((e) => {
+      this.selectedHeader = e.data;
+    });
+   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -166,9 +173,12 @@ export class TransferorderformComponent implements OnInit {
   }
   getPDF() {
     var data = {
-      headerdata: null,
+      headerdata: this.selectedHeader,
       griddata: this.transferorderdetails,
-      printtype: 'transferorder'
+      printtype: 'transferorder',
+      title:'Transfer Order',
+      mastertype: 'transferorder',
+      isreport: false
     }
     this.exportService.generatePdf(data);
   }

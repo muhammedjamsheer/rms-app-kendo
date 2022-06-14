@@ -21,7 +21,9 @@ export class SalesreturnformComponent implements OnInit {
   screenName!: string;
   State!: string;
   Soid!: number;
-  salesorderreturndata: any[] = []
+  salesorderreturndata: any[] = [];
+  subscription!: Subscription;
+  selectedHeader: any;
   columnDefs: ColDef[] = [
     {
       headerName: 'ProductId', field: 'productId', sortable: true, filter: true, resizable: true,
@@ -66,7 +68,11 @@ export class SalesreturnformComponent implements OnInit {
     private saveAlert: SaveAlert,
     private exportService: ExportService,
     private commonService: CommonService
-  ) { }
+  ) {
+    this.subscription = this.salesreturnService.selectedrowevent.subscribe((e) => {
+      this.selectedHeader = e.data;
+    });
+   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -94,5 +100,15 @@ export class SalesreturnformComponent implements OnInit {
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();
   }
-
+  getPDF() {
+    var data = {
+      headerdata: this.selectedHeader,
+      griddata: this.salesorderreturndata,
+      printtype: 'salesorder',
+      title: 'Sales Order Return',
+      mastertype:'salesorderreturn',
+      isreport: true
+    }
+    this.exportService.generatePdf(data);
+  };
 }

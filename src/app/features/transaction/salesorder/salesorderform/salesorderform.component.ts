@@ -27,7 +27,6 @@ export class SalesorderformComponent implements OnInit {
   selectednodes: any[] = []
   State!: string;
   Soid!: number;
-  screenName !: string;
   salesorderdata: any[] = []
   loading: boolean = false;
   customerlist: any[] = []
@@ -41,7 +40,7 @@ export class SalesorderformComponent implements OnInit {
     },
     { field: 'soLineNumber', sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'soLineDescription', sortable: true, resizable: true, filter: true, width: 250 },
+    { field: 'soLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
     { field: 'availableQnty', sortable: true, resizable: true, filter: true, width: 150 },
     { field: 'openQty', sortable: true, resizable: true, filter: true, width: 150 },
     {
@@ -105,12 +104,8 @@ export class SalesorderformComponent implements OnInit {
       Address: [null, Validators.required],
     });
 
-    switch (this.State) {
-      case 'view':
-        this.screenName = "Sales Order Details";
-        this.getSalesOrderdetails();
-        break;
-    }
+    this.getSalesOrderdetails();
+
     this.customerlist = await this.customerMasterService.getCustomersList();
 
     $('[name="Customer"]').on("change", () => {
@@ -226,7 +221,10 @@ export class SalesorderformComponent implements OnInit {
     var data = {
       headerdata: this.selectedHeader,
       griddata: this.salesorderdata,
-      printtype: 'salesorder'
+      printtype: 'salesorder',
+      title: 'Sales Order',
+      mastertype: 'salesorder',
+      isreport: false
     }
     this.exportService.generatePdf(data);
   };

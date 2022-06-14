@@ -9,13 +9,16 @@ export class SalesorderprintService {
   shortdateFormat = environment.shortdateformatpipe;
   sodetails: any[] = []
   headerdetails: any;
+  mastertype: string = ''
   constructor(
     private datePipe: DatePipe,
   ) { }
 
   generateContent(exportdata) {
+    this.sodetails = [];
     this.sodetails = exportdata.griddata;
-    this.headerdetails = JSON.parse(localStorage.getItem('headerdata'));
+    this.headerdetails = exportdata.isreport ? exportdata.headerdata : JSON.parse(localStorage.getItem('headerdata')) ;
+    this.mastertype = exportdata.mastertype
     let content = [
       {
         columns: [
@@ -76,10 +79,139 @@ export class SalesorderprintService {
         ]
       },
       { text: '', margin: [30, 10, 30, 0] },
-      this.getVoucherTable(),
+      exportdata.isreport ? this.getReportTable() : this.getVoucherTable(),
     ]
     return content
   }
+
+  getReportTable() {
+    var tablewidth = [25, 60, 60, '*', 60, 60, 60, 60, 60];
+    let body = []
+    let header = [
+      {
+        text: 'Sl No.',
+        alignment: 'left',
+        style: 'tableHeader'
+      },
+      {
+        text: 'Product Id',
+        alignment: 'left',
+        style: 'tableHeader'
+      },
+      {
+        text: 'Product Code',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+      {
+        text: 'Product Description',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+      {
+        text: 'UOM Code',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+      {
+        text: 'UOM Qty',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+      {
+        text: 'Pending Qty',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+    ];
+
+    if (this.mastertype == "salesorderreport") {
+      header.splice(6, 0,
+        {
+          text: 'Qty to be Ship',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+        {
+          text: 'Shipped Qty',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+      )
+    } else {
+      header.splice(6, 0,
+        {
+          text: 'Qty to be Receive',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+        {
+          text: 'Received Qty',
+          style: 'tableHeader',
+          alignment: 'left'
+        },
+      )
+    }
+    body.push(header);
+    if (this.sodetails.length > 0) {
+      for (let index = 0; index < this.sodetails.length; index++) {
+        const item = this.sodetails[index];
+        var tabledata = [
+          { text: index + 1, alignment: 'left', style: 'normalText' },
+          { text: item.productId, alignment: 'left', style: 'normalText' },
+          { text: item.productCode, alignment: 'left', style: 'normalText' },
+          { text: item.soLineDescription, alignment: 'left', style: 'normalText' },
+          { text: item.uomCode, alignment: 'left', style: 'normalText' },
+          { text: item.uomQty, alignment: 'left', style: 'normalText' },
+          { text: item.pendingQnty, alignment: 'left', style: 'normalText' },
+        ]
+        if (this.mastertype == "salesorderreport") {
+          tabledata.splice(6, 0,
+            { text: item.qntytobeShip, alignment: 'left', style: 'normalText' },
+            { text: item.shippedQnty, alignment: 'left', style: 'normalText' },
+          )
+        }
+        else {
+          tabledata.splice(6, 0,
+            { text: item.qntytobeReceive, alignment: 'left', style: 'normalText' },
+            { text: item.receivedQnty, alignment: 'left', style: 'normalText' },
+          )
+        }
+        body.push(tabledata);
+      }
+    }
+    return {
+      layout: {
+        hLineColor: function (i, node) {
+          return (i === 0 || i === 1 || i === node.table.body.length) ? 'black' : '#ccc';
+        },
+        hLineStyle: function (i, node) {
+          if (i === 0 || i === 1 || i === node.table.body.length) {
+            return null;
+          }
+          return { dash: { length: 2, space: 2 } };
+        },
+        hLineWidth: function (i, node) {
+          return 0.5;
+        },
+        vLineColor: function (i, node) {
+          return '#fff';
+        },
+        vLineWidth: function (i, node) {
+          return 0;
+        }
+      },
+      style: 'table',
+      table: {
+        headerRows: 1,
+        margin: [10, 100, 10, 20],
+        widths: tablewidth,
+        style: 'table',
+        body: body
+      }
+    };
+  }
+
 
   getVoucherTable() {
     return {
@@ -127,7 +259,7 @@ export class SalesorderprintService {
               style: 'tableHeader'
             },
             {
-              text: 'SO Line Description',
+              text: 'Product Description',
               alignment: 'left',
               style: 'tableHeader'
             },

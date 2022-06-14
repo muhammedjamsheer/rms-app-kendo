@@ -20,7 +20,6 @@ export class SalesordergridComponent implements OnInit {
   selectedNodes: any;
   totalGridCount: number = 0;
   mastertype!: string;
-  screenName!: string;
   constructor(
     private salesorderService: SalesorderService,
     private router: Router,
@@ -38,20 +37,8 @@ export class SalesordergridComponent implements OnInit {
       this.isRowUnSelected = false;
       this.selectedNodes = e.data;
     });
-    this.mastertype = this.router.url;
-    this.mastertype = this.mastertype.split("/").slice(-1)[0];
-    this.GetScreenDetails(this.mastertype);
   }
-  async GetScreenDetails(type) {
-    switch (type) {
-      case 'salesreturn':
-        this.screenName = "Sales Return List";
-        break;
-      case 'salesorder':
-        this.screenName = "Sales Order List";
-        break;
-    }
-  }
+
   OnViewClick() {
     localStorage.setItem('headerdata', JSON.stringify(this.selectedNodes));
     this.router.navigate(['/salesorder/view', this.selectedNodes.soId]);

@@ -39,12 +39,12 @@ export class ExportService {
     let bodycontent;
     switch (exportdata.printtype) {
       case 'salesorder': {
-        title = 'Sales Order';
+        title = exportdata.title;
         bodycontent = this.salesorderprintService.generateContent(exportdata)
         break;
       }
       case 'transferorder': {
-        title = 'Transfer Order';
+        title = exportdata.title;
         bodycontent = this.transferorderprintService.generateContent(exportdata)
         break;
       }
@@ -68,8 +68,6 @@ export class ExportService {
         bodycontent = this.purchaseorderService.generateContent(exportdata)
         break;
       }
-
-
     }
     this.docDefinition = {
       pageMargins: [30, 60, 30, 50],
@@ -125,7 +123,8 @@ export class ExportService {
     const title = exportdata.title;
     const griddata: any[] = exportdata.griddata
     const printtype = exportdata.printtype;
-    const reporttype = exportdata.reporttype;
+    const mastertype = exportdata.mastertype;
+    debugger;
     var gridheader = []
     if (printtype == "receiptsummary") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Batch No. ', 'UOM Code', 'UOM Qty', 'Purchase Price']
@@ -148,13 +147,24 @@ export class ExportService {
     if (printtype == "productmaster") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Inventory Uom', 'Category']
     }
-    if (printtype == "purchaseorder" && reporttype == "purchaseorder") {
-      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Order Qty', 'Received Qty', 'Pending Qty', 'Price', 'Price after Vat']
+    if (printtype == "purchaseorder" && mastertype == "purchaseorderreport") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Order Qty', 'Received Qty', 'Pending Qty']
     }
-    if (printtype == "purchaseorder" && reporttype == "purchaseorderreturn") {
-      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Return', 'Returned Qty', 'Pending Qty', 'Price', 'Price after Vat']
+    if (printtype == "purchaseorder" && mastertype == "purchaseorderreturnreport") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Return', 'Returned Qty', 'Pending Qty']
     }
-
+    if (printtype == "salesorder" && mastertype == "salesorderreport") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Ship', 'Shipped Qty', 'Pending Qty']
+    }
+    if (printtype == "salesorder" && mastertype == "salesorderreturnreport") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Receive', 'Received Qty', 'Pending Qty']
+    }
+    if (printtype == "transferorder" && mastertype == "transferorderreport") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Ship', 'Shipped Qty', 'Pending Qty']
+    }
+    if (printtype == "transferorder" && mastertype == "transferorderreturnreport") {
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'UOM Code', 'UOM Qty', 'Qty to be Return', 'Returned Qty', 'Pending Qty']
+    }
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -304,13 +314,39 @@ export class ExportService {
 
 
     if (printtype == "purchaseorder") {
+      debugger;
       let rowdata = []
       griddata.forEach((element, index) => {
-        if (reporttype == "purchaseorder") {
-          rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty, element.orderQty, element.receivedQnty, element.pendingQnty, element.price, element.priceAfterVAT]
+        if (mastertype == "purchaseorderreport") {
+          rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty, element.orderQty, element.receivedQnty, element.pendingQnty]
         }
-        if (reporttype == "purchaseorderreturn") {
-          rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty, element.qntytobeReturn, element.returnedQnty, element.pendingQnty, element.price, element.priceAfterVAT]
+        if (mastertype == "purchaseorderreturnreport") {
+          rowdata = [index + 1, element.productId, element.productCode, element.poLineDescription, element.uomCode, element.uomQty, element.qntytobeReturn, element.returnedQnty, element.pendingQnty]
+        }
+        const row = worksheet.addRow(rowdata);
+        row.eachCell(function (cell, number) {
+          cell.alignment = {
+            horizontal: 'left'
+          }
+        })
+      });
+      for (let i = 0; i < worksheet.columns.length; i += 1) {
+        const column = worksheet.columns[i];
+        if (i == 0) {
+          column.width = 15;
+        } else if (i == 3) { column.width = 50; } else { column.width = 30; }
+      }
+    }
+
+
+    if (printtype == "salesorder") {
+      let rowdata = []
+      griddata.forEach((element, index) => {
+        if (mastertype == "salesorderreport") {
+          rowdata = [index + 1, element.productId, element.productCode, element.soLineDescription, element.uomCode, element.uomQty, element.qntytobeShip, element.shippedQnty, element.pendingQnty]
+        }
+        if (mastertype == "salesorderreturnreport") {
+          rowdata = [index + 1, element.productId, element.productCode, element.soLineDescription, element.uomCode, element.uomQty, element.qntytobeReceive, element.receivedQnty, element.pendingQnty]
         }
         const row = worksheet.addRow(rowdata);
         row.eachCell(function (cell, number) {
@@ -328,6 +364,31 @@ export class ExportService {
       }
     }
 
+
+    if (printtype == "transferorder") {
+      let rowdata = []
+      griddata.forEach((element, index) => {
+        if (mastertype == "transferorderreport") {
+          rowdata = [index + 1, element.productId, element.productCode, element.toLineDescription, element.uomCode, element.uomQty, element.qntytobeShip, element.shippedQnty, element.pendingQnty]
+        }
+        if (mastertype == "transferorderreturnreport") {
+          rowdata = [index + 1, element.productId, element.productCode, element.toLineDescription, element.uomCode, element.uomQty, element.qntytobeReturn, element.returnedQnty, element.pendingQnty]
+        }
+        const row = worksheet.addRow(rowdata);
+        row.eachCell(function (cell, number) {
+          cell.alignment = {
+            horizontal: 'left'
+          }
+        })
+      });
+
+      for (let i = 0; i < worksheet.columns.length; i += 1) {
+        const column = worksheet.columns[i];
+        if (i == 0) {
+          column.width = 15;
+        } else if (i == 3) { column.width = 50; } else { column.width = 30; }
+      }
+    }
 
     worksheet.addRow([]);
     workbook.xlsx.writeBuffer().then((data) => {

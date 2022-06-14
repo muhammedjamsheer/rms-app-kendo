@@ -178,7 +178,7 @@ export class PurchaseorderreportComponent implements OnInit {
       griddata: this.summaryLines,
       printtype: 'purchaseorder',
       title: this.screenName,
-      reporttype: this.isPurchaseOrder ? 'purchaseorder' : 'purchaseorderreturn'
+      mastertype: this.mastertype
     }
 
     this.exportService.generateExcel(data);

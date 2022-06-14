@@ -167,26 +167,29 @@ export class TransferorderreportComponent implements OnInit {
       }
     });
   }
+
+
   getPDF() {
     var data = {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
-      printtype: 'purchaseorder',
-      title: this.screenName,
-      reporttype: this.isTransferOrder ? 'purchaseorder' : 'purchaseorderreturn'
+      printtype: 'transferorder',
+      title:  this.screenName,
+      mastertype: this.mastertype,
+      isreport: true
     }
-    // this.exportService.generatePdf(data);
+    this.exportService.generatePdf(data);
   };
   getExcel() {
     var data = {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
-      printtype: 'purchaseorder',
+      printtype: 'transferorder',
       title: this.screenName,
-      reporttype: this.isTransferOrder ? 'purchaseorder' : 'purchaseorderreturn'
+      mastertype: this.mastertype,
     }
 
-    // this.exportService.generateExcel(data);
+    this.exportService.generateExcel(data);
   };
 
 }

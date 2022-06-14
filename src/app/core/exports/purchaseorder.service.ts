@@ -51,7 +51,7 @@ export class PurchaseorderService {
     return content
   }
   getVoucherTable() {
-    var tablewidth = [25, 60, 60, '*', 60, 60, 60, 60, 60, 60, 60];
+    var tablewidth = [25, 60, 60, '*', 60, 60, 60, 60, 60];
     let body = []
     let header = [
       {
@@ -86,16 +86,6 @@ export class PurchaseorderService {
       },
       {
         text: 'Pending Qty',
-        style: 'tableHeader',
-        alignment: 'left'
-      },
-      {
-        text: 'Price',
-        style: 'tableHeader',
-        alignment: 'left'
-      },
-      {
-        text: 'Price after Vat',
         style: 'tableHeader',
         alignment: 'left'
       },
@@ -140,8 +130,6 @@ export class PurchaseorderService {
           { text: item.uomCode, alignment: 'left', style: 'normalText' },
           { text: item.uomQty, alignment: 'left', style: 'normalText' },
           { text: item.pendingQnty, alignment: 'left', style: 'normalText' },
-          { text: item.price, alignment: 'left', style: 'normalText' },
-          { text: item.priceAfterVAT, alignment: 'left', style: 'normalText' },
         ]
         if (this.reporttype == "purchaseorder") {
           tabledata.splice(6, 0,

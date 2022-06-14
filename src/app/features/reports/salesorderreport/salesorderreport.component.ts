@@ -150,9 +150,9 @@ export class SalesorderreportComponent implements OnInit {
     this.summaryLines = []
     let saveResponse: Observable<any>;
     if (this.isSalesOrder) {
-       saveResponse = this.salesorderService.getSalesOrderSummary(this.selectedHeader.soId);
+      saveResponse = this.salesorderService.getSalesOrderSummary(this.selectedHeader.soId);
     } else {
-       saveResponse = this.salesorderService.getSalesOrderReturnSummary(this.selectedHeader.soId);
+      saveResponse = this.salesorderService.getSalesOrderReturnSummary(this.selectedHeader.soId);
     }
     saveResponse.subscribe({
       next: (data: any) => {
@@ -171,21 +171,22 @@ export class SalesorderreportComponent implements OnInit {
     var data = {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
-      printtype: 'purchaseorder',
+      printtype: 'salesorder',
       title: this.screenName,
-      reporttype: this.isSalesOrder ? 'purchaseorder' : 'purchaseorderreturn'
+      mastertype: this.mastertype,
+      isreport: true
     }
-    // this.exportService.generatePdf(data);
+    this.exportService.generatePdf(data);
   };
   getExcel() {
     var data = {
       headerdata: this.selectedHeader,
       griddata: this.summaryLines,
-      printtype: 'purchaseorder',
+      printtype: 'salesorder',
       title: this.screenName,
-      reporttype: this.isSalesOrder ? 'purchaseorder' : 'purchaseorderreturn'
+      mastertype: this.mastertype,
     }
 
-    // this.exportService.generateExcel(data);
+    this.exportService.generateExcel(data);
   };
 }
