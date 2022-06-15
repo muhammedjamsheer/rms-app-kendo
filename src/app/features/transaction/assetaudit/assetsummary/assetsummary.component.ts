@@ -110,4 +110,10 @@ export class AssetsummaryComponent implements OnInit {
 
   }
 
+  posttoErp() {
+    this.assetAuditService.auditPostingtoErp(this.auditId).subscribe(res => {
+      debugger;
+    });
+  }
+
 }

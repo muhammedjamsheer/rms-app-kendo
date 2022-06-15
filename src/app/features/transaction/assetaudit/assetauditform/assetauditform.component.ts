@@ -272,12 +272,13 @@ export class AssetauditformComponent implements OnInit {
     // this.CategorySelectedNodes = data.subcategories;
     // this.LocationSelectedNodes = this.findCodesByLocationIds(this.locationItems, data.locations);
     // this.setItemsSelectedInTreeView(this.itemsList, this.CategorySelectedNodes);
-    this.setItemsSelectedInTreeView(this.itemsList, data.subCategories);
+
     this.setItemsSelectedInTreeView(this.Warehouses, data.locations);
+    this.setItemsSelectedInTreeView(this.itemsList, data.subcategories);
     this.isbtnClearDisabled = true;
     if (this.viewMode) {
-      this.setItemsDisabledInTreeView(this.itemsList);
-      this.setItemsDisabledInTreeView(this.itemsLocationList);
+      // this.setItemsDisabledInTreeView(this.itemsList);
+      // this.setItemsDisabledInTreeView(this.itemsLocationList);
     }
   }
 

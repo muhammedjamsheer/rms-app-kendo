@@ -8,6 +8,7 @@ export class AssetAuditModel {
   auditStatusText!: string;
   locations!: string[];
   subCategories!: string[];
+  subcategories!: string[];
   isDeleted!: boolean;
   createdBy!: string;
   createdDate!: Date;

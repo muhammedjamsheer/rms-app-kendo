@@ -35,7 +35,6 @@ export class InboundService {
     console.log('Inbound Service Initialised',
     );
   }
-
   getDocumentHeaders(filters: InboundFilter): Observable<PurchaseOrderHeader[]> {
     this.filters = filters;
     return this.http.get<PurchaseOrderHeader[]>(
@@ -45,7 +44,6 @@ export class InboundService {
         return res;
       }));
   }
-
   getDocumentDetails(poNumber: string): Observable<PurchaseDocumentLines[]> {
     return this.http.get<PurchaseDocumentLines[]>(this.apidetUrl + '/' + poNumber);
   }
@@ -53,16 +51,6 @@ export class InboundService {
     return this.http.get<PurchaseDocumentLines[]>(this.apiprintUrl + '/' + poId);
   }
 
-  async getpurchaseorders() {
-    const data = await this.http.get<any[]>(this.apiUrl, this.httpOptions).toPromise();
-    return data;
-  }
-
-  getpurchaseorderSummary(id: number) {
-    return this.http.get<any>(this.apiposummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
-      return res;
-    }));
-  }
   //purchase return
   async getPurchaseReturn() {
     if (!(this.purchasereturncahe.length > 0)) {
@@ -83,11 +71,8 @@ export class InboundService {
     }
     return this.purchasereturncahe;
   }
-  getpurchaseorderReturnSummary(id: number) {
-    return this.http.get<any>(this.apiporeturnsummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
-      return res;
-    }));
-  }
+
+  // report
   getPurchaseReturnReport(filters: InboundFilter): Observable<PurchaseOrderHeader[]> {
     this.filters = filters;
     return this.http.get<PurchaseOrderHeader[]>(
@@ -96,5 +81,15 @@ export class InboundService {
         this.dataCache = res;
         return res;
       }));
+  }
+  getpurchaseorderSummary(id: number) {
+    return this.http.get<any>(this.apiposummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
+  }
+  getpurchaseorderReturnSummary(id: number) {
+    return this.http.get<any>(this.apiporeturnsummary + '/' + id, this.httpOptions).pipe(tap((res: any) => {
+      return res;
+    }));
   }
 }

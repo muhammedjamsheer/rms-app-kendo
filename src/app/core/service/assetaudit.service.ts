@@ -145,4 +145,11 @@ export class AssetAuditService {
                 return res;
             }));
     }
+    auditPostingtoErp(auditId: number) {
+        const data = this.http.get<any>(`${environment.spclapiUrl}/receipt/InventoryPostToErp?auditId=` + auditId, this.httpOptions);
+        return data;
+    }
 }
+
+
+

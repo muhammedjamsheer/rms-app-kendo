@@ -17,7 +17,8 @@ export const environment = {
 
 
   apiUrl: 'http://acuberfid.fortiddns.com:4480/rmsapi/rms',
-  imageUrl: 'http://acuberfid.fortiddns.com:4480/rmsapi/staticfiles/'
+  imageUrl: 'http://acuberfid.fortiddns.com:4480/rmsapi/staticfiles/',
+  spclapiUrl: 'http://acuberfid.fortiddns.com:4480/rms/am',
 };
 
 

@@ -739,21 +739,24 @@ export class GridComponent implements OnInit {
       case 'assetaudit': {
         this.columnDefs = [
           { field: 'auditId', sortable: true, resizable: true, filter: true, checkboxSelection: false, width: 150 },
-          { field: 'createdBy', sortable: true, resizable: true, filter: true, width: 250 },
-          {
-            field: 'createdDate', sortable: true, resizable: true, filter: 'agDateColumnFilter',
-            valueFormatter: this.dateFormatter
-          },
+         
           {
             headerName: 'Audit On', field: 'toBeAuditedOn', sortable: true, resizable: true, filter: 'agDateColumnFilter',
             valueFormatter: this.dateFormatter
           },
           { field: 'auditStatusText', sortable: true, resizable: true, filter: true, width: 250 },
+          { field: 'exportStatus', sortable: true, resizable: true, filter: true, width: 150 },
+          { field: 'exportMessage', sortable: true, resizable: true, filter: true, width: 150 },
           { field: 'auditStatus', sortable: true, resizable: true, filter: true, hide: true },
           {
             headerName: 'Is Active', field: 'isDeleted', sortable: true, resizable: true, filter: true, cellEditor: 'booleanEditor',
             cellRenderer: this.booleanCellRenderer
-          }
+          },
+          { field: 'createdBy', sortable: true, resizable: true, filter: true, width: 250 },
+          {
+            field: 'createdDate', sortable: true, resizable: true, filter: 'agDateColumnFilter',
+            valueFormatter: this.dateFormatter
+          },
         ];
 
         this.rowData = await this.assetAuditService.getAssetAudit();

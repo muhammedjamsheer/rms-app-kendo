@@ -50,9 +50,7 @@ export class PurchaseorderreturformComponent implements OnInit {
 
   getPurchaseOrderdetails() {
     this.purchaseorderdata = []
-    let saveResponse: Observable<any>;
-    saveResponse = this.inboundService.getpurchaseorderReturnSummary(this.poId);
-    saveResponse.subscribe({
+    this.inboundService.getDocumentprintDetails(this.poId).subscribe({
       next: (data: any) => {
         if (data != null && data.length > 0) {
           this.purchaseorderdata = data;

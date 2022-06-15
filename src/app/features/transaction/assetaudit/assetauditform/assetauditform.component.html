@@ -18,6 +18,12 @@
             <div *ngIf="error" style="color: red;font-weight: bold;">{{error}}</div>
         </div>
         <div class="card-body">
+            <div class="row" [hidden]="!editMode">
+                <label class="col-sm-2">Audit No</label>
+                <div class="col-sm-4">
+                    <label>: &nbsp;{{ auditId }}</label>
+                </div>
+            </div>
             <div class="row">
                 <label class="col-sm-2 required">Audit On</label>
                 <div class="col-sm-4">
@@ -43,12 +49,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" [hidden]="!editMode">
-                <label class="col-sm-2">Audit No</label>
-                <div class="col-sm-4">
-                    <label>: &nbsp;{{ auditId }}</label>
-                </div>
-            </div>
+
             <div class="row" style="height:100%">
                 <!-- <div class="col-md-6">
                     <label class="col-sm-8 col-form-label">Select Sub Category Name</label>
@@ -68,7 +69,7 @@
 
                 <label class="col-sm-2">Select Sub Category</label>
                 <div class="col-sm-4">
-                    <ngx-treeview [config]="treeviewConfig" [items]="itemsList"  (selectedChange)="onSubCategorySelectionChange($event)" style="height: 100%;" *ngIf="!render">
+                    <ngx-treeview [config]="treeviewConfig" [items]="itemsList"  (selectedChange)="onSubCategorySelectionChange($event)" *ngIf="!render">
                     </ngx-treeview>
                 </div>
             </div>
