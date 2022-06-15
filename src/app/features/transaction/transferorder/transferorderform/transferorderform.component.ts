@@ -133,7 +133,6 @@ export class TransferorderformComponent implements OnInit {
     this.showzerocountvalidation = false;
     let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;
     el.click();
-    this.picklistForm.reset();
   }
   get formcontrols() { return this.picklistForm.controls; }
   async createPicklist() {
@@ -165,6 +164,8 @@ export class TransferorderformComponent implements OnInit {
     this.picklistService.createPicklist(this.picklistobj).subscribe({
       next: (data: any[]) => {
         this.saveAlert.SuccessMessage();
+        this.picklistForm.reset();
+        this.submitted = false;
         this.ViewButton.nativeElement.click()
       },
       error: (err => { console.error(err) }),

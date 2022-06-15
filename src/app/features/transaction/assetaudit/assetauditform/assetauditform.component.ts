@@ -40,7 +40,32 @@ export class AssetauditformComponent implements OnInit {
   WarehouseSelectedNodes: string[] = [];
   render: boolean = false;
   Warehouses: any;
-
+ subcategory= [
+    {
+      "assetSubCategoryId": 3,
+      "assetSubCategoryName": "M8229   Heavy Duty Wire Pulling Spring Electric or Communication for Electrical Work Use. (5mm x 25 Meter)",
+      "assetCategory": {
+        "assetCategoryName": "TOOLS & EQUIPMENTS",
+        "assetCategoryId": 1
+      }
+    },
+    {
+      "assetSubCategoryId": 4,
+      "assetSubCategoryName": "2101   RHINO PVC BAG SMALL",
+      "assetCategory": {
+        "assetCategoryName": "RHINO PACKAGING",
+        "assetCategoryId": 2
+      }
+    },
+    {
+      "assetSubCategoryId": 5,
+      "assetSubCategoryName": "M8240   10 Piece Screwdriver Set",
+      "assetCategory": {
+        "assetCategoryName": "TOOLS & EQUIPMENTS",
+        "assetCategoryId": 1
+      }
+    }
+  ]
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private assetSubCategoryService: AssetSubCategoryMasterService,
@@ -89,6 +114,7 @@ export class AssetauditformComponent implements OnInit {
       maxHeight: 370
     }
 
+    // warehouse
     this.wareHouseList = await this.locationMasterService.getWarehouseMaster();
     var goupedData = this.wareHouseList.reduce(function (r, a) {
       r[a.companyId] = r[a.companyId] || [];
@@ -106,6 +132,28 @@ export class AssetauditformComponent implements OnInit {
       warehousedata[i] = menu;
     }
     this.Warehouses = this.getWarehouseItems(warehousedata);
+
+    // category
+    var subcategories = await this.assetSubCategoryService.getAssetSubCategoryMaster();
+    const generateChild = (arr: any) => {
+      return arr.reduce((acc: any, val: any, ind: any, array: any) => {
+        const children: TreeviewItem[] = [];
+        array.forEach((el: any, i: any) => {
+          if (el.assetCategoryId === val.assetCategoryId) {
+            children.push(new TreeviewItem({ text: el.assetSubCategoryName, value: el.assetSubCategoryId, checked: false }));
+          };
+        });
+        return acc.concat({ ...val, children });
+      }, []);
+    };
+    let categoryTree = generateChild(subcategories);
+    categoryTree = categoryTree.filter((v: any, i: any, a: any) => a.findIndex((t: any) => (t.assetCategoryId === v.assetCategoryId)) === i);
+    this.itemsList = categoryTree.map((item: any) => {
+      return new TreeviewItem({ text: item.assetCategory.assetCategoryName, value: item.assetCategoryId, collapsed: false, children: item.children });
+    });
+
+
+
 
     this.route.params.subscribe(params => {
       if (params['id'] != undefined) {
@@ -212,6 +260,7 @@ export class AssetauditformComponent implements OnInit {
     this.auditId = 0;
     this.assetAuditFormControls.remarks.setValue('');
     this.setItemsUnSelectedInTreeView(this.Warehouses, this.WarehouseSelectedNodes);
+    this.setItemsSelectedInTreeView(this.itemsList, this.CategorySelectedNodes);
   }
   auditData: AssetAuditModel = new AssetAuditModel;
   ShowEditViewAssetAudit(data: AssetAuditModel) {
@@ -223,7 +272,7 @@ export class AssetauditformComponent implements OnInit {
     // this.CategorySelectedNodes = data.subcategories;
     // this.LocationSelectedNodes = this.findCodesByLocationIds(this.locationItems, data.locations);
     // this.setItemsSelectedInTreeView(this.itemsList, this.CategorySelectedNodes);
-    // this.setItemsSelectedInTreeView(this.itemsLocationList, this.LocationSelectedNodes);
+    this.setItemsSelectedInTreeView(this.itemsList, data.subCategories);
     this.setItemsSelectedInTreeView(this.Warehouses, data.locations);
     this.isbtnClearDisabled = true;
     if (this.viewMode) {
@@ -261,10 +310,12 @@ export class AssetauditformComponent implements OnInit {
     assetAuditModel.auditStatus = this.editMode ? this.auditStatus : 30;
     assetAuditModel.auditStatusText = assetAuditModel.auditStatus == 30 ? 'Audit Created' : assetAuditModel.auditStatus == 40 ? 'Audit Downloaded' : 'Audit Closed';
     assetAuditModel.toBeAuditedOn = $('#AuditOn .datetimepicker-input').val();
-    assetAuditModel.subcategories = this.CategorySelectedNodes;
-    // assetAuditModel.locations = this.findIdsByLocationCodes(this.locationItems, this.LocationSelectedNodes);
+    assetAuditModel.subCategories = this.CategorySelectedNodes;
     assetAuditModel.locations = this.WarehouseSelectedNodes;
     assetAuditModel.remark = this.assetAuditFormControls.remarks.value;
+
+    debugger;
+    
     if (this.editMode) {
       saveResponse = this.assetAuditService.editAssetAuditmaster(assetAuditModel);
     } else {

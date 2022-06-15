@@ -65,6 +65,12 @@
                     <ngx-treeview [items]="Warehouses" [config]="treeviewConfig"
                         (selectedChange)="onWarehouseSelectionChange($event)" *ngIf="!render"></ngx-treeview>
                 </div>
+
+                <label class="col-sm-2">Select Sub Category</label>
+                <div class="col-sm-4">
+                    <ngx-treeview [config]="treeviewConfig" [items]="itemsList"  (selectedChange)="onSubCategorySelectionChange($event)" style="height: 100%;" *ngIf="!render">
+                    </ngx-treeview>
+                </div>
             </div>
         </div>
     </form>

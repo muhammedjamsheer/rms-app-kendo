@@ -180,9 +180,12 @@ export class SalesorderformComponent implements OnInit {
     this.picklistobj.OperationType = "SalesOrder";
     this.picklistobj.docType = 20;
     this.picklistobj.docNumber = this.selectednodes[0].soNumber;
-    this.picklistobj.docEntry = this.selectednodes[0].soEntry
+    this.picklistobj.docEntry = this.selectednodes[0].soEntry;
+    this.picklistobj.fromWarehouse =  this.selectednodes[0].warehouseCode;
+    
     this.picklistobj.customerLocation = this.formcontrols.Address.value;
     this.picklistobj.remarks = this.formcontrols.Remarks.value;
+
     this.picklistobj.documentLines = [];
     this.selectednodes.forEach(element => {
       this.picklistobj.documentLines.push({
@@ -198,6 +201,7 @@ export class SalesorderformComponent implements OnInit {
     this.picklistService.createPicklist(this.picklistobj).subscribe({
       next: (data: any[]) => {
         this.ViewButton.nativeElement.click()
+        this.submitted=false;
         this.picklistForm.reset()
         $('select').select2().trigger('change');
         this.saveAlert.SuccessMessage();
