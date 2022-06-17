@@ -157,7 +157,6 @@ export class TransferorderreportComponent implements OnInit {
       next: (data: any) => {
         if (data != null && data.length > 0) {
           this.summaryLines = data;
-          debugger;
         }
       },
       error: (err => { }),

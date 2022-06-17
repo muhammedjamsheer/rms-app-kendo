@@ -1,45 +1,38 @@
 <div class="card card-info">
-    <div class="card-header">
-        <h3 class="card-title">Asset Summary</h3>
+  <div class="card-header">
+    <h3 class="card-title">Asset Summary</h3>
+  </div>
+  <div class="card-body col-md-12">
+    <div class="row">
+      <button class="btn btn-primary" (click)="BacktoGrid()">Back</button>
+      <button class="btn btn-info" (click)="DownloadExcel()">
+        Download as Excel
+      </button>
+      <button class="btn btn-info" (click)="posttoErp()">Post to SAP</button>
     </div>
-    <div class="card-body col-md-12">
-        <div class="row">
-            <button class="btn btn-primary" (click)="BacktoGrid()">Back</button>
-            <button class="btn btn-info" (click)="DownloadExcel()">Download as Excel</button>
-            <button class="btn btn-info" (click)="posttoErp()">Post to SAP</button>
-        </div>
-        <div class="row form-group" id="excelsummarydiv">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>
-                            Location Name
-                        </th>
-                        <th>
-                            Category
-                        </th>
-                        <th>
-                            Product
-                        </th>
-                        <th>
-                            Quantity
-                        </th>
-                    </tr>
-                    <tr *ngFor="let x of auditSummaryData;">
-                        <td>
-                            {{x.locationName}}
-                        </td>
-                        <td>
-                            {{x.category}}
-                        </td>
-                        <td>
-                            {{x.productCode}} - {{x.productDescription}}
-                        </td>
-                        <td>
-                            {{x.quantity}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="row form-group" id="excelsummarydiv">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Location Name</th>
+            <th>Category</th>
+            <th>Product</th>
+            <th>Quantity</th>
+          </tr>
+          <tr *ngFor="let x of auditSummaryData">
+            <td>
+              {{ x.locationName }}
+            </td>
+            <td>
+              {{ x.category }}
+            </td>
+            <td>{{ x.productCode }} - {{ x.productDescription }}</td>
+            <td>
+              {{ x.quantity }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>

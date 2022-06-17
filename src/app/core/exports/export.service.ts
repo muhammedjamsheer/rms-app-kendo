@@ -124,7 +124,6 @@ export class ExportService {
     const griddata: any[] = exportdata.griddata
     const printtype = exportdata.printtype;
     const mastertype = exportdata.mastertype;
-    debugger;
     var gridheader = []
     if (printtype == "receiptsummary") {
       gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Batch No. ', 'UOM Code', 'UOM Qty', 'Purchase Price']
@@ -314,7 +313,6 @@ export class ExportService {
 
 
     if (printtype == "purchaseorder") {
-      debugger;
       let rowdata = []
       griddata.forEach((element, index) => {
         if (mastertype == "purchaseorderreport") {

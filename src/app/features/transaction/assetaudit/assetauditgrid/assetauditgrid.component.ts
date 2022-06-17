@@ -12,18 +12,17 @@ import { DatePipe } from '@angular/common';
 })
 export class AssetauditgridComponent implements OnInit {
   @Input() name: string = 'assetaudit';
-
   isCreateAllowed: boolean = false;
   isEditAllowed: boolean = false;
   isViewAllowed: boolean = false;
   isDeleteAllowed: boolean = false;
-
   isRowUnSelected: boolean = true;
   subscription!: Subscription;
   selectedNodes: any;
   isAuditApproved=false;
   isAuditClosed=false;
   totalGridCount: number = 0;
+  
   constructor(private router: Router,
     private assetAuditServe: AssetAuditService, private inactivateAlert: InactivateAlert,private datepipe:DatePipe) {
     this.isCreateAllowed = localStorage.getItem("isCreateAllowed") == "true";
@@ -33,7 +32,6 @@ export class AssetauditgridComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     this.subscription = this.assetAuditServe.selectedrowevent.subscribe((e) => {
       this.isRowUnSelected = false;
       this.selectedNodes = e.data;

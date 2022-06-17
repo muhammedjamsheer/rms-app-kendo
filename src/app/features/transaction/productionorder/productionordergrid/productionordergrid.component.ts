@@ -38,7 +38,6 @@ export class ProductionordergridComponent implements OnInit {
     this.router.navigateByUrl('/productionorder/add');
   }
   OnViewClick() {
-    debugger;
     this.router.navigate(['/productionorder/view', this.selectedNodes.productionId]);
   }
   totalGridItems($event: number) {
@@ -46,7 +45,6 @@ export class ProductionordergridComponent implements OnInit {
   }
   OnRefreshCick() {
     this.isRowUnSelected = true;
-    debugger;
     this.productionorderService.refreshClickevent.next();
   }
 

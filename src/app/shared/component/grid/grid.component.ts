@@ -1193,7 +1193,6 @@ export class GridComponent implements OnInit {
           }
         ];
         this.rowData = await this.inventoryService.getInventoryDetails();
-        debugger
         this.subscription = this.inventoryService.refreshClickevent.subscribe((e) => {
           this.OnRefreshCick();
         });
@@ -1406,7 +1405,6 @@ export class GridComponent implements OnInit {
         break;
       }
       case 'productionorder': {
-        debugger;
         this.rowData = await this.productionorderService.onRefreshproductionorder();
         break;
       }

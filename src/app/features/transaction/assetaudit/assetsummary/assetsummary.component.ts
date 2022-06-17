@@ -4,10 +4,11 @@ import { AssetAuditService } from 'src/app/core/service/assetaudit.service';
 import { AssetSubCategoryMasterService } from 'src/app/core/service/assetsubcategorymaster.service';
 import { LocationmasterService } from 'src/app/core/service/locationmaster.service';
 import { AuditSummary } from 'src/app/shared/model/AssetAuditModel';
+import { CommonService } from 'src/app/core/service/common.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import * as XLSX from 'xlsx';
-
+import Swal from "sweetalert2";
 declare var $: any;
 
 @Component({
@@ -16,24 +17,23 @@ declare var $: any;
   styleUrls: ['./assetsummary.component.css']
 })
 export class AssetsummaryComponent implements OnInit {
+  auditId!: any;
+  auditSummaryData: AuditSummary[] = [];
 
   constructor(private route: ActivatedRoute,
     private assetSubCategoryService: AssetSubCategoryMasterService,
     private locationMasterService: LocationmasterService,
     private assetAuditService: AssetAuditService,
-    private router: Router,) { }
-  auditId!: any;
-  auditSummaryData: AuditSummary[] = [];
-  async ngOnInit() {
+    private router: Router,
+    private commonService: CommonService,) { }
 
+  async ngOnInit() {
     this.route.params.subscribe(async params => {
       if (params['id'] != undefined) {
         this.auditId = +params['id'];
         this.auditSummaryData = await this.assetAuditService.getAuditAssetSummary(this.auditId);
-
       }
     });
-
   }
 
   BacktoGrid() {
@@ -111,9 +111,23 @@ export class AssetsummaryComponent implements OnInit {
   }
 
   posttoErp() {
-    this.assetAuditService.auditPostingtoErp(this.auditId).subscribe(res => {
-      debugger;
-    });
+    Swal.fire({
+      title: 'Do you  want to post?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.value) {
+        this.assetAuditService.auditPostingtoErp(this.auditId).subscribe(res => {
+          this.commonService.showMessage('success', 'Posted successfully !');
+        });
+      } else {
+        Swal.fire(
+          'Cancelled',
+        )
+      }
+    })
   }
 
 }

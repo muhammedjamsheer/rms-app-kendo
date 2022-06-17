@@ -19,7 +19,6 @@ export class TransferorderprintService {
     this.todetails = exportdata.griddata;
     this.mastertype = exportdata.mastertype
     this.headerdetails = exportdata.isreport ? exportdata.headerdata : JSON.parse(localStorage.getItem('headerdata')) ;
-    debugger;
     let content = [
       {
         columns: [
@@ -80,7 +79,6 @@ export class TransferorderprintService {
     return content
   }
   getReportTable() {
-    debugger;
     var tablewidth = [25, 60, 60, '*', 60, 60, 60, 60, 60];
     let body = []
     let header = [

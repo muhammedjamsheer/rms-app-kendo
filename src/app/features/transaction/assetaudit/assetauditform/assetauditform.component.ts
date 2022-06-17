@@ -260,7 +260,9 @@ export class AssetauditformComponent implements OnInit {
     this.auditId = 0;
     this.assetAuditFormControls.remarks.setValue('');
     this.setItemsUnSelectedInTreeView(this.Warehouses, this.WarehouseSelectedNodes);
-    this.setItemsSelectedInTreeView(this.itemsList, this.CategorySelectedNodes);
+    if(this.itemsList.length>0){
+      this.setItemsUnSelectedInTreeView(this.itemsList, this.CategorySelectedNodes);
+    }
   }
   auditData: AssetAuditModel = new AssetAuditModel;
   ShowEditViewAssetAudit(data: AssetAuditModel) {
@@ -315,8 +317,6 @@ export class AssetauditformComponent implements OnInit {
     assetAuditModel.locations = this.WarehouseSelectedNodes;
     assetAuditModel.remark = this.assetAuditFormControls.remarks.value;
 
-    debugger;
-    
     if (this.editMode) {
       saveResponse = this.assetAuditService.editAssetAuditmaster(assetAuditModel);
     } else {

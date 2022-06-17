@@ -124,7 +124,6 @@ export class SalesorderreportComponent implements OnInit {
         if (data == null) { this.rowData = [] }
         else { this.rowData = data; }
         this.loading = false;
-        debugger;
       },
       error: (err => { this.loading = false; }),
       complete: () => { this.loading = false; }
