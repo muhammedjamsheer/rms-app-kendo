@@ -118,6 +118,7 @@ export class PrintexistingstockComponent implements OnInit {
     this.formcontrols.Category.setValue(this.selectedNodes.category);
     this.formcontrols.UOMCode.setValue(this.selectedNodes.inventoryUOM);
     this.formcontrols.NoofQuantity.setValue(1);
+    this.formcontrols.UOMQuantity.setValue(1);
     if (this.printLabelDesignCodes.length == 1) {
       this.formcontrols.PrintTemplateSelCode.setValue(this.printLabelDesignCodes[0]);
     }

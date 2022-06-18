@@ -126,7 +126,7 @@ export class ExportService {
     const mastertype = exportdata.mastertype;
     var gridheader = []
     if (printtype == "receiptsummary") {
-      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description', 'Batch No. ', 'UOM Code', 'UOM Qty', 'Purchase Price']
+      gridheader = ['Sl No.', 'Product Id', 'Product Code', 'Product Description','Order Qty','Received Qty','Pending Qty', 'Batch No. ', 'UOM Code', 'UOM Qty', 'Purchase Price']
     }
     if (printtype == "receiptdetail") {
       gridheader = ['Sl No.', 'Serial No.', 'Product Id', 'Product Code', 'Product Description', 'Batch No. ', 'UOM Code', 'UOM Qty', 'Purchase Price']
@@ -199,7 +199,7 @@ export class ExportService {
     //Adding Grid data
     if (printtype == "receiptsummary") {
       griddata.forEach((element, index) => {
-        let rowdata = [index + 1, element.productId, element.productCode, element.productDescription, element.batchNo, element.uomCode, element.uomQnty, element.purchasePrice]
+        let rowdata = [index + 1, element.productId, element.productCode, element.productDescription,element.orderQnty,element.receivedQnty,element.pendingQnty, element.batchNo, element.uomCode, element.uomQnty, element.purchasePrice]
         const row = worksheet.addRow(rowdata);
         row.eachCell(function (cell, number) {
           cell.alignment = { horizontal: 'left' }

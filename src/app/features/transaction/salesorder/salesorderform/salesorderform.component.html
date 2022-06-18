@@ -9,8 +9,8 @@
         <i class="fa fa-file-pdf-o " aria-hidden="true"></i> Pdf
     </button>
     <span class="gridsummary">Total Items : {{salesorderdata.length}}</span>
-    <div class="text-danger" *ngIf="showzerocountvalidation">
-        {{errorMessage}} </div>
+    <div class="text-danger" *ngIf="showvalidation">
+        {{validationmessage}} </div>
     <div>
 
         <div class="canvas_div_pdf">

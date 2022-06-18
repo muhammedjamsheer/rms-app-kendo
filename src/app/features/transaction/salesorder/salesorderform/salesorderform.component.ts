@@ -29,6 +29,7 @@ export class SalesorderformComponent implements OnInit {
   Soid!: number;
   salesorderdata: any[] = []
   loading: boolean = false;
+  defaultCustId: number = 0;
   customerlist: any[] = []
   addresslist: any[] = []
   columnDefs: ColDef[] = [
@@ -71,8 +72,8 @@ export class SalesorderformComponent implements OnInit {
   startprinting: boolean = false;
   selectedHeader: any;
   subscription!: Subscription;
-  showzerocountvalidation: boolean = false;
-  errorMessage: string = ''
+  showvalidation: boolean = false;
+  validationmessage: string = ''
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -135,9 +136,9 @@ export class SalesorderformComponent implements OnInit {
   onSelectionChanged(event: any) {
     let selectedNodes = this.agGrid.api.getSelectedNodes();
     this.selectednodes = selectedNodes.map<any>(node => node.data);
-    this.showzerocountvalidation = true;
+    this.showvalidation = true;
     if (this.selectednodes.length > 0) {
-      this.showzerocountvalidation = false;
+      this.showvalidation = false;
     }
   }
   onGridReady(params: any) {
@@ -145,28 +146,31 @@ export class SalesorderformComponent implements OnInit {
   }
 
   OnPicklist() {
+    this.showvalidation = false;
+    this.validationmessage = "";
     if (this.selectednodes.length == 0) {
-      this.errorMessage = "* Please select any sales order to proceed."
-      this.showzerocountvalidation = true;
+      this.showvalidation = true;
+      this.validationmessage = "* Please select any sales order to proceed."
+      return
+    } else {
+      this.selectednodes.forEach(element => {
+        if (isNaN(element.qntyToPick) || Number(element.qntyToPick) <= 0 || Number(element.qntyToPick) > Number(element.availableQnty)) {
+          this.showvalidation = true;
+          this.validationmessage = "* Please enter a valid quantity for productid " + element.productId;
+          return
+        }
+      });
+    }
+    if (this.showvalidation) {
       return
     }
-    if (this.selectednodes.find(x => x.qntyToPick == 0) != undefined) {
-      let product = this.selectednodes.find(x => x.qntyToPick == 0);
-      this.errorMessage = "* Please enter a valid qty for productid " + product.productId;
-      this.showzerocountvalidation = true;
-      return
+    this.picklistForm.reset();
+    if (this.defaultCustId > 0) {
+      this.formcontrols.Customer.setValue(this.defaultCustId);
+      $('select').select2().trigger('change');
     }
-    if (this.selectednodes.find(x => Number(x.qntyToPick) > x.openQty) != undefined) {
-      let product = this.selectednodes.find(x => Number(x.qntyToPick) > x.openQty);
-      this.errorMessage = "* Please enter a valid qty for productid " + product.productId;
-      this.showzerocountvalidation = true;
-      return
-    }
-
-    this.showzerocountvalidation = false;
     let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;
     el.click();
-    this.picklistForm.reset();
   }
 
   get formcontrols() { return this.picklistForm.controls; }
@@ -181,11 +185,9 @@ export class SalesorderformComponent implements OnInit {
     this.picklistobj.docType = 20;
     this.picklistobj.docNumber = this.selectednodes[0].soNumber;
     this.picklistobj.docEntry = this.selectednodes[0].soEntry;
-    this.picklistobj.fromWarehouse =  this.selectednodes[0].warehouseCode;
-    
+    this.picklistobj.fromWarehouse = this.selectednodes[0].warehouseCode;
     this.picklistobj.customerLocation = this.formcontrols.Address.value;
     this.picklistobj.remarks = this.formcontrols.Remarks.value;
-
     this.picklistobj.documentLines = [];
     this.selectednodes.forEach(element => {
       this.picklistobj.documentLines.push({
@@ -201,7 +203,7 @@ export class SalesorderformComponent implements OnInit {
     this.picklistService.createPicklist(this.picklistobj).subscribe({
       next: (data: any[]) => {
         this.ViewButton.nativeElement.click()
-        this.submitted=false;
+        this.submitted = false;
         this.picklistForm.reset()
         $('select').select2().trigger('change');
         this.saveAlert.SuccessMessage();
@@ -215,6 +217,7 @@ export class SalesorderformComponent implements OnInit {
       this.customerMasterService.getCustomerdetails(cusid).subscribe({
         next: (data: any[]) => {
           this.addresslist = data;
+          debugger;
         },
         error: (err => { console.error(err) }),
       });

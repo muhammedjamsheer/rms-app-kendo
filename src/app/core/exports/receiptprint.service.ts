@@ -67,7 +67,7 @@ export class ReceiptprintService {
   getVoucherTable() {
     var tablewidth = [25, 125, 60, 60, "*", 60, 60, 60, 80]
     if (this.Receipttype == 'summary') {
-      tablewidth = [25, 60, 60, "*", 60, 60, 60, 80]
+      tablewidth = [25, 60, 60, "*", 50, 60, 50, 60, 60, 50, 65]
     }
     let body = []
     let header = [
@@ -97,6 +97,21 @@ export class ReceiptprintService {
         alignment: 'left'
       },
       {
+        text: 'Order Qty',
+        alignment: 'left',
+        style: 'tableHeader'
+      },
+      {
+        text: 'Received Qty',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+      {
+        text: 'Pending Qty',
+        style: 'tableHeader',
+        alignment: 'left'
+      },
+      {
         text: 'Batch No.',
         style: 'tableHeader',
         alignment: 'left'
@@ -119,7 +134,11 @@ export class ReceiptprintService {
     ];
     if (this.Receipttype == 'summary') {
       header.splice(1, 1)
+    }else{
+      header.splice(5, 3)
     }
+
+    debugger;
     body.push(header);
     for (let index = 0; index < this.details.length; index++) {
       const item = this.details[index];
@@ -129,6 +148,9 @@ export class ReceiptprintService {
         { text: item.productId, alignment: 'left', style: 'normalText' },
         { text: item.productCode, alignment: 'left', style: 'normalText' },
         { text: item.productDescription, alignment: 'left', style: 'normalText' },
+        { text: item.orderQnty, alignment: 'left', style: 'normalText' },
+        { text: item.receivedQnty, alignment: 'left', style: 'normalText' },
+        { text: item.pendingQnty, alignment: 'left', style: 'normalText' },
         { text: item.batchNo, alignment: 'left', style: 'normalText' },
         { text: item.uomCode, alignment: 'left', style: 'normalText' },
         { text: item.uomQnty, alignment: 'left', style: 'normalText' },
@@ -136,6 +158,8 @@ export class ReceiptprintService {
       ]
       if (this.Receipttype == 'summary') {
         tabledata.splice(1, 1)
+      }else{
+        tabledata.splice(5, 3)
       }
       body.push(tabledata);
     }

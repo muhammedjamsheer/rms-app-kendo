@@ -70,13 +70,15 @@ export class ShipmentformComponent implements OnInit {
       case 'details': {
         this.screenname = 'Shipment Details';
         this.isShipmentdetails = true;
+        this.getShipmentDetails();
         break;
       }
     }
+
   }
   getShipmentDetails() {
     this.loading = true
-    this.itemLines=[]
+    this.itemLines = []
     let saveResponse: Observable<any>;
     if (this.isShipmentsummary) {
       saveResponse = this.shipmentService.getshipmentsummary(this.shipmentid);

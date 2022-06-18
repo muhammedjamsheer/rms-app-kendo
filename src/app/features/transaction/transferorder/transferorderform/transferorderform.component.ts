@@ -21,15 +21,15 @@ export class TransferorderformComponent implements OnInit {
   loading: boolean = false;
   transferorderdetails: any;
   selectednodes: any[] = []
-  showzerocountvalidation: boolean = false;
+  showvalidation: boolean = false;
   startprinting: boolean = false;
   submitted: boolean = false;
   picklistForm!: FormGroup;
   screenName!: string;
   State!: string;
   toId!: number;
-  errorMessage: string = ''
-  selectedHeader:any;
+  validationmessage: string = ''
+  selectedHeader: any;
   subscription!: Subscription;
   columnDefs: ColDef[] = [
     {
@@ -74,7 +74,7 @@ export class TransferorderformComponent implements OnInit {
     this.subscription = this.transferorderService.selectedrowevent.subscribe((e) => {
       this.selectedHeader = e.data;
     });
-   }
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -107,30 +107,30 @@ export class TransferorderformComponent implements OnInit {
   onSelectionChanged(event: any) {
     let selectedNodes = this.agGrid.api.getSelectedNodes();
     this.selectednodes = selectedNodes.map<any>(node => node.data);
-    this.showzerocountvalidation = true;
+    this.showvalidation = true;
     if (this.selectednodes.length > 0) {
-      this.showzerocountvalidation = false;
+      this.showvalidation = false;
     }
   }
   OnPicklist() {
+    this.showvalidation = false;
+    this.validationmessage = "";
     if (this.selectednodes.length == 0) {
-      this.errorMessage = "* Please select any transfer order to proceed."
-      this.showzerocountvalidation = true;
+      this.showvalidation = true;
+      this.validationmessage = "* Please select any transfer order to proceed."
+      return
+    } else {
+      this.selectednodes.forEach(element => {
+        if (isNaN(element.qntyToPick) || Number(element.qntyToPick) <= 0 || Number(element.qntyToPick) > Number(element.availableQnty)) {
+          this.showvalidation = true;
+          this.validationmessage = "* Please enter a valid quantity for productid " + element.productId;
+          return
+        }
+      });
+    }
+    if (this.showvalidation) {
       return
     }
-    if (this.selectednodes.find(x => x.qntyToPick == 0) != undefined) {
-      let product = this.selectednodes.find(x => x.qntyToPick == 0);
-      this.errorMessage = "* Please enter a valid qty for productid " + product.productId;
-      this.showzerocountvalidation = true;
-      return
-    }
-    if (this.selectednodes.find(x => Number(x.qntyToPick) > x.openQty) != undefined) {
-      let product = this.selectednodes.find(x => Number(x.qntyToPick) > x.openQty);
-      this.errorMessage = "* Please enter a valid qty for productid " + product.productId;
-      this.showzerocountvalidation = true;
-      return
-    }
-    this.showzerocountvalidation = false;
     let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;
     el.click();
   }
@@ -177,7 +177,7 @@ export class TransferorderformComponent implements OnInit {
       headerdata: this.selectedHeader,
       griddata: this.transferorderdetails,
       printtype: 'transferorder',
-      title:'Transfer Order',
+      title: 'Transfer Order',
       mastertype: 'transferorder',
       isreport: false
     }
