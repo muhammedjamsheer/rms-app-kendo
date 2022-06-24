@@ -6,4 +6,5 @@ export class UserMasterModel{
     employeeName!:string;
     roleName!:string;
     employeeCode!:string;
+    warehouseCode!:string;
 }

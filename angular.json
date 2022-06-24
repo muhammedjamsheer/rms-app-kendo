@@ -41,8 +41,7 @@
                             "admin-lte/plugins/select2/js/select2.full.min.js",
                             "admin-lte/plugins/moment/moment.min.js",
                             "admin-lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js",
-                            "admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js",
-                            "./node_modules/html2pdf.js/dist/html2pdf.bundle.min.js"
+                            "admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"
                         ]
                     },
                     "configurations": {

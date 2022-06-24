@@ -51,6 +51,21 @@
 
             </div>
             <div class="row form-group">
+                <label class="col-sm-2 col-form-label" for="inputEmail3">Warehouse *</label>
+                <div class="col-sm-4">
+                    <select class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" formControlName="warehouseCode" [ngClass]="{ 'is-invalid': submitted && UserMasterFormControls.warehouseCode.errors}" name="warehouseCode">
+                        <option selected="selected"></option>
+                        <option *ngFor="let x of WarehouseCodes" value="{{ x.warehouseCode }}">
+                            {{ x.warehouseCode }} - {{ x.warehouseName }}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && UserMasterFormControls.warehouseCode.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && UserMasterFormControls.warehouseCode.errors.required">
+                            Warehouse is field</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
                 <label class="col-sm-2 col-form-label" for="inputEmail3">Password *</label>
                 <div class="col-sm-4">
                     <input type="password" autocomplete="new-password" formControlName="Password" class="form-control" maxlength="50" [ngClass]="{ 'is-invalid': submitted && UserMasterFormControls.Password.errors }" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"

@@ -87,13 +87,13 @@ export class ManaultoreceiptformComponent implements OnInit {
   get formcontrols() { return this.detailsForm.controls; }
 
   getshipmentdetails(shipmentid) {
-    this.loading = true
+    if(shipmentid==null){return}
     this.shipmentService.getshipmentdetails(shipmentid).subscribe({
       next: (data: any) => {
         this.shipmentdetails = data.itemLines;
       },
-      error: (err => { console.error(err) }),
-      complete: () => { this.loading = false; }
+      error: (err => {}),
+      complete: () => { }
     });
   }
   onGridReady(params: any) {

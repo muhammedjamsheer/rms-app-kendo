@@ -31,7 +31,7 @@
                             formControlName="warehouse"
                             [ngClass]="{ 'is-invalid': submitted && formcontrols.warehouse.errors}" name="Warehouse">
                             <option selected="selected"></option>
-                            <option *ngFor="let x of warehouses" value="{{ x.warehouseID }}">
+                            <option *ngFor="let x of warehouses" value="{{ x.warehouseCode }}">
                                 {{ x.warehouseCode }} - {{ x.warehouseName }}
                             </option>
                         </select>

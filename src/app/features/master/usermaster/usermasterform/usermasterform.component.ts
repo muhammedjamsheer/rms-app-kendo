@@ -10,6 +10,8 @@ import { SaveAlert } from 'src/app/shared/commonalerts/savealert';
 import { EmployeeMasterModel } from 'src/app/shared/model/EmployeeMasterModel';
 import { UserMasterModel } from 'src/app/shared/model/UserMasterModel';
 import { UserRoleMasterModel } from 'src/app/shared/model/UserRoleMasterModel';
+import { LocationMasterModel } from '../../../../shared/model/LocationMasterModel';
+import { LocationmasterService } from '../../../../core/service/locationmaster.service';
 declare var $: any;
 
 @Component({
@@ -30,18 +32,21 @@ export class UsermasterformComponent implements OnInit {
   userMasterModel: UserMasterModel = new UserMasterModel;
   employees:EmployeeMasterModel[]=[];
   userroles:UserRoleMasterModel[]=[];
+  WarehouseCodes!: LocationMasterModel[];
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private saveAlert: SaveAlert,
     private userMasterService: UserMasterService, 
     private employeemasterservice:EmployeeMasterService,
-    private userrolemasterservice:userrolemasterservice) {
+    private userrolemasterservice:userrolemasterservice,
+    private locationmasterService: LocationmasterService) {
       this.UserMasterForm = this.formBuilder.group({
         UserRoleSelCode: ['', Validators.required],
         EmployeeSelCode: ['', Validators.required],
         UserName: ['', Validators.required],
         Password: ['', Validators.required],
+        warehouseCode: ['', Validators.required],
       });
      }
 
@@ -68,8 +73,12 @@ export class UsermasterformComponent implements OnInit {
   $('[name="EmployeeSelCode"]').on("change", () => {
     this.UserMasterFormControls.EmployeeSelCode.setValue($('[name="EmployeeSelCode"]').val());
   });
+  $('[name="warehouseCode"]').on("change", () => {
+    this.UserMasterFormControls.warehouseCode.setValue($('[name="warehouseCode"]').val());
+  });
   this.employees=await this.employeemasterservice.getEmployeeMaster();
   this.userroles=await this.userrolemasterservice.getUserRoleMaster();
+  this.WarehouseCodes = await this.locationmasterService.getWarehouseMaster();
   }
   get UserMasterFormControls() { return this.UserMasterForm.controls; }
   ShowGrid(){
@@ -80,6 +89,7 @@ export class UsermasterformComponent implements OnInit {
     this.UserMasterFormControls.EmployeeSelCode.disable();
     this.UserMasterFormControls.UserName.disable();
     this.UserMasterFormControls.Password.disable();
+    this.UserMasterFormControls.warehouseCode.disable();
     this.isbtnSaveDisabled = true;
     this.isbtnClearDisabled = true;
   }
@@ -89,6 +99,7 @@ export class UsermasterformComponent implements OnInit {
     this.UserMasterFormControls.UserRoleSelCode.setValue(null);
     this.UserMasterFormControls.EmployeeSelCode.setValue(null);
     this.UserMasterFormControls.UserName.setValue(null);
+    this.UserMasterFormControls.warehouseCode.setValue(null);
     this.UserMasterFormControls.Password.setValue(null);
     $('[name="UserRoleSelCode"]').select2().trigger('change');
     $('[name="EmployeeSelCode"]').select2().trigger('change');
@@ -97,6 +108,7 @@ export class UsermasterformComponent implements OnInit {
     this.UserMasterFormControls.UserRoleSelCode.setValue(data.userRoleID);
     this.UserMasterFormControls.EmployeeSelCode.setValue(data.employeeId);
     this.UserMasterFormControls.UserName.setValue(data.userName);
+    this.UserMasterFormControls.warehouseCode.setValue(data.warehouseCode);
     this.UserMasterFormControls.Password.setValue(null);
   }
   SaveUserMaster(){
@@ -118,7 +130,7 @@ this.submitted = false;
     this.userMasterModel.employeeName = this.employees.filter(p=>p.employeeId==this.UserMasterFormControls.EmployeeSelCode.value)[0].firstName;
     this.userMasterModel.employeeCode = this.employees.filter(p=>p.employeeId==this.UserMasterFormControls.EmployeeSelCode.value)[0].employeeCode;
     this.userMasterModel.roleName = this.userroles.filter(p=>p.id==this.UserMasterFormControls.UserRoleSelCode.value)[0].roleName;
-    console.log(this.userMasterModel);
+    this.userMasterModel.warehouseCode = this.UserMasterFormControls.warehouseCode.value;
     if(this.editMode){
      saveResponse = this.userMasterService.editUserMaster(this.userMasterModel);
     } else {
