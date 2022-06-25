@@ -1,101 +1,128 @@
 <div class="card-header">
     <h3 class="card-title">{{screenName}}</h3>
 </div>
-<form [formGroup]="filterForm" class="form-horizontal">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-9">
-            <div class="row mt-2">
-                <label class="col-sm-3 col-lg-2" for="docDateFrom">From Date</label>
-                <div class="col-sm-3 col-lg-4">
-                    <input type="date" formControlName="docDateFrom" class="form-control" />
+<div class="card-body">
+    <form [formGroup]="filterForm" class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-9">
+                <div class="row mt-2">
+                    <label class="col-sm-3 col-lg-2" for="docDateFrom">From Date</label>
+                    <div class="col-sm-3 col-lg-4">
+                        <input type="date" formControlName="docDateFrom" class="form-control" />
+                    </div>
+                    <label class="col-sm-3 col-lg-2" for="docDateTo">To Date</label>
+                    <div class="col-sm-3 col-lg-4">
+                        <input type="date" formControlName="docDateTo" class="form-control" />
+                    </div>
                 </div>
-                <label class="col-sm-3 col-lg-2" for="docDateTo">To Date</label>
-                <div class="col-sm-3 col-lg-4">
-                    <input type="date" formControlName="docDateTo" class="form-control" />
+                <div class="row mt-2">
+                    <label class="col-sm-3 col-lg-2" for="poNumber">PO Number</label>
+                    <div class="col-sm-3 col-lg-4">
+                        <input type="text" formControlName="poNumber" class="form-control" />
+                    </div>
+                    <label class="col-sm-3 col-lg-2" for="poNumber">PO Entry</label>
+                    <div class="col-sm-3 col-lg-4">
+                        <input type="text" formControlName="poEntry" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <label class="col-sm-3 col-lg-2">Vendor </label>
+                    <div class="col-sm-3 col-lg-4">
+                        <select name="customerselect" class="form-control select2bs4 select2-hidden-accessible"
+                            style="width: 100%;" formControlName="CardCode">
+                            <option selected="selected"></option>
+                            <option *ngFor="let x of customerlist" value="{{ x.customerCode }}">
+                                {{ x.customerCode }} - {{ x.customerName }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-2">
-                <label class="col-sm-3 col-lg-2" for="poNumber">PO Number</label>
-                <div class="col-sm-3 col-lg-4">
-                    <input type="text" formControlName="poNumber" class="form-control" />
-                </div>
-                <label class="col-sm-3 col-lg-2" for="poNumber">PO Entry</label>
-                <div class="col-sm-3 col-lg-4">
-                    <input type="text" formControlName="poEntry" class="form-control" />
-                </div>
-            </div>
-            <div class="row mt-2">
-                <label class="col-sm-3 col-lg-2">Vendor </label>
-                <div class="col-sm-3 col-lg-4">
-                    <select name="customerselect" class="form-control select2bs4 select2-hidden-accessible"
-                        style="width: 100%;" formControlName="CardCode">
-                        <option selected="selected"></option>
-                        <option *ngFor="let x of customerlist" value="{{ x.customerCode }}">
-                            {{ x.customerCode }} - {{ x.customerName }}
-                        </option>
-                    </select>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <div style="float: right">
+                    <button class="btn btn-info btn-sm" (click)="onReset()">
+                        <i class="fas fa-broom"></i>
+                        Clear
+                    </button>
+                    <button class="btn btn-info btn-sm" (click)="onSearchFilter()" [disabled]="loading">
+                        <i [ngClass]="loading ? 'fas fa-sync fa-spin' : 'fa fa-search'"></i>
+                        Search
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-3">
-            <div style="float: right">
-                <button class="btn btn-info btn-sm" (click)="onReset()">
-                    <i class="fas fa-broom"></i>
-                    Clear
-                </button>
-                <button class="btn btn-info btn-sm" (click)="onSearchFilter()" [disabled]="loading">
-                    <i [ngClass]="loading ? 'fas fa-sync fa-spin' : 'fa fa-search'"></i>
-                    Search
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
-<div class="d-flex justify-content-between">
-    <div>
-        <button (click)="OnSummaryClick()"
-            [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected   }">Summary</button>
-    </div>
-    <div class="gridsummary">Total Items : {{rowData.length}}</div>
+    </form>
+
+    <!-- <ag-grid-angular #agGrid style="width: 100%; height: calc(100% - 75px);" class="ag-theme-alpine"
+            [rowData]="rowData" [columnDefs]="columnDefs" rowSelection="single" cellSelection="none" animateRows=true
+            suppressCellSelection="true" (rowClicked)="onRowClick($event)" (onGridReady)="onGridReady($event)"
+            nFirstDataRendered="onFirstDataRendered" [pagination]="true" [paginationPageSize]="10">
+        </ag-grid-angular> -->
+
+    <kendo-grid [kendoGridBinding]="rowData" [pageSize]="10" [pageable]="true" [filter]="filter"
+        (filterChange)="filterChange($event)" [sortable]="true" [resizable]="true" [columnMenu]="{ filter: true }"
+        [selectable]="selectableSettings" (selectedKeysChange)="keyChange($event)" kendoGridSelectBy="poNumber">
+        <ng-template kendoGridToolbarTemplate>
+            <button (click)="OnSummaryClick()"
+                [ngClass]="{'btn btn-info btn-sm': true, 'd-none': isRowUnSelected   }">Summary</button>
+            <kendo-grid-spacer></kendo-grid-spacer>
+            <span>Total Items : {{rowData.length}}</span>
+
+        </ng-template>
+        <kendo-grid-column field="poNumber" title="PO Number"> </kendo-grid-column>
+        <kendo-grid-column field="poEntry" title="PO Entry"> </kendo-grid-column>
+        <kendo-grid-column field="warehouse" title="Warehouse"> </kendo-grid-column>
+        <kendo-grid-column field="poDate" title="PO Date" filter="date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.poDate | date: shortdateformatpipe}}
+            </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="poDueDate" title="PO Due Date" filter="date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.poDueDate | date: shortdateformatpipe}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="notes" title="Notes"> </kendo-grid-column>
+        <kendo-grid-column field="createdBy" title="Created By"> </kendo-grid-column>
+        <kendo-grid-column field="createdDate" title="created Date" filter="date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.createdDate | date: shortdateformatpipe}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="modifiedBy" title="Modified By"> </kendo-grid-column>
+        <kendo-grid-column field="modifiedDate" title="Modified Date" filter="date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.modifiedDate | date: shortdateformatpipe}}
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid>
 </div>
-<ag-grid-angular #agGrid style="width: 100%; height: calc(100% - 75px);" class="ag-theme-alpine" [rowData]="rowData"
-    [columnDefs]="columnDefs" rowSelection="single" cellSelection="none" animateRows=true suppressCellSelection="true"
-    (rowClicked)="onRowClick($event)" (onGridReady)="onGridReady($event)" nFirstDataRendered="onFirstDataRendered"
-    [pagination]="true" [paginationPageSize]="10">
-</ag-grid-angular>
-<button style="display: none;" #ViewButton type="button" class="btn btn-primary" data-toggle="modal"
-    data-target="#exampleModalLong">
-    View
-</button>
-<div class="modal fade  right" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content ">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">
-                    <span *ngIf="isPurchaseOrder "> Purchase Order Summary</span>
-                    <span *ngIf="!isPurchaseOrder "> Purchase Order Return Summary</span>
-                </h5>
-                <div>
-                    <button type="button" (click)="getPDF()" class="btn btn-danger btn-sm">
-                        <i class="fa fa-file-pdf-o " aria-hidden="true"></i> 
-                    </button>
-                    <button type="button" (click)="getExcel()" class="btn btn-success btn-sm">
-                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                    </button>
-                    
-                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-                </div>
+
+<kendo-dialog class="screensizeDialogue" *ngIf="showDialogue" [title]="screenName" (close)="showDialogue=false;"
+    width="95%" height="90%">
+    <kendo-grid [kendoGridBinding]="summaryLines" [pageSize]="10" [pageable]="true" [filter]="filter"
+        (filterChange)="filterChange($event)" [sortable]="true" [resizable]="true" [columnMenu]="{ filter: true }">
+        <ng-template kendoGridToolbarTemplate>
+            <div>
+                <button type="button" (click)="getPDF()" class="btn btn-success btn-sm">PDF
+                </button>
+                <button type="button" (click)="getExcel()" class="btn btn-success btn-sm">Excel
+                </button>
             </div>
-            <div class="modal-body">
-                <ag-grid-angular #agGrid style="width: 100%; height: 30vw;" class="ag-theme-alpine"
-                    [columnDefs]="summarycolumnDefs" rowHeight="50" [rowData]="summaryLines" cellSelection="none"
-                    animateRows="true" defaultColDef="defaultColDef" suppressRowClickSelection="true"
-                    stopEditingWhenCellsLoseFocus=true>
-                </ag-grid-angular>
-            </div>
-        </div>
-    </div>
-</div>
+            <kendo-grid-spacer></kendo-grid-spacer>
+            <span>Total Items : {{summaryLines.length}}</span>
+        </ng-template>
+        <kendo-grid-column field="productId" title="Product Id"> </kendo-grid-column>
+        <kendo-grid-column field="productCode" title="Product Code"> </kendo-grid-column>
+        <kendo-grid-column field="poLineDescription" title="Product Description" width="350"> </kendo-grid-column>
+        <kendo-grid-column field="uomCode" title="UOM Code"> </kendo-grid-column>
+        <kendo-grid-column field="uomQty" title="UOM Qty"> </kendo-grid-column>
+        <kendo-grid-column *ngIf="isPurchaseOrder" field="orderQty" title="Order Qty"> </kendo-grid-column>
+        <kendo-grid-column *ngIf="isPurchaseOrder" field="receivedQnty" title="Received Qty"> </kendo-grid-column>
+        <kendo-grid-column *ngIf="isPurchaseReturn" field="qntytobeReturn" title="Qty to be Return">
+        </kendo-grid-column>
+        <kendo-grid-column *ngIf="isPurchaseReturn" field="returnedQnty" title="Returned Qty"> </kendo-grid-column>
+        <kendo-grid-column field="pendingQnty" title="Pending Qty"> </kendo-grid-column>
+    </kendo-grid>
+</kendo-dialog>

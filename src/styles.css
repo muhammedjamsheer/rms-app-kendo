@@ -478,3 +478,8 @@ body {
     border-color: #317589 !important;
 }
 
+
+/* kendo theme change */
+.k-dialog-titlebar {
+    background-color: #317589 !important;
+}

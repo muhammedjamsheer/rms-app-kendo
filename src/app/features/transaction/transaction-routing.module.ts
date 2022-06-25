@@ -61,6 +61,7 @@ import { TransferreturngridComponent } from './transferreturn/transferreturngrid
 import { TransferreturnformComponent } from './transferreturn/transferreturnform/transferreturnform.component';
 import { PurchaseorderreturngridComponent } from './purchaseorderreturn/purchaseorderreturngrid/purchaseorderreturngrid.component';
 import { PurchaseorderreturformComponent } from './purchaseorderreturn/purchaseorderreturform/purchaseorderreturform.component';
+import { ReprintLabelComponent } from './printlabel/reprint-label/reprint-label.component';
 
 
 
@@ -149,7 +150,7 @@ const routes: Routes = [{ path: '', component: TransactionComponent },
 { path: 'productionorder', component: ProductionordergridComponent, canActivate: [AuthGuard] },
 { path: 'productionorder/:state/:id', component: ProductionorderformComponent, canActivate: [AuthGuard] },
 { path: 'printlabelproduction', component: ProductionorderPrintlabelComponent, canActivate: [AuthGuard] },
-
+{ path: 'reprintlabel', component: ReprintLabelComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

@@ -8,6 +8,9 @@ import { ColDef } from 'ag-grid-community';
 import { ExportService } from '../../../core/exports/export.service';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { SelectableSettings, SelectableMode, SelectionEvent } from "@progress/kendo-angular-grid";
+import { CompositeFilterDescriptor, filterBy, process } from '@progress/kendo-data-query';
 declare var $: any;
 @Component({
   selector: 'org-rms-purchaseorderreport',
@@ -17,6 +20,7 @@ declare var $: any;
 export class PurchaseorderreportComponent implements OnInit {
   @ViewChild('ViewButton') ViewButton!: ElementRef;
   filterForm!: FormGroup;
+  shortdateformatpipe: string;
   loading: boolean = false;
   customerlist: any[] = []
   totalGridCount: number = 0;
@@ -29,21 +33,13 @@ export class PurchaseorderreportComponent implements OnInit {
   mastertype!: string;
   screenName!: string;
   rowData: any[] = [];
+  localData: any[] = [];
+  public selectableSettings: SelectableSettings = {
+    mode: 'single',
+  };
   summaryLines: any[] = [];
-  columnDefs: ColDef[] = [
-    { field: 'poNumber', sortable: true, resizable: true, filter: true, width: 150 },
-    { field: 'poEntry', sortable: true, resizable: true, filter: true, width: 200 },
-    { field: 'warehouse', sortable: true, resizable: true, filter: true, width: 200 },
-    { field: 'poDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.commonService.dateFormatter },
-    { field: 'poDueDate', sortable: true, resizable: true, filter: true, width: 200, valueFormatter: this.commonService.dateFormatter },
-    { field: 'notes', sortable: true, resizable: true, filter: true, width: 200 },
-    { field: 'createdBy', sortable: true, resizable: true, filter: true },
-    { field: 'createdDate', sortable: true, resizable: true, filter: true, valueFormatter: this.commonService.dateFormatter },
-    { field: 'modifiedBy', sortable: true, resizable: true, filter: true },
-    { field: 'modifiedDate', sortable: true, resizable: true, filter: true, valueFormatter: this.commonService.dateFormatter },
-  ];
-  summarycolumnDefs: ColDef[] = [];
-
+  showDialogue: boolean = false;
+  public filter!: CompositeFilterDescriptor;
   constructor(
     private formBuilder: FormBuilder,
     private customerMasterService: CustomerMasterService,
@@ -64,7 +60,7 @@ export class PurchaseorderreportComponent implements OnInit {
     this.mastertype = this.router.url;
     this.mastertype = this.mastertype.split("/").slice(-1)[0];
     this.GetScreenDetails(this.mastertype);
-
+    this.shortdateformatpipe = environment.shortdateformatpipe
     $('.select2bs4').select2();
     this.isSummaryAllowed = localStorage.getItem("isSummaryAllowed") == "true";
 
@@ -78,30 +74,10 @@ export class PurchaseorderreportComponent implements OnInit {
       case 'purchaseorderreport':
         this.screenName = "Purchase Order Report";
         this.isPurchaseOrder = true;
-        this.summarycolumnDefs = [
-          { field: 'productId', sortable: true, filter: true, resizable: true, width: 150 },
-          { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'poLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
-          { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'orderQty', sortable: true, resizable: true, filter: true },
-          { field: 'receivedQnty', sortable: true, resizable: true, filter: true },
-          { field: 'pendingQnty', sortable: true, resizable: true, filter: true },
-        ];
         break;
       case 'purchaseorderreturnreport':
         this.screenName = "Purchase Order Return Report";
         this.isPurchaseReturn = true;
-        this.summarycolumnDefs = [
-          { field: 'productId', sortable: true, filter: true, resizable: true, width: 150 },
-          { field: 'productCode', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'poLineDescription', headerName: "Product Description", sortable: true, resizable: true, filter: true, width: 250 },
-          { field: 'uomCode', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'uomQty', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'qntytobeReturn', headerName: "Qty to be Return", sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'returnedQnty', sortable: true, resizable: true, filter: true, width: 150 },
-          { field: 'pendingQnty', sortable: true, resizable: true, filter: true, width: 150 },
-        ];
         break;
     }
   }
@@ -120,8 +96,9 @@ export class PurchaseorderreportComponent implements OnInit {
     saveResponse.subscribe({
       next: (data: any) => {
         if (data == null) { this.rowData = [] }
-        else { this.rowData = data; }
+        else { this.rowData = data; this.localData = data; }
         this.loading = false;
+
       },
       error: (err => { this.loading = false; }),
       complete: () => { this.loading = false; }
@@ -157,8 +134,7 @@ export class PurchaseorderreportComponent implements OnInit {
       },
       error: (err => { }),
       complete: () => {
-        let el: HTMLElement = this.ViewButton.nativeElement as HTMLElement;
-        el.click();
+        this.showDialogue = true;
       }
     });
   }
@@ -180,7 +156,15 @@ export class PurchaseorderreportComponent implements OnInit {
       title: this.screenName,
       mastertype: this.mastertype
     }
-
     this.exportService.generateExcel(data);
   };
+
+  public filterChange(filter: CompositeFilterDescriptor): void {
+    this.rowData = filterBy(this.localData, filter);
+  }
+
+  keyChange(selectedrows: any) {
+    this.selectedHeader = this.rowData.find(x => x.poNumber == selectedrows[0]);
+    this.isRowUnSelected = false;
+  }
 }

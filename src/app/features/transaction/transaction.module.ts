@@ -77,17 +77,20 @@ import { TransferreturngridComponent } from './transferreturn/transferreturngrid
 import { TransferreturnformComponent } from './transferreturn/transferreturnform/transferreturnform.component';
 import { PurchaseorderreturngridComponent } from './purchaseorderreturn/purchaseorderreturngrid/purchaseorderreturngrid.component';
 import { PurchaseorderreturformComponent } from './purchaseorderreturn/purchaseorderreturform/purchaseorderreturform.component';
+import { ReprintLabelComponent } from './printlabel/reprint-label/reprint-label.component';
 
-
-
-
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
 @NgModule({
   declarations: [TransactionComponent, ReceiptmasterformComponent, ReceiptmastergridComponent, AssetregisterformComponent, AssetregistergridComponent, AssetverificationformComponent, AssetverificationgridComponent, AssetdepreciationformComponent, AssetdisposalformComponent, AssetdisposalgridComponent, WarrantydetailsformComponent, WarrantydetailsgridComponent, InsurancedetailsformComponent, InsurancedetailsgridComponent, AdditionalcostdetailsformComponent, AdditionalcostdetailsgridComponent, AssetauditformComponent, AssetauditgridComponent, AuditverifyformComponent, AuditverifygridComponent, AuditdiscrepancyformComponent, AssettransferdirectformComponent, AssettransferrequestformComponent, AssettransferrequestgridComponent, TransferrequestverificationformComponent, AssetmaintenanceformComponent, AssetmaintenancegridComponent, AssettransferdirectgridComponent, LoanassetsformComponent, LoanassetsgridComponent
     , PrintlabelformComponent, AssetsummaryComponent
     , AssettransferverificationComponent, ReceiptUploadComponent
     , DocumenttagprintComponent, MacrofileupdateComponent
     , AssetfileuploadComponent, QrcodeprintComponent, InboundComponent
-    , InboundHeadComponent, InboundDetailComponent, SalesorderformComponent, SalesordergridComponent, PrintexistingstockComponent, PicklistgridComponent, ReceiptdetailsComponent, ShipmentgridComponent, ShipmentformComponent, TransferordergridComponent, TransferorderformComponent, TransferrquestgridComponent, TransferrquestformComponent, InventorysummarygridComponent, InventorydetailsgridComponent, PicklistformComponent, ManaultoreceiptformComponent, ProductionordergridComponent, ProductionorderformComponent, ProductionorderPrintlabelComponent, PurchaseordergridComponent, PurchaseorderformComponent, SalesreturngridComponent, SalesreturnformComponent, TransferreturngridComponent, TransferreturnformComponent, PurchaseorderreturngridComponent, PurchaseorderreturformComponent],
+    , InboundHeadComponent, InboundDetailComponent, SalesorderformComponent, SalesordergridComponent, PrintexistingstockComponent, PicklistgridComponent, ReceiptdetailsComponent, ShipmentgridComponent, ShipmentformComponent, TransferordergridComponent, TransferorderformComponent, TransferrquestgridComponent, TransferrquestformComponent, InventorysummarygridComponent, InventorydetailsgridComponent, PicklistformComponent, ManaultoreceiptformComponent, ProductionordergridComponent, ProductionorderformComponent, ProductionorderPrintlabelComponent, PurchaseordergridComponent, PurchaseorderformComponent, SalesreturngridComponent, SalesreturnformComponent, TransferreturngridComponent, TransferreturnformComponent, PurchaseorderreturngridComponent, PurchaseorderreturformComponent, ReprintLabelComponent],
   imports: [
     SharedModule,
     TransactionRoutingModule,
@@ -99,7 +102,12 @@ import { PurchaseorderreturformComponent } from './purchaseorderreturn/purchaseo
     ModalModule,
     AgGridModule.withComponents([]),
     TreeviewModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    DropDownsModule,
+    InputsModule,
+    ButtonsModule,
+    GridModule,
+    DialogsModule
   ],
   exports: [
     AssetregisterformComponent

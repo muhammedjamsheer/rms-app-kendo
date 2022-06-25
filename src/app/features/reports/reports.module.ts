@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgGridModule } from 'ag-grid-angular';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TreeviewModule } from 'ngx-treeview';
@@ -24,9 +25,15 @@ import { PurchaseorderreportComponent } from './purchaseorderreport/purchaseorde
 import { SalesorderreportComponent } from './salesorderreport/salesorderreport.component';
 import { TransferorderreportComponent } from './transferorderreport/transferorderreport.component';
 
+//kendo ui
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
+
 @NgModule({
   declarations: [ReportsComponent, AssetregisterreportComponent, LocationwisereportComponent, CategorywisereportComponent, ReportsfilterformComponent, CategorywisevaluereportComponent, AssetcountstatuswisereportComponent, DepartmentwisereportComponent, EmployeewisereportComponent, AssethistoryreportComponent, ProductsummaryreportComponent, PurchaseorderreportComponent, SalesorderreportComponent, TransferorderreportComponent],
   imports: [
+    BrowserAnimationsModule,
     SharedModule,
     ReportsRoutingModule,
     TransactionRoutingModule,
@@ -37,7 +44,9 @@ import { TransferorderreportComponent } from './transferorderreport/transferorde
     FileUploadModule,    
     ModalModule,
     AgGridModule.withComponents([]),
-    TreeviewModule.forRoot()
+    TreeviewModule.forRoot(),
+    ButtonsModule,
+    GridModule,DialogsModule
   ],
   exports: [
   ],
